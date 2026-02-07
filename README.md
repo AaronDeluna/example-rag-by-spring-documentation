@@ -33,3 +33,26 @@
 - Базовые факты из документации извлекаются, но не всегда стабильно.
 - Есть ложные отказы даже при наличии ответа в документации.
 - Нужны доработки ранжирования/поиска и обработка таймаутов.
+
+## Запуск через Docker Compose
+Поднимаются все необходимые сервисы:
+- `db` (PostgreSQL + pgvector)
+- `ollama` (сервер моделей)
+- `ollama-pull` (предзагрузка моделей `gemma3:4b-it-q4_K_M` и `mxbai-embed-large:latest`)
+- `app` (Spring Boot RAG API)
+
+Команды:
+```bash
+docker compose up -d --build
+docker compose ps
+```
+
+Проверка:
+```bash
+curl -G 'http://localhost:8080/llm/serch-rag' --data-urlencode 'questions=Что такое Lilipup Framework?'
+```
+
+Остановка:
+```bash
+docker compose down
+```

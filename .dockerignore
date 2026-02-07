@@ -1,0 +1,5 @@
+.git
+.idea
+target
+*.iml
+src/main/resources/ducuments/.DS_Store

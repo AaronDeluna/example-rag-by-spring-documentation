@@ -1,0 +1,70 @@
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    container_name: rag-postgres
+    environment:
+      POSTGRES_DB: ragdb
+      POSTGRES_USER: raguser
+      POSTGRES_PASSWORD: ragpass
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U raguser -d ragdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: rag-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 10s
+      retries: 30
+    restart: unless-stopped
+
+  ollama-pull:
+    image: ollama/ollama:latest
+    depends_on:
+      ollama:
+        condition: service_healthy
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+    entrypoint: ["/bin/sh", "-c"]
+    command: >
+      "ollama pull gemma3:4b-it-q4_K_M &&
+       ollama pull mxbai-embed-large:latest"
+    restart: "no"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rag-app
+    depends_on:
+      db:
+        condition: service_healthy
+      ollama-pull:
+        condition: service_completed_successfully
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/ragdb
+      SPRING_DATASOURCE_USERNAME: raguser
+      SPRING_DATASOURCE_PASSWORD: ragpass
+      SPRING_AI_OLLAMA_BASE_URL: http://ollama:11434
+      SPRING_AI_OLLAMA_CHAT_MODEL: gemma3:4b-it-q4_K_M
+      SPRING_AI_OLLAMA_EMBEDDING_MODEL: mxbai-embed-large
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  ollama_data:
