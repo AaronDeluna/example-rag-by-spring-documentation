@@ -1,0 +1,167 @@
+# Lilipup Kafka Module
+
+## 1. Введение
+`kafka` модуль предоставляет высокоуровневую интеграцию Lilipup Framework с Apache Kafka: продюсеры, консьюмеры, ретраи, backoff, DLQ и наблюдаемость.
+
+Зачем нужен:
+- единый API публикации/чтения сообщений;
+- встроенные гарантии доставки и управление ошибками;
+- прозрачная интеграция с monitoring hooks.
+
+## 2. Подключение модуля
+```xml
+<dependency>
+  <groupId>io.lilipup</groupId>
+  <artifactId>lilipup-kafka</artifactId>
+  <version>1.2.0</version>
+</dependency>
+```
+
+```java
+import io.lilipup.kafka.annotation.EnableLilipupKafka;
+
+@EnableLilipupKafka
+public class KafkaModuleConfig {}
+```
+
+## 3. Использование в коде
+### Пример продюсера
+```java
+import io.lilipup.kafka.LilipupKafkaTemplate;
+import io.lilipup.kafka.SendResult;
+
+public class BillingEventPublisher {
+
+    private final LilipupKafkaTemplate<String, InvoiceCreatedEvent> kafkaTemplate;
+
+    public BillingEventPublisher(LilipupKafkaTemplate<String, InvoiceCreatedEvent> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
+    }
+
+    public void publish(InvoiceCreatedEvent event) {
+        SendResult result = kafkaTemplate.send("billing.invoice.created", event.invoiceId(), event);
+
+        // Обязательная проверка: подтверждение брокера.
+        if (!result.acknowledged()) {
+            throw new IllegalStateException("Kafka send is not acknowledged");
+        }
+    }
+}
+
+record InvoiceCreatedEvent(String invoiceId, long amount) {}
+```
+
+### Пример консьюмера
+```java
+import io.lilipup.kafka.annotation.LilipupKafkaListener;
+import io.lilipup.kafka.annotation.KafkaAck;
+import io.lilipup.kafka.AckMode;
+
+public class BillingEventConsumer {
+
+    @LilipupKafkaListener(
+        topic = "billing.invoice.created",
+        groupId = "billing-read-model",
+        concurrency = 4,
+        ackMode = AckMode.MANUAL
+    )
+    public void onMessage(InvoiceCreatedEvent event, KafkaAck ack) {
+        processEvent(event);
+        // Явно подтверждаем обработку только после успешной бизнес-операции.
+        ack.acknowledge();
+    }
+
+    private void processEvent(InvoiceCreatedEvent event) {
+        // Запись в read model.
+    }
+}
+```
+
+## 4. Конфигурация
+```yaml
+lilipup:
+  kafka:
+    bootstrap-servers: kafka-1:9092,kafka-2:9092
+    client-id: billing-service
+    producer:
+      acks: all
+      retries: 5
+      linger-ms: 10
+      enable-idempotence: true
+      compression: zstd
+    consumer:
+      auto-offset-reset: earliest
+      max-poll-records: 500
+      session-timeout-ms: 45000
+      manual-ack: true
+    serialization:
+      key-serde: string
+      value-serde: json
+    retry:
+      attempts: 4
+      backoff-ms: 500
+      multiplier: 2.0
+    dlq:
+      enabled: true
+      topic-suffix: .dlq
+```
+
+## 5. Обязательные проверки при отправке
+- Всегда проверяйте `SendResult.acknowledged()` после отправки.
+- Проверяйте, что ключ сообщения (`message key`) стабилен для корректного partition ordering.
+- Всегда настраивайте `acks=all` для критичных бизнес-событий.
+- Проверяйте сериализацию payload до отправки (особенно для nullable полей).
+- Не отправляйте сообщения без версии схемы (`eventVersion`) при эволюции контракта.
+
+## 6. Настройка retry и backoff
+```java
+import io.lilipup.kafka.retry.KafkaRetryPolicy;
+
+KafkaRetryPolicy retryPolicy = KafkaRetryPolicy.builder()
+    .attempts(4)
+    .initialBackoffMs(500)
+    .multiplier(2.0)
+    .maxBackoffMs(8000)
+    .retryOn(TimeoutException.class, RetriableBrokerException.class)
+    .build();
+```
+
+Рекомендации:
+- не используйте бесконечный retry;
+- отправляйте событие в DLQ после исчерпания попыток;
+- логируйте correlation-id на каждой попытке.
+
+## 7. Ошибки и их обработка
+### Частые ошибки
+- `KafkaSerializationException`: payload не сериализуется в выбранный формат.
+- `KafkaDeliveryTimeoutException`: брокер не подтвердил отправку вовремя.
+- `KafkaListenerProcessingException`: ошибка обработки в listener.
+
+### Обработка ошибочного сообщения
+```java
+import io.lilipup.kafka.error.DeadLetterPublisher;
+
+public class FailedMessageHandler {
+    private final DeadLetterPublisher deadLetterPublisher;
+
+    public FailedMessageHandler(DeadLetterPublisher deadLetterPublisher) {
+        this.deadLetterPublisher = deadLetterPublisher;
+    }
+
+    public void handle(String topic, String key, byte[] payload, Exception ex) {
+        deadLetterPublisher.publish(topic + ".dlq", key, payload, ex.getMessage());
+    }
+}
+```
+
+## 8. Отладка и мониторинг
+- Включайте `lilipup.kafka.metrics.enabled=true` для метрик latency/throughput.
+- Используйте `trace-id` и `correlation-id` в headers.
+- Проверяйте lag по consumer-group перед релизом.
+
+## 9. Best Practices
+- Делайте обработчики консьюмера идемпотентными.
+- Ограничивайте размер сообщения и избегайте передачи бинарных blob без необходимости.
+- Применяйте версионирование событий (`eventType`, `eventVersion`).
+- Разделяйте топики команд и доменных событий.
+- Периодически тестируйте сценарии «брокер недоступен» и «частичный outage».

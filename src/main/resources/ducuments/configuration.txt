@@ -1,0 +1,127 @@
+# Lilipup Configuration Module
+
+## 1. Введение
+`configuration` предоставляет единый конфигурационный слой: YAML-файлы, аннотации и переменные окружения с поддержкой профилей и валидации значений на старте.
+
+Зачем нужен:
+- централизует настройки приложения;
+- минимизирует runtime-ошибки через раннюю валидацию;
+- упрощает перенос между окружениями (`dev`, `stage`, `prod`).
+
+## 2. Подключение модуля
+```xml
+<dependency>
+  <groupId>io.lilipup</groupId>
+  <artifactId>lilipup-configuration</artifactId>
+  <version>1.2.0</version>
+</dependency>
+```
+
+```java
+import io.lilipup.core.annotation.LilipupApp;
+import io.lilipup.config.annotation.EnableConfig;
+
+@LilipupApp(scan = "com.example")
+@EnableConfig
+public class App {}
+```
+
+## 3. Использование в коде
+### Привязка конфигурации к типу
+```java
+import io.lilipup.config.annotation.ConfigProperties;
+import io.lilipup.config.annotation.Required;
+
+@ConfigProperties(prefix = "lilipup.datasource")
+public class DatasourceConfig {
+    @Required
+    private String url;
+
+    @Required
+    private String username;
+
+    private String password;
+    private int poolSize = 16;
+
+    public String getUrl() { return url; }
+    public String getUsername() { return username; }
+    public String getPassword() { return password; }
+    public int getPoolSize() { return poolSize; }
+}
+```
+
+### Использование в сервисе
+```java
+import io.lilipup.core.annotation.Component;
+
+@Component
+public class ReportRepository {
+    private final DatasourceConfig config;
+
+    public ReportRepository(DatasourceConfig config) {
+        this.config = config;
+    }
+
+    public String connectionInfo() {
+        // Никогда не логируйте пароль.
+        return config.getUrl() + "|" + config.getUsername();
+    }
+}
+```
+
+## 4. Конфигурация
+```yaml
+lilipup:
+  datasource:
+    url: jdbc:postgresql://db:5432/reports
+    username: report_user
+    password: ${DB_PASSWORD}
+    pool-size: 24
+
+  config:
+    profile: prod
+    strict-binding: true
+    fail-on-unknown-keys: true
+```
+
+Переменные окружения:
+- `DB_PASSWORD` -> `lilipup.datasource.password`
+- `LILIPUP_DATASOURCE_POOL_SIZE` -> `lilipup.datasource.pool-size`
+
+## 5. Обязательные проверки
+- Всегда помечайте критичные поля аннотацией `@Required`.
+- Всегда включайте `fail-on-unknown-keys=true` в production, чтобы ловить опечатки в YAML.
+- Проверяйте наличие всех секретов в окружении до старта (пароли, токены, ключи).
+- Не храните реальные секреты в репозитории; используйте env/secret-manager.
+- Убедитесь, что `strict-binding=true`, если конфиг используется для безопасности и доступа к данным.
+
+## 6. Ошибки и их обработка
+### Частые ошибки
+- `ConfigBindingException`: не удалось привести строку к целевому типу.
+- `MissingRequiredPropertyException`: отсутствует обязательное поле.
+- `UnknownPropertyException`: в YAML найден неизвестный ключ при strict режиме.
+
+### Безопасный fallback
+```java
+import io.lilipup.config.ConfigResolver;
+
+public class TimeoutProvider {
+    private final ConfigResolver resolver;
+
+    public TimeoutProvider(ConfigResolver resolver) {
+        this.resolver = resolver;
+    }
+
+    public int requestTimeoutMs() {
+        // Fallback не должен маскировать критичную misconfiguration.
+        return resolver.getInt("lilipup.http.request-timeout-ms").orElse(3000);
+    }
+}
+```
+
+## 7. Best Practices
+- Храните профильные конфиги в `application-<profile>.yaml`.
+- Используйте объектные конфиги (`@ConfigProperties`) вместо хаотичного чтения строковых ключей.
+- Разделяйте «бизнес-конфиги» и «инфраструктурные конфиги» по префиксам.
+- Делайте fail-fast на этапе bootstrap, а не в runtime-запросах.
+- Добавляйте smoke-test, который поднимает контекст со всеми production-ключами.
