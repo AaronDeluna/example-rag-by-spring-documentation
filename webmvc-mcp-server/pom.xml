@@ -13,7 +13,7 @@
 
     <parent>
         <groupId>org.mirent</groupId>
-        <artifactId>mcp-agents</artifactId>
+        <artifactId>example-rag-by-spring-documentation</artifactId>
         <version>1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
