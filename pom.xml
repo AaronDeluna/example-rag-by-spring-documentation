@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>example-rag</module>
+<!--        <module>example-rag</module>-->
         <module>stdio-mcp-server</module>
         <module>stdio-mcp-client</module>
         <module>webmvc-mcp-server</module>

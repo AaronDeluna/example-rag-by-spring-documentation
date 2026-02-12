@@ -1,0 +1,122 @@
+# Lilipup Validation Module
+
+## 1. Введение
+`validation` отвечает за декларативную и программную проверку входных данных, доменных объектов и конфигурации.
+
+Зачем нужен:
+- снижает число дефектов на ранних этапах;
+- стандартизирует ошибки валидации;
+- упрощает защиту API и внутренних команд.
+
+## 2. Подключение модуля
+```xml
+<dependency>
+  <groupId>io.lilipup</groupId>
+  <artifactId>lilipup-validation</artifactId>
+  <version>1.2.0</version>
+</dependency>
+```
+
+```java
+import io.lilipup.validation.annotation.EnableValidation;
+
+@EnableValidation
+public class ValidationConfig {}
+```
+
+## 3. Использование в коде
+### Аннотационная валидация
+```java
+import io.lilipup.validation.annotation.NotBlank;
+import io.lilipup.validation.annotation.Email;
+import io.lilipup.validation.annotation.Min;
+
+public class RegisterUserRequest {
+    @NotBlank(message = "username must not be blank")
+    private String username;
+
+    @Email(message = "email has invalid format")
+    private String email;
+
+    @Min(value = 18, message = "age must be >= 18")
+    private int age;
+
+    // getters/setters omitted for brevity
+}
+```
+
+### Ручная валидация и обработка
+```java
+import io.lilipup.validation.Validator;
+import io.lilipup.validation.ValidationResult;
+
+public class UserService {
+    private final Validator validator;
+
+    public UserService(Validator validator) {
+        this.validator = validator;
+    }
+
+    public void register(RegisterUserRequest request) {
+        ValidationResult result = validator.validate(request);
+
+        if (!result.isValid()) {
+            // В проде лучше возвращать структурированный список нарушений.
+            throw new IllegalArgumentException("Validation failed: " + result.errors());
+        }
+
+        // Сохраняем пользователя.
+    }
+}
+```
+
+## 4. Конфигурация
+```yaml
+lilipup:
+  validation:
+    fail-fast: false
+    max-errors: 50
+    locale: ru-RU
+    sanitize-strings: true
+```
+
+## 5. Обязательные проверки
+- Всегда валидируйте входные DTO до начала бизнес-операций.
+- Проверяйте, что `max-errors` ограничен, чтобы исключить избыточную нагрузку.
+- Не доверяйте данным из очередей/внешних API без повторной валидации.
+- Для денежных и идентификационных полей добавляйте доменные кастомные валидаторы.
+- Не маскируйте ошибки валидации generic-исключением без деталей.
+
+## 6. Ошибки и их обработка
+### Частые ошибки
+- `ConstraintDefinitionException`: неверно настроен кастомный constraint.
+- `ValidationOverflowException`: превышено `max-errors`.
+- `MessageInterpolationException`: проблема локализации текста ошибок.
+
+### Кастомный валидатор
+```java
+import io.lilipup.validation.ConstraintValidator;
+import io.lilipup.validation.ConstraintContext;
+
+public class OrderIdValidator implements ConstraintValidator<String> {
+    @Override
+    public boolean isValid(String value, ConstraintContext context) {
+        if (value == null) {
+            context.addError("orderId must not be null");
+            return false;
+        }
+        boolean ok = value.matches("ORD-[0-9]{10}");
+        if (!ok) {
+            context.addError("orderId must match pattern ORD-##########");
+        }
+        return ok;
+    }
+}
+```
+
+## 7. Best Practices
+- Используйте fail-fast только для latency-critical путей.
+- Для публичных API возвращайте machine-readable ошибки (`code`, `field`, `message`).
+- Группируйте правила валидации по use-case (create/update/import).
+- Пишите unit-тесты на каждый кастомный validator.
+- Не смешивайте валидацию и бизнес-логику в одном классе.
