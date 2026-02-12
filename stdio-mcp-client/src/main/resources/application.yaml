@@ -1,0 +1,39 @@
+spring:
+  main:
+#   https://docs.spring.io/spring-boot/api/java/org/springframework/boot/WebApplicationType.html
+    web-application-type: none
+    banner-mode: off
+  application:
+    name: stdio-mcp-client-example
+  profiles:
+    active: default
+  ai:
+    mcp:
+      client:
+        stdio:
+          servers-configuration: classpath:mcp-servers.json
+    model:
+      chat: ollama
+    ollama:
+      base-url: http://localhost:11434
+      init:
+        pull-model-strategy: never
+        chat:
+          include: true
+      chat:
+        options:
+#          model: gemma3:4b
+          model: qwen2.5:1.5b
+
+logging:
+  level:
+#    ROOT: DEBUG
+    ru.mirent.interceptors: DEBUG
+#    org.springframework.boot.autoconfigure: DEBUG
+  # Требуется отключать вывод записей в консоль, т.к. их сервер будет пытаться распарсить как Json, предполагая,
+  # что это запрос от клиента. TODO Проверить нужно ли это для клиента или нет
+#    pattern:
+#      console:
+  # Но в файл вывод оставить.
+  file:
+    name: ../logs/stdio-mcp-client.log

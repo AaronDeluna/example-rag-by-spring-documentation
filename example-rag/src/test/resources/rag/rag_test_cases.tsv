@@ -1,0 +1,51 @@
+id	question	expected_contains	answerable
+q01	Что является самым фундаментальным типом совета в Spring AOP?	MethodInterceptor	true
+q02	Какой метод нужно вызвать в MethodInterceptor, чтобы продолжить цепочку перехватчиков?	proceed()	true
+q03	Как называется более простой тип совета, который выполняется перед входом в метод?	MethodBeforeAdvice	true
+q04	Может ли совет before изменить возвращаемое значение метода?	не может изменить возвращаемое значение	true
+q05	Какой интерфейс в Spring является маркером для советов по выбрасываемым исключениям?	ThrowsAdvice	true
+q06	Сколько аргументов может иметь метод afterThrowing в ThrowsAdvice?	один или четыре	true
+q07	Что происходит, если throws-advice сам выбрасывает исключение?	переопределяет исходное исключение	true
+q08	Какой интерфейс нужно реализовать для after-returning совета в Spring AOP?	AfterReturningAdvice	true
+q09	Может ли after-returning advice изменить возвращаемое значение?	не может изменить	true
+q10	Через какой интерфейс можно программно манипулировать советниками у AOP-прокси?	Advised	true
+q11	Какой метод интерфейса Advised добавляет Advisor в конец списка?	addAdvisor(Advisor advisor)	true
+q12	Какой метод Advised удаляет советник из прокси?	removeAdvisor	true
+q13	Во что Spring оборачивает добавленный MethodInterceptor при работе с Advised?	DefaultPointcutAdvisor	true
+q14	Что содержит советник (Advisor) в Spring?	объект совета	true
+q15	Можно ли смешивать разные типы советников и советов в одном AOP-прокси?	можно смешивать	true
+q16	Для чего используется @ControllerAdvice?	глобально	true
+q17	Чем @RestControllerAdvice отличается от @ControllerAdvice?	@ResponseBody	true
+q18	Когда применяются глобальные @ExceptionHandler из @ControllerAdvice относительно локальных?	after локальные	true
+q19	Можно ли ограничить область действия @ControllerAdvice подмножеством контроллеров?	атрибуты аннотации	true
+q20	Для чего используется аннотация @RequestMapping?	сопоставления запросов	true
+q21	Можно ли использовать несколько @RequestMapping на одном и том же элементе?	будет использоваться только первое	true
+q22	Какие сокращенные аннотации считаются составными над @RequestMapping?	@GetMapping	true
+q23	Как получить переменные URI в методе контроллера?	@PathVariable	true
+q24	Можно ли явно задать имя переменной в @PathVariable?	@PathVariable(\"customId\")	true
+q25	Поддерживает ли Spring WebFlux suffix pattern matching как Spring MVC?	не поддерживает сопоставление шаблонов суффиксов	true
+q26	Какие компоненты по умолчанию используются в WebFlux для сопоставления путей URI?	PathPattern	true
+q27	Как обрабатывается HTTP HEAD для @GetMapping в WebFlux?	HEAD transparently	true
+q28	Что Spring делает по умолчанию для HTTP OPTIONS при @RequestMapping?	заголовок Allow	true
+q29	Зачем в серверной части можно использовать @HttpExchange как альтернативу @RequestMapping?	альтернатива	true
+q30	В чем ключевое отличие @HttpExchange от @RequestMapping?	одну конечную точку	true
+q31	Что можно вернуть из @ExceptionHandler для RFC 9457 ответа?	ProblemDetail	true
+q32	Как включить RFC 9457 для исключений WebFlux?	ResponseEntityExceptionHandler	true
+q33	Поддерживает ли WebFlux реактивные типы в модели, например Mono<Account>?	Mono<Account>	true
+q34	Что можно использовать для инициализации модели до вызова @RequestMapping методов?	@ModelAttribute	true
+q35	Какой клиент в Spring WebFlux предназначен для выполнения HTTP-запросов?	WebClient	true
+q36	Нужна ли WebClient HTTP-клиентская библиотека для выполнения запросов?	нуждается в клиентской библиотеке HTTP	true
+q37	Какой тип обычно возвращает метод handle у WebSocketHandler?	Mono<Void>	true
+q38	Какой метод WebSocketSession предоставляет поток входящих сообщений?	Flux<WebSocketMessage> get()	true
+q39	Какой метод WebSocketSession отправляет исходящие сообщения?	send(Publisher<WebSocketMessage>)	true
+q40	Что такое DataBuffer в контексте WebFlux?	представление байтового буфера	true
+q41	Какие реализации WebSocketClient упоминаются в WebFlux?	Reactor Netty	true
+q42	Что такое Spring WebFlux в контексте Spring Framework?	веб-фреймворк реактивного стека	true
+q43	Можно ли в одном приложении использовать и Spring MVC, и WebFlux?	в некоторых случаях и то, и другое	true
+q44	Чему эквивалентен HandlerFunction в модели на аннотациях?	тело метода @RequestMapping	true
+q45	Чему эквивалентен RouterFunction в модели на аннотациях?	эквивалент аннотации @RequestMapping	true
+q46	Как вернуть полностью асинхронный ServerResponse в функциональном стиле WebFlux?	ServerResponse.async	true
+q47	Какой компонент помогает сопоставлять версии API с методами @RequestMapping?	ApiVersionStrategy	true
+q48	Из каких мест может разрешаться версия API в конфигурации WebFlux?	из заголовка	true
+q49	Какой парсер версий используется по умолчанию в API versioning WebFlux?	SemanticApiVersionParser	true
+q50	Какой атрибут в примере схемы jcache используется для имени кэша?	cache-name	true

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "java-stdio-mcp-server": {
+      "command": "java",
+      "args": [
+        "-jar",
+        "/home/vadim/IdeaProjects/java/my-projects/ai/mcp-agents/stdio-mcp-server/target/stdio-mcp-server-1.0-SNAPSHOT.jar"
+      ],
+      "env": {}
+    }
+  }
+}
