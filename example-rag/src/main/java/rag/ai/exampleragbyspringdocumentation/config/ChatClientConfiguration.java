@@ -1,6 +1,7 @@
 package rag.ai.exampleragbyspringdocumentation.config;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.client.advisor.api.Advisor;
 import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.prompt.PromptTemplate;
@@ -29,16 +30,26 @@ public class ChatClientConfiguration {
                     "- При отсутствии данных — текст: \"Недостаточно информации в предоставленном контексте для точного ответа.\"\n"
     );
 
-
     @Autowired
     private VectorStore vectorStore;
 
     @Bean
     public ChatClient chatClient(ChatClient.Builder builder) {
-        return builder.defaultAdvisors(getRagAdvisor()).build();
+        return builder
+                .defaultAdvisors(simpleLoggerAdvisor(0))
+                .defaultAdvisors(getRagAdvisor(1))
+                .defaultAdvisors(simpleLoggerAdvisor(2))
+                .build();
     }
 
-    private Advisor getRagAdvisor() {
-        return QuestionAnswerAdvisor.builder(vectorStore).promptTemplate(MY_PROMPT_TEMPLATE).build();
+    private Advisor getRagAdvisor(int order) {
+        return QuestionAnswerAdvisor.builder(vectorStore)
+                .promptTemplate(MY_PROMPT_TEMPLATE)
+                .order(order)
+                .build();
+    }
+
+    private SimpleLoggerAdvisor simpleLoggerAdvisor(int order) {
+        return SimpleLoggerAdvisor.builder().order(order).build();
     }
 }
