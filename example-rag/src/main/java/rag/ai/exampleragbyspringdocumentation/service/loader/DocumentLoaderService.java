@@ -1,4 +1,4 @@
-package rag.ai.exampleragbyspringdocumentation.service;
+package rag.ai.exampleragbyspringdocumentation.service.loader;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import static rag.ai.exampleragbyspringdocumentation.service.loader.DocumentType.TXT;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -31,18 +33,20 @@ public class DocumentLoaderService implements CommandLineRunner {
     public void loadDocuments() {
         try {
             List<Resource> resources = Arrays.asList(
-                    resourcePatternResolver.getResources("classpath:/ducuments/**/*.txt")
+                    resourcePatternResolver.getResources("classpath:/ducuments/**/*.%s".formatted(TXT.getFormat()))
             );
 
             resources.stream()
                     .map(resource -> Pair.of(resource, calcContentHash(resource)))
-                    .filter(pair -> !documentRepository.existsByFilenameAndContentHash(pair.getFirst().getFilename(), pair.getSecond()))
+                    .filter(pair -> !documentRepository.existsByFilenameAndContentHash(
+                            pair.getFirst().getFilename(), pair.getSecond())
+                    )
                     .forEach(pair -> {
                         Resource resource = pair.getFirst();
 
                         List<Document> documents = new TextReader(resource).get();
                         TokenTextSplitter tokenTextSplitter = TokenTextSplitter.builder()
-                                .withChunkSize(300)
+                                .withChunkSize(200)
                                 .build();
 
                         int chunkSize = 0;
@@ -55,7 +59,7 @@ public class DocumentLoaderService implements CommandLineRunner {
 
                         DocumentLoader documentLoader = DocumentLoader.builder()
                                 .filename(resource.getFilename())
-                                .documentType("txt")
+                                .documentType(TXT.getFormat())
                                 .chunkCount(chunkSize)
                                 .contentHash(pair.getSecond())
                                 .build();

@@ -19,6 +19,9 @@ target/
 *.iml
 *.ipr
 
+### GIGA IDEA ###
+.gigaide
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
