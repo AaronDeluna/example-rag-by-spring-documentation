@@ -1,0 +1,3 @@
+org.springframework.context.ApplicationListener=\
+  ru.mirent.stdio.listeners.ApplicationEventListener,\
+  ru.mirent.stdio.listeners.ApplicationPreparedEventListener\

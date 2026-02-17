@@ -19,6 +19,9 @@ target/
 *.iml
 *.ipr
 
+### GIGA IDE ###
+.gigaide
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -31,3 +34,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### MacOS
+.DS_Store
