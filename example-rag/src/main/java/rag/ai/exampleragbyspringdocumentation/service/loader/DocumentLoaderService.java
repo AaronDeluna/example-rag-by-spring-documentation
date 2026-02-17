@@ -46,21 +46,16 @@ public class DocumentLoaderService implements CommandLineRunner {
 
                         List<Document> documents = new TextReader(resource).get();
                         TokenTextSplitter tokenTextSplitter = TokenTextSplitter.builder()
-                                .withChunkSize(200)
+                                .withChunkSize(600)
                                 .build();
 
-                        int chunkSize = 0;
-                        
-                        for (Document doc : documents) {
-                            List<Document> chunks = tokenTextSplitter.apply(List.of(doc));
-                            chunkSize += chunks.size();
-                            chunks.forEach(chunk -> vectorStore.accept(List.of(chunk)));
-                        }
+                        List<Document> chunks = tokenTextSplitter.apply(documents);
+                        chunks.forEach(chunk -> vectorStore.accept(List.of(chunk)));
 
                         DocumentLoader documentLoader = DocumentLoader.builder()
                                 .filename(resource.getFilename())
                                 .documentType(TXT.getFormat())
-                                .chunkCount(chunkSize)
+                                .chunkCount(chunks.size())
                                 .contentHash(pair.getSecond())
                                 .build();
 

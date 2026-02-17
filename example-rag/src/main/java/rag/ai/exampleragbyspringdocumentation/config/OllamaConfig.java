@@ -22,7 +22,7 @@ public class OllamaConfig {
                 .ollamaApi(embeddingApi)
                 .defaultOptions(
                         OllamaEmbeddingOptions.builder()
-                                .model("mxbai-embed-large")
+                                .model("nomic-embed-text")
                                 .build()
                 )
                 .build();

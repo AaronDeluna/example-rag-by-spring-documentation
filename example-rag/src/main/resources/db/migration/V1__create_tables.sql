@@ -21,7 +21,7 @@ CREATE TABLE vector_store (
                               id        VARCHAR(255) PRIMARY KEY,
                               content   TEXT NOT NULL,
                               metadata  JSONB,
-                              embedding VECTOR(1024)
+                              embedding VECTOR(768)
 );
 
 -- 4. HNSW
