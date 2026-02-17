@@ -3,9 +3,9 @@ spring:
     name: example-rag-by-spring-documentation
 
   datasource:
-    url: jdbc:postgresql://45.10.40.98:5433/ragdb
-    username: raguser
-    password: ragpass
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   ai:
