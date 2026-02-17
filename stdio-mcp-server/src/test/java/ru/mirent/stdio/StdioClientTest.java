@@ -33,6 +33,7 @@ public class StdioClientTest {
         File jarFileStdioMcpServer = new File("target/stdio-mcp-server-1.0-SNAPSHOT.jar");
         Assertions.assertTrue(jarFileStdioMcpServer.exists(),
                 format("Файл MCP-сервера не найден по пути: %s", jarFileStdioMcpServer.getAbsolutePath()));
+        LOG.info("Найден файл MCP-сервера по пути: {}", jarFileStdioMcpServer.getAbsolutePath());
 
         ServerParameters serverParameters = ServerParameters
                 .builder("java")

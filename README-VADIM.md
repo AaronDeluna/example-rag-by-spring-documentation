@@ -10,7 +10,7 @@
 - `stdio-mcp-client`
 - `stdio-mcp-server`
 
-## Запуск
+## Запуск клиента и сервера по STDIO
 Для запуска можно использовать две реализации.
 
 ### Реализция: клиент-тест
@@ -20,7 +20,7 @@
 1. Скомпилировать исполняемый файл **MCP-сервера** (с пропуском тестов):
 > `mvn clean install -pl stdio-mcp-server -DskipTests`
 2. Выполнить запуск теста, имитирующего **MCP-клиент**:
-> `mvn test -pl stdio-mcp-server -Dtest=ru.mirent.stdio.ClientStdioTest`
+> `mvn test -pl stdio-mcp-server -Dtest=ru.mirent.stdio.StdioClientTest`
 
 ### Реализция: клиент-стороннее приложение
 В данной реализации клиент и сервер являются раздельными приложениями, расположенными в разных исполняемых файлах 
@@ -33,21 +33,20 @@
 2. Выполнить запуск приложения **MCP-клиента**:
 > `mvn spring-boot:run -pl stdio-mcp-client`
 
+## Запуск клиента и сервера с транспортом WebMVC
+
+Запуск с конфигурацией по умолчанию - транспортом WebMVC:
+> `mvn spring-boot:run -pl webmvc-mcp-server`
+
+Запуск с конфигурацией `stdio` с транспортом STDIO:
+> `mvn spring-boot:run -pl webmvc-mcp-server -Dspring-boot.run.profiles=stdio`
+
 ## Дополнительные команды
 
-> Отбразить дерево зависимостей проекта:
+> Отобразить дерево зависимостей проекта:
 
 `mvn -Dverbose dependency:tree`
 
-> Отбразить зависимости плагинов:
+> Отобразить зависимости плагинов:
 
 `mvn dependency:resolve-plugins`
-
-# 3.
-
-> `mvn clean install -pl webmvc-mcp-server -DskipTests`
-
-> `mvn spring-boot:run -pl webmvc-mcp-server`
-
-Дано: Java, Spring AI, Ollama с локальной моделью.
-Требуется разработать ИИ агента, который будет из кода HTML страницы извлекать только полезную информацию, игнорируя разлиную рекламу и элементы интерфейса.
