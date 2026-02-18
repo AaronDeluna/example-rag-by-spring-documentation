@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum DocumentType {
     TXT("txt"),
+    MD("md")
     ;
 
     private final String format;

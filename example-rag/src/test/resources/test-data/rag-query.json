@@ -1,0 +1,242 @@
+[
+  {
+    "query": "Что такое Advisors API в Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Чем рекурсивные советники отличаются от обычных советников?",
+    "expected_message": ""
+  },
+  {
+    "query": "Для чего нужен ChatClient в Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Чем ChatClient отличается от ChatModel в архитектуре Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Какие задачи решает Prompt API в Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Что такое Structured Output Converter и зачем он нужен?",
+    "expected_message": ""
+  },
+  {
+    "query": "Как в Spring AI устроена чат-память (ChatMemory)?",
+    "expected_message": ""
+  },
+  {
+    "query": "Что такое MessageWindowChatMemory?",
+    "expected_message": ""
+  },
+  {
+    "query": "Что такое Retrieval-Augmented Generation (RAG) в Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Из каких этапов состоит ETL pipeline для RAG в Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Что такое DocumentReader в Spring AI и для чего он используется?",
+    "expected_message": ""
+  },
+  {
+    "query": "Зачем нужен TokenTextSplitter при подготовке документов?",
+    "expected_message": ""
+  },
+  {
+    "query": "Что такое эмбеддинги и как они используются в RAG?",
+    "expected_message": ""
+  },
+  {
+    "query": "Чем embedding model отличается от chat model?",
+    "expected_message": ""
+  },
+  {
+    "query": "Как подключить PgVector как VectorStore в Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Какие VectorStore поддерживаются Spring AI кроме PgVector?",
+    "expected_message": ""
+  },
+  {
+    "query": "Как использовать QuestionAnswerAdvisor в Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Что такое MCP в Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Чем MCP client отличается от MCP server?",
+    "expected_message": ""
+  },
+  {
+    "query": "Какие возможности дают аннотации MCP в Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Что такое Tool Calling в Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "В чем разница между tools и tools-migration в Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Для чего нужен API модерации (moderation) в Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Какие сценарии покрывает OpenAI Moderation в Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Какие сценарии покрывает Mistral AI Moderation в Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Как использовать Testcontainers при тестировании компонентов Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Для чего в документации Spring AI описан Docker Compose?",
+    "expected_message": ""
+  },
+  {
+    "query": "Как настроить Ollama Chat модель в Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Как настроить OpenAI Chat в Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Как настроить Azure OpenAI Chat в Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Какие особенности у Anthropic Chat интеграции в Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Какие возможности дает Google Vertex AI интеграция в Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Как использовать Bedrock Converse API в Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Что такое ImageClient в Spring AI и когда его применять?",
+    "expected_message": ""
+  },
+  {
+    "query": "Что такое API синтеза речи (TTS) в Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Как работает API транскрипции аудио в Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Что такое мультимодальность в Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Какие векторные базы поддерживаются в разделе vectordbs документации Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Что такое observability в контексте Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Какие рекомендации по effective agents описаны в документации Spring AI?",
+    "expected_message": ""
+  },
+  {
+    "query": "Поддерживает ли Spring AI QuantumVectorStore для поиска по суперпозиции эмбеддингов?",
+    "expected_message": "Недостаточно информации в предоставленном контексте для точного ответа."
+  },
+  {
+    "query": "Есть ли в Spring AI режим ZeroTokenRAG, где контекст передаётся без токенов?",
+    "expected_message": "Недостаточно информации в предоставленном контексте для точного ответа."
+  },
+  {
+    "query": "Как включить в Spring AI advisor TimeTravelAdvisor для ответов по будущим релизам?",
+    "expected_message": "Недостаточно информации в предоставленном контексте для точного ответа."
+  },
+  {
+    "query": "Можно ли в Spring AI настроить TelepathyPromptTemplate для генерации без текста запроса?",
+    "expected_message": "Недостаточно информации в предоставленном контексте для точного ответа."
+  },
+  {
+    "query": "Есть ли встроенный DreamMemoryRepository для хранения истории чата во сне модели?",
+    "expected_message": "Недостаточно информации в предоставленном контексте для точного ответа."
+  },
+  {
+    "query": "Поддерживает ли Spring AI анти-галлюцинационный режим TruthLock с криптоподписью фактов?",
+    "expected_message": "Недостаточно информации в предоставленном контексте для точного ответа."
+  },
+  {
+    "query": "Как подключить MythDB как нативный VectorStore в Spring AI?",
+    "expected_message": "Недостаточно информации в предоставленном контексте для точного ответа."
+  },
+  {
+    "query": "Есть ли в Spring AI адаптер DragonAPI для мультимодального диалога с 3D-объектами?",
+    "expected_message": "Недостаточно информации в предоставленном контексте для точного ответа."
+  },
+  {
+    "query": "Можно ли использовать в Spring AI EmotionAwareEmbeddingModel для эмбеддингов настроения?",
+    "expected_message": "Недостаточно информации в предоставленном контексте для точного ответа."
+  },
+  {
+    "query": "Поддерживает ли Spring AI PromptFusionEngine для слияния 100 промптов в один без потерь?",
+    "expected_message": "Недостаточно информации в предоставленном контексте для точного ответа."
+  },
+  {
+    "query": "Есть ли в Spring AI встроенный AutoFineTuneScheduler для ночного дообучения моделей?",
+    "expected_message": "Недостаточно информации в предоставленном контексте для точного ответа."
+  },
+  {
+    "query": "Как включить в Spring AI режим SilentToolCalling без явного вызова инструментов?",
+    "expected_message": "Недостаточно информации в предоставленном контексте для точного ответа."
+  },
+  {
+    "query": "Поддерживает ли Spring AI серверный модуль HyperMCP для межкластерного телепорта контекста?",
+    "expected_message": "Недостаточно информации в предоставленном контексте для точного ответа."
+  },
+  {
+    "query": "Есть ли в Spring AI ready-made GraphRAG++ с автоматическим построением знаний из мемов?",
+    "expected_message": "Недостаточно информации в предоставленном контексте для точного ответа."
+  },
+  {
+    "query": "Можно ли включить в Spring AI режим HallucinationReplay для повторного проигрывания галлюцинаций?",
+    "expected_message": "Недостаточно информации в предоставленном контексте для точного ответа."
+  },
+  {
+    "query": "Как настроить в Spring AI адаптер CosmicOCR для распознавания текста на фото галактик?",
+    "expected_message": "Недостаточно информации в предоставленном контексте для точного ответа."
+  },
+  {
+    "query": "Поддерживает ли Spring AI CloudlessOllamaMode для работы без модели и без интернета?",
+    "expected_message": "Недостаточно информации в предоставленном контексте для точного ответа."
+  },
+  {
+    "query": "Есть ли в Spring AI встроенный FactOracleModel для мгновенной проверки истинности ответа?",
+    "expected_message": "Недостаточно информации в предоставленном контексте для точного ответа."
+  },
+  {
+    "query": "Как активировать в Spring AI AutoCiteAdvisor для генерации ссылок на несуществующие источники?",
+    "expected_message": "Недостаточно информации в предоставленном контексте для точного ответа."
+  },
+  {
+    "query": "Поддерживает ли Spring AI PineconeWarpDrive для мгновенного поиска в бесконечном индексе?",
+    "expected_message": "Недостаточно информации в предоставленном контексте для точного ответа."
+  }
+]

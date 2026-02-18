@@ -14,7 +14,7 @@ public class LockalLLMChatController {
 
     private final ChatClient chatClient;
 
-    @GetMapping("serch-rag")
+    @GetMapping("search-rag")
     public String chat(@RequestParam String questions) {
         return chatClient.prompt().user(questions).call().content();
     }

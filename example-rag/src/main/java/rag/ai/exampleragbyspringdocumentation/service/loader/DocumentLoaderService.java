@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import static rag.ai.exampleragbyspringdocumentation.service.loader.DocumentType.MD;
 import static rag.ai.exampleragbyspringdocumentation.service.loader.DocumentType.TXT;
 
 @Slf4j
@@ -33,7 +34,7 @@ public class DocumentLoaderService implements CommandLineRunner {
     public void loadDocuments() {
         try {
             List<Resource> resources = Arrays.asList(
-                    resourcePatternResolver.getResources("classpath:/ducuments/**/*.%s".formatted(TXT.getFormat()))
+                    resourcePatternResolver.getResources("classpath:/ducuments/**/*.%s".formatted(MD.getFormat()))
             );
 
             resources.stream()
@@ -46,7 +47,7 @@ public class DocumentLoaderService implements CommandLineRunner {
 
                         List<Document> documents = new TextReader(resource).get();
                         TokenTextSplitter tokenTextSplitter = TokenTextSplitter.builder()
-                                .withChunkSize(600)
+                                .withChunkSize(800)
                                 .build();
 
                         List<Document> chunks = tokenTextSplitter.apply(documents);
@@ -54,7 +55,7 @@ public class DocumentLoaderService implements CommandLineRunner {
 
                         DocumentLoader documentLoader = DocumentLoader.builder()
                                 .filename(resource.getFilename())
-                                .documentType(TXT.getFormat())
+                                .documentType(MD.getFormat())
                                 .chunkCount(chunks.size())
                                 .contentHash(pair.getSecond())
                                 .build();
