@@ -116,30 +116,29 @@ dependencies {
 
 Префикс `spring.ai.openai.image` — это префикс свойства, который позволяет вам настраивать реализацию `ImageModel` для OpenAI.
 
-[cols="3,5,1"]
-| Свойство | Описание | По умолчанию
-| spring.ai.azure.openai.image.enabled (Удалено и больше не актуально) | Включить модель изображения OpenAI.  | true
-| spring.ai.model.image | Включить модель изображения OpenAI.  | azure-openai
-| spring.ai.azure.openai.image.options.n            | Количество изображений для генерации. Должно быть от 1 до 10. Для dall-e-3 поддерживается только n=1.  | -
-| spring.ai.azure.openai.image.options.model        | Модель, используемая для генерации изображений.  | AzureOpenAiImageOptions.DEFAULT_IMAGE_MODEL
-| spring.ai.azure.openai.image.options.quality      | Качество генерируемого изображения. HD создает изображения с более тонкими деталями и большей согласованностью. Этот параметр поддерживается только для dall-e-3. | -
-| spring.ai.azure.openai.image.options.response_format | Формат, в котором возвращаются сгенерированные изображения. Должен быть одним из URL или b64_json. | -
-| `spring.ai.openai.image.options.size`       | Размер генерируемых изображений. Должен быть одним из 256x256, 512x512 или 1024x1024 для dall-e-2. Должен быть одним из 1024x1024, 1792x1024 или 1024x1792 для моделей dall-e-3. | -
-| `spring.ai.openai.image.options.size_width` | Ширина генерируемых изображений. Должна быть одной из 256, 512 или 1024 для dall-e-2.  | -
-| `spring.ai.openai.image.options.size_height`| Высота генерируемых изображений. Должна быть одной из 256, 512 или 1024 для dall-e-2. | -
-| `spring.ai.openai.image.options.style`      | Стиль генерируемых изображений. Должен быть одним из vivid или natural. Vivid заставляет модель склоняться к созданию гиперреалистичных и драматических изображений. Natural заставляет модель создавать более естественные, менее гиперреалистичные изображения. Этот параметр поддерживается только для dall-e-3. | -
-| `spring.ai.openai.image.options.user`       | Уникальный идентификатор, представляющий вашего конечного пользователя, который может помочь Azure OpenAI отслеживать и обнаруживать злоупотребления. | -
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
+| spring.ai.azure.openai.image.enabled (Удалено и больше не актуально) | Включить модель изображения OpenAI. | true |
+| spring.ai.model.image | Включить модель изображения OpenAI. | azure-openai |
+| spring.ai.azure.openai.image.options.n | Количество изображений для генерации. Должно быть от 1 до 10. Для dall-e-3 поддерживается только n=1. | - |
+| spring.ai.azure.openai.image.options.model | Модель, используемая для генерации изображений. | AzureOpenAiImageOptions.DEFAULT_IMAGE_MODEL |
+| spring.ai.azure.openai.image.options.quality | Качество генерируемого изображения. HD создает изображения с более тонкими деталями и большей согласованностью. Этот параметр поддерживается только для dall-e-3. | - |
+| spring.ai.azure.openai.image.options.response_format | Формат, в котором возвращаются сгенерированные изображения. Должен быть одним из URL или b64_json. | - |
+| `spring.ai.openai.image.options.size` | Размер генерируемых изображений. Должен быть одним из 256x256, 512x512 или 1024x1024 для dall-e-2. Должен быть одним из 1024x1024, 1792x1024 или 1024x1792 для моделей dall-e-3. | - |
+| `spring.ai.openai.image.options.size_width` | Ширина генерируемых изображений. Должна быть одной из 256, 512 или 1024 для dall-e-2. | - |
+| `spring.ai.openai.image.options.size_height` | Высота генерируемых изображений. Должна быть одной из 256, 512 или 1024 для dall-e-2. | - |
+| `spring.ai.openai.image.options.style` | Стиль генерируемых изображений. Должен быть одним из vivid или natural. Vivid заставляет модель склоняться к созданию гиперреалистичных и драматических изображений. Natural заставляет модель создавать более естественные, менее гиперреалистичные изображения. Этот параметр поддерживается только для dall-e-3. | - |
+| `spring.ai.openai.image.options.user` | Уникальный идентификатор, представляющий вашего конечного пользователя, который может помочь Azure OpenAI отслеживать и обнаруживать злоупотребления. | - |
 
 #### Свойства подключения
 
 Префикс `spring.ai.openai` используется как префикс свойства, который позволяет вам подключаться к Azure OpenAI.
 
-[cols="3,5,1"]
-| Свойство | Описание | По умолчанию
-| spring.ai.azure.openai.endpoint   | URL для подключения |  https://my-dalle3.openai.azure.com/
-| spring.ai.azure.openai.apiKey    | API-ключ           |  -
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
+| spring.ai.azure.openai.endpoint | URL для подключения | https://my-dalle3.openai.azure.com/ |
+| spring.ai.azure.openai.apiKey | API-ключ | - |
 
-## Параметры выполнения [[image-options]]Документ [OpenAiImageOptions.java](https://github.com/spring-projects/spring-ai/blob/main/models/spring-ai-openai/src/main/java/org/springframework/ai/openai/OpenAiImageOptions.java) предоставляет конфигурации модели, такие как используемая модель, качество, размер и т.д.
 
 При запуске параметры по умолчанию можно настроить с помощью конструктора `AzureOpenAiImageModel(OpenAiImageApi openAiImageApi)` и метода `withDefaultOptions(OpenAiImageOptions defaultOptions)`. В качестве альтернативы можно использовать свойства `spring.ai.azure.openai.image.options.*`, описанные ранее.
 

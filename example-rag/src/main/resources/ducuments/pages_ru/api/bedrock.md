@@ -98,10 +98,10 @@ spring.ai.bedrock.aws.timeout=10m
 
 Вот поддерживаемые `<model>`:
 
-[cols="|,|,|,|"]
-| Модель
-| cohere
-| titan (пока без поддержки пакетной обработки)
+| Модель |
+| --- |
+| cohere |
+| titan (пока без поддержки пакетной обработки) |
 
 Например, чтобы включить модель встраивания Bedrock Cohere, вам нужно установить `spring.ai.bedrock.cohere.embedding.enabled=true`.
 

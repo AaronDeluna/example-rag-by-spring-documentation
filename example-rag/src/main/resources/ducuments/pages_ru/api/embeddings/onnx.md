@@ -78,7 +78,6 @@ spring.ai.embedding.transformer.tokenizer.uri=https://huggingface.co/intfloat/e5
 Это изменение сделано для возможности конфигурации нескольких моделей.
 ====
 
-[cols="3*", stripes=even]
 | Свойство | Описание | По умолчанию |
 | --- | --- | --- |
 | spring.ai.embedding.transformer.enabled (Удалено и больше не актуально) | Включить модель встраивания Transformer. | true |
@@ -153,7 +152,6 @@ spring.ai.embedding.transformer.onnx.modelOutputName=token_embeddings
 
 Если модель не задана явно, `TransformersEmbeddingModel` по умолчанию использует https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2[sentence-transformers/all-MiniLM-L6-v2]:
 
-[cols="2*"]
 | Размерности | 384 |
 | --- | --- |
 | Средняя производительность | 58.80 |

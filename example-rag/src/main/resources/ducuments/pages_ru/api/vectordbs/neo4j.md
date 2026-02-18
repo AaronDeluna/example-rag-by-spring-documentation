@@ -75,7 +75,6 @@ vectorStore.add(documents);
 List<Document> results = vectorStore.similaritySearch(SearchRequest.builder().query("Spring").topK(5).build());
 ```
 
-[[neo4jvector-properties]]
 ### Свойства конфигурацииЧтобы подключиться к Neo4j и использовать `Neo4jVectorStore`, вам необходимо предоставить данные доступа к вашему экземпляру. Простую конфигурацию можно задать через `application.yml` Spring Boot:
 
 ```yaml
@@ -97,7 +96,6 @@ spring:
 
 Свойства Spring Boot, начинающиеся с `spring.neo4j.*`, используются для настройки клиента Neo4j:
 
-[cols="2,5,1",stripes=even]
 | Свойство | Описание | Значение по умолчанию |
 | --- | --- | --- |
 | `spring.neo4j.uri` | URI для подключения к экземпляру Neo4j | `neo4j://localhost:7687` |
@@ -106,7 +104,6 @@ spring:
 
 Свойства, начинающиеся с `spring.ai.vectorstore.neo4j.*`, используются для настройки `Neo4jVectorStore`:
 
-[cols="2,5,1",stripes=even]
 | Свойство | Описание | Значение по умолчанию |
 | --- | --- | --- |
 | `spring.ai.vectorstore.neo4j.initialize-schema` | Нужно ли инициализировать необходимую схему | `false` |

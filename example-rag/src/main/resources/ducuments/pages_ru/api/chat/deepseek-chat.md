@@ -73,51 +73,54 @@ dependencies {
 
 Префикс `spring.ai.retry` используется как префикс свойства, который позволяет вам настроить механизм повторных попыток для модели DeepSeek Chat.
 
-[cols="3,5,1"]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.retry.max-attempts   | Максимальное количество попыток повторного запроса. |  10
-| spring.ai.retry.backoff.initial-interval | Начальная продолжительность ожидания для политики экспоненциального отката. |  2 сек.
-| spring.ai.retry.backoff.multiplier | Множитель интервала отката. |  5
-| spring.ai.retry.backoff.max-interval | Максимальная продолжительность отката. |  3 мин.
-| spring.ai.retry.on-client-errors | Если false, выбрасывает NonTransientAiException и не пытается повторить запрос для кодов ошибок клиента `4xx` | false
-| spring.ai.retry.exclude-on-http-codes | Список кодов состояния HTTP, которые не должны вызывать повторный запрос (например, для выброса NonTransientAiException). | пусто
-| spring.ai.retry.on-http-codes | Список кодов состояния HTTP, которые должны вызывать повторный запрос (например, для выброса TransientAiException). | пусто
+| spring.ai.retry.max-attempts | Максимальное количество попыток повторного запроса. | 10 |
+| --- | --- | --- |
+| spring.ai.retry.backoff.initial-interval | Начальная продолжительность ожидания для политики экспоненциального отката. | 2 сек. |
+| spring.ai.retry.backoff.multiplier | Множитель интервала отката. | 5 |
+| spring.ai.retry.backoff.max-interval | Максимальная продолжительность отката. | 3 мин. |
+| spring.ai.retry.on-client-errors | Если false, выбрасывает NonTransientAiException и не пытается повторить запрос для кодов ошибок клиента `4xx` | false |
+| spring.ai.retry.exclude-on-http-codes | Список кодов состояния HTTP, которые не должны вызывать повторный запрос (например, для выброса NonTransientAiException). | пусто |
+| spring.ai.retry.on-http-codes | Список кодов состояния HTTP, которые должны вызывать повторный запрос (например, для выброса TransientAiException). | пусто |
 
 #### Свойства подключения
 
 Префикс `spring.ai.deepseek` используется как префикс свойства, который позволяет вам подключиться к DeepSeek.
 
-[cols="3,5,1"]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.deepseek.base-url   | URL для подключения |  `+https://api.deepseek.com+`
-| spring.ai.deepseek.api-key    | API-ключ           |  -
+| spring.ai.deepseek.base-url | URL для подключения | `+https://api.deepseek.com+` |
+| --- | --- | --- |
+| spring.ai.deepseek.api-key | API-ключ | - |
 
 #### Свойства конфигурации
 
 Префикс `spring.ai.deepseek.chat` — это префикс свойства, который позволяет вам настроить реализацию модели чата для DeepSeek.
 
-[cols="3,5,1"]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.deepseek.chat.enabled | Включает модель чата DeepSeek.  | true
-| spring.ai.deepseek.chat.base-url | Опционально переопределяет spring.ai.deepseek.base-url для предоставления URL, специфичного для чата | `+https://api.deepseek.com/+`
-| spring.ai.deepseek.chat.api-key | Опционально переопределяет spring.ai.deepseek.api-key для предоставления API-ключа, специфичного для чата | -
-| spring.ai.deepseek.chat.completions-path | Путь к конечной точке завершений чата | `/chat/completions`
-| spring.ai.deepseek.chat.beta-prefix-path | Префиксный путь к конечной точке бета-функции | `/beta`
-| spring.ai.deepseek.chat.options.model | ID модели для использования. Вы можете использовать либо deepseek-reasoner, либо deepseek-chat. | deepseek-chat
-| spring.ai.deepseek.chat.options.frequencyPenalty | Число от -2.0 до 2.0. Положительные значения штрафуют новые токены на основе их существующей частоты в тексте, уменьшая вероятность повторения той же строки дословно. | 0.0f
-| spring.ai.deepseek.chat.options.maxTokens | Максимальное количество токенов для генерации в завершении чата. Общая длина входных токенов и сгенерированных токенов ограничена длиной контекста модели. | -
-| spring.ai.deepseek.chat.options.presencePenalty | Число от -2.0 до 2.0. Положительные значения штрафуют новые токены на основе того, появляются ли они в тексте, увеличивая вероятность модели говорить о новых темах. |  0.0f
-| spring.ai.deepseek.chat.options.stop | До 4 последовательностей, при которых API остановит генерацию дальнейших токенов. | -
-| spring.ai.deepseek.chat.options.temperature | Какую температуру выборки использовать, от 0 до 2. Более высокие значения, такие как 0.8, сделают вывод более случайным, в то время как более низкие значения, такие как 0.2, сделают его более сосредоточенным и детерминированным. Мы обычно рекомендуем изменять это или top_p, но не оба. | 1.0F
-| spring.ai.deepseek.chat.options.topP | Альтернатива выборке с температурой, называемая ядерной выборкой, где модель учитывает результаты токенов с вероятностью top_p. Таким образом, 0.1 означает, что учитываются только токены, составляющие верхние 10% вероятностной массы. Мы обычно рекомендуем изменять это или температуру, но не оба. | 1.0F
-| spring.ai.deepseek.chat.options.logprobs | Возвращать ли логарифмические вероятности выходных токенов или нет. Если true, возвращает логарифмические вероятности каждого выходного токена, возвращенного в содержимом сообщения. | -
-| spring.ai.deepseek.chat.options.topLogprobs | Целое число от 0 до 20, указывающее количество наиболее вероятных токенов, которые следует вернуть на каждой позиции токена, каждый с соответствующей логарифмической вероятностью. logprobs должен быть установлен в true, если используется этот параметр. | -
-| spring.ai.deepseek.chat.options.tool-names | Список инструментов, идентифицированных по их именам, которые следует включить для вызова функций в одном запросе. Инструменты с этими именами должны существовать в реестре ToolCallback. | -
-| spring.ai.deepseek.chat.options.tool-callbacks | Обратные вызовы инструментов для регистрации с ChatModel. | -
-| spring.ai.deepseek.chat.options.internal-tool-execution-enabled | Если false, Spring AI не будет обрабатывать вызовы инструментов внутренне, а будет проксировать их клиенту. Тогда клиент несет ответственность за обработку вызовов инструментов, их распределение на соответствующую функцию и возврат результатов. Если true (по умолчанию), Spring AI будет обрабатывать вызовы функций внутренне. Применимо только для моделей чата с поддержкой вызова функций | true
+| spring.ai.deepseek.chat.enabled | Включает модель чата DeepSeek. | true |
+| --- | --- | --- |
+| spring.ai.deepseek.chat.base-url | Опционально переопределяет spring.ai.deepseek.base-url для предоставления URL, специфичного для чата | `+https://api.deepseek.com/+` |
+| spring.ai.deepseek.chat.api-key | Опционально переопределяет spring.ai.deepseek.api-key для предоставления API-ключа, специфичного для чата | - |
+| spring.ai.deepseek.chat.completions-path | Путь к конечной точке завершений чата | `/chat/completions` |
+| spring.ai.deepseek.chat.beta-prefix-path | Префиксный путь к конечной точке бета-функции | `/beta` |
+| spring.ai.deepseek.chat.options.model | ID модели для использования. Вы можете использовать либо deepseek-reasoner, либо deepseek-chat. | deepseek-chat |
+| spring.ai.deepseek.chat.options.frequencyPenalty | Число от -2.0 до 2.0. Положительные значения штрафуют новые токены на основе их существующей частоты в тексте, уменьшая вероятность повторения той же строки дословно. | 0.0f |
+| spring.ai.deepseek.chat.options.maxTokens | Максимальное количество токенов для генерации в завершении чата. Общая длина входных токенов и сгенерированных токенов ограничена длиной контекста модели. | - |
+| spring.ai.deepseek.chat.options.presencePenalty | Число от -2.0 до 2.0. Положительные значения штрафуют новые токены на основе того, появляются ли они в тексте, увеличивая вероятность модели говорить о новых темах. | 0.0f |
+| spring.ai.deepseek.chat.options.stop | До 4 последовательностей, при которых API остановит генерацию дальнейших токенов. | - |
+| spring.ai.deepseek.chat.options.temperature | Какую температуру выборки использовать, от 0 до 2. Более высокие значения, такие как 0.8, сделают вывод более случайным, в то время как более низкие значения, такие как 0.2, сделают его более сосредоточенным и детерминированным. Мы обычно рекомендуем изменять это или top_p, но не оба. | 1.0F |
+| spring.ai.deepseek.chat.options.topP | Альтернатива выборке с температурой, называемая ядерной выборкой, где модель учитывает результаты токенов с вероятностью top_p. Таким образом, 0.1 означает, что учитываются только токены, составляющие верхние 10% вероятностной массы. Мы обычно рекомендуем изменять это или температуру, но не оба. | 1.0F |
+| spring.ai.deepseek.chat.options.logprobs | Возвращать ли логарифмические вероятности выходных токенов или нет. Если true, возвращает логарифмические вероятности каждого выходного токена, возвращенного в содержимом сообщения. | - |
+| spring.ai.deepseek.chat.options.topLogprobs | Целое число от 0 до 20, указывающее количество наиболее вероятных токенов, которые следует вернуть на каждой позиции токена, каждый с соответствующей логарифмической вероятностью. logprobs должен быть установлен в true, если используется этот параметр. | - |
+| spring.ai.deepseek.chat.options.tool-names | Список инструментов, идентифицированных по их именам, которые следует включить для вызова функций в одном запросе. Инструменты с этими именами должны существовать в реестре ToolCallback. | - |
+| spring.ai.deepseek.chat.options.tool-callbacks | Обратные вызовы инструментов для регистрации с ChatModel. | - |
+| spring.ai.deepseek.chat.options.internal-tool-execution-enabled | Если false, Spring AI не будет обрабатывать вызовы инструментов внутренне, а будет проксировать их клиенту. Тогда клиент несет ответственность за обработку вызовов инструментов, их распределение на соответствующую функцию и возврат результатов. Если true (по умолчанию), Spring AI будет обрабатывать вызовы функций внутренне. Применимо только для моделей чата с поддержкой вызова функций | true |
 
 > **Примечание:** Вы можете переопределить общие `spring.ai.deepseek.base-url` и `spring.ai.deepseek.api-key` для реализаций `ChatModel`.
 Свойства `spring.ai.deepseek.chat.base-url` и `spring.ai.deepseek.chat.api-key`, если установлены, имеют приоритет над общими свойствами.
@@ -125,7 +128,6 @@ dependencies {
 
 > **Совет:** Все свойства с префиксом `spring.ai.deepseek.chat.options` могут быть переопределены во время выполнения, добавив специфичные для запроса <<chat-options>> в вызов `Prompt`.
 
-## Опции времени выполнения [[chat-options]]
 
 [DeepSeekChatOptions.java](https://github.com/spring-projects/spring-ai/blob/main/models/spring-ai-deepseek/src/main/java/org/springframework/ai/deepseek/DeepSeekChatOptions.java) предоставляет конфигурации модели, такие как модель для использования, температура, штраф за частоту и т. д.
 
@@ -316,7 +318,6 @@ Flux<ChatResponse> streamResponse = chatModel.stream(
 `DeepSeekChatOptions` предоставляет информацию о конфигурации для запросов чата.
 `DeepSeekChatOptions.Builder` — это флюидный строитель опций.
 
-### Низкоуровневый клиент DeepSeekApi [[low-level-api]]
 
 [DeepSeekApi](https://github.com/spring-projects/spring-ai/blob/main/models/spring-ai-deepseek/src/main/java/org/springframework/ai/deepseek/api/DeepSeekApi.java) — это легковесный Java-клиент для [DeepSeek API](https://platform.deepseek.com/api-docs/).
 

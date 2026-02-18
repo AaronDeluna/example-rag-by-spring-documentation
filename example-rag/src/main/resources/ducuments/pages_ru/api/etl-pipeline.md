@@ -89,7 +89,6 @@ public interface DocumentWriter extends Consumer<List<Document>> {
 ```
 
 
-[[etl-class-diagram]]
 ### Диаграмма классов ETL
 
 Следующая диаграмма классов иллюстрирует интерфейсы и реализации ETL.

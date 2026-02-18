@@ -1,8 +1,6 @@
 ```markdown
-[[upgrade-notes]]
 # Заметки об обновлении
 
-[[upgrading-to-2-0-0-M3]]
 ## Обновление до 2.0.0-M3
 
 #### История разговоров удалена из ToolContext
@@ -70,7 +68,6 @@ ChatResponse response = chatClient.prompt()
 
 LLM видит весь разговор через цепочку советников, а не через ToolContext.
 
-[[upgrading-to-2-0-0-M2]]
 ## Обновление до 2.0.0-M2
 
 ### Ломающее изменения
@@ -103,7 +100,6 @@ List<Message> messages = chatMemoryRepository.findByConversationId(conversationI
 
 - Поддержка Docker Compose и Testcontainers для MongoDB Atlas теперь предоставляется нативно модулем Spring Boot MongoDB. Миграция должна быть прозрачной и не требовать изменений в коде. Что касается зависимостей, вам больше не нужно импортировать `org.springframework.ai:spring-ai-spring-boot-testcontainers`. Зависимость на `org.springframework.boot:spring-boot-testcontainers` будет достаточной.
 
-[[upgrading-to-2-0-0-M1]]
 ## Обновление до 2.0.0-M1
 
 ### Ломающие изменения
@@ -145,7 +141,6 @@ ChatResponse response = chatModel.call(
             .build()));
 ```
 
-[[upgrading-to-1-1-0-RC1]]
 ## Обновление до 1.1.0-RC1
 
 ### Ломающие изменения
@@ -224,7 +219,6 @@ public MyService(TextToSpeechModel textToSpeechModel) { ... }
 - xref:api/audio/speech.adoc#_writing_provider_agnostic_code[Написание кода TTS, независимого от поставщика]
 
 
-[[upgrading-to-1-0-0-snapshot]]
 ## Обновление до 1.0.0-SNAPSHOT
 
 ### Обзор
@@ -249,7 +243,6 @@ public MyService(TextToSpeechModel textToSpeechModel) { ... }
 - xref:upgrade-notes.adoc#common-module-structure[Общая структура модулей]
 
 
-[[upgrading-to-1-0-0-RC1]]
 ## Обновление до 1.0.0-RC1
 
 Вы можете автоматизировать процесс обновления до 1.0.0-RC1, используя рецепт OpenRewrite.
@@ -391,7 +384,6 @@ Moonshot и Qianfan были удалены, так как они недосту
 ### Общая очистка
 - Удалены все устаревшие коды (https://github.com/spring-projects/spring-ai/commit/76bee8ceb2854839f93a6c52876f50bb24219355[76bee8c]) и (https://github.com/spring-projects/spring-ai/commit/b6ce7f3e4a7aafe6b9031043f63813dde6e73605[b6ce7f3])
 
-[[upgrading-to-1-0-0-m8]]
 ## Обновление до 1.0.0-M8
 
 Вы можете автоматизировать процесс обновления до 1.0.0-M8, используя рецепт OpenRewrite.
@@ -495,7 +487,6 @@ ChatClient chatClient = new OpenAiChatClient(api)
 - Удалены все устаревшие элементы из 1.0.0-M8 (https://github.com/spring-projects/spring-ai/commit/76bee8ceb2854839f93a6c52876f50bb24219355[76bee8c])
 - Общая очистка устаревших элементов (https://github.com/spring-projects/spring-ai/commit/b6ce7f3e4a7aafe6b9031043f63813dde6e73605[b6ce7f3])
 
-[[upgrading-to-1-0-0-m7]]
 ## Обновление до 1.0.0-M7
 
 ### Обзор измененийSpring AI 1.0.0-M7 является последним релизом вехи перед RC1 и GA релизами. Он вводит несколько важных изменений в идентификаторы артефактов, названия пакетов и структуру модулей, которые будут сохранены в финальном релизе.
@@ -614,10 +605,8 @@ CreateMessageResult result = exchange.createMessage(new CreateMessageRequest(...
 
 > **Примечание:** Автоматизированный запрос на обновление в настоящее время обрабатывает изменения идентификаторов артефактов, перемещения пакетов и изменения структуры модулей, но пока не включает автоматические изменения для обновления до MCP 0.9.0. Если вы используете MCP, вам нужно будет вручную обновить ваш код, следуя рекомендациям в разделе xref:upgrade-notes.adoc#mcp-java-sdk-upgrade-to-0-9-0[Обновление MCP Java SDK].
 
-[[common-sections]]
 ## Общие изменения между версиями
 
-[[common-artifact-id-changes]]
 ### Изменения идентификаторов артефактов
 
 Шаблон именования артефактов Spring AI стартеров изменился.
@@ -738,7 +727,6 @@ MCP::
 
 > **Примечание:** В большинстве случаев вам не нужно будет явно добавлять эти зависимости автоконфигурации. Они включаются транзитивно при использовании соответствующих стартовых зависимостей.
 
-[[common-package-changes]]
 ### Изменения в названиях пакетов
 
 Ваш IDE должен помочь с рефакторингом на новые местоположения пакетов.
@@ -746,7 +734,6 @@ MCP::
 - `KeywordMetadataEnricher` и `SummaryMetadataEnricher` были перемещены из `org.springframework.ai.transformer` в `org.springframework.ai.chat.transformer`.
 - `Content`, `MediaContent` и `Media` были перемещены из `org.springframework.ai.model` в `org.springframework.ai.content`.
 
-[[common-module-structure]]
 ### Структура модуля
 
 Проект претерпел значительные изменения в своей структуре модулей и артефактов. Ранее `spring-ai-core` содержал все центральные интерфейсы, но теперь он был разделен на специализированные доменные модули, чтобы уменьшить ненужные зависимости в ваших приложениях.
@@ -816,7 +803,6 @@ API для высокоуровневого разговорного ИИ:
 - `spring-ai-advisors-vector-store` и `spring-ai-rag` (зависят от client-chat и vector-store)
 - Модули `spring-ai-model-chat-memory-*` (зависят от client-chat)
 
-[[common-toolcontext-changes]]
 ### Изменения в ToolContext
 
 Класс `ToolContext` был улучшен для поддержки как явного, так и неявного разрешения инструментов. Инструменты теперь могут быть:
@@ -828,7 +814,6 @@ API для высокоуровневого разговорного ИИ:
 
 Кроме того, класс `ToolContext` теперь помечен как final и не может быть расширен. Он никогда не предназначался для наследования. Вы можете добавить все необходимые контекстные данные при создании `ToolContext` в виде `Map<String, Object>`. Для получения дополнительной информации смотрите [документацию](https://docs.spring.io/spring-ai/reference/api/tools.html#_tool_context).
 
-[[upgrading-to-1-0-0-m6]]
 ## Обновление до 1.0.0-M6
 
 ### Изменения в интерфейсе использования и реализации DefaultUsage

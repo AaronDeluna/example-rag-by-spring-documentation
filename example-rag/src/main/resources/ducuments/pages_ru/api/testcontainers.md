@@ -1,4 +1,3 @@
-[[testcontainers]]
 # Testcontainers
 
 Spring AI предоставляет автонастройку Spring Boot для установления соединения с сервисом модели или векторным хранилищем, работающим через Testcontainers. Чтобы включить эту функциональность, добавьте следующую зависимость в файл `pom.xml` вашего проекта на Maven:
@@ -24,34 +23,43 @@ dependencies {
 
 В модуле `spring-ai-spring-boot-testcontainers` предоставляются следующие фабрики соединений с сервисами:
 
-[cols="|,|"]
-| Подробности соединения	 | Соответствует
+| Подробности соединения | Соответствует |
+| --- | --- |
 
-| `AwsOpenSearchConnectionDetails`
-| Контейнеры типа `LocalStackContainer`
+| `AwsOpenSearchConnectionDetails` |
+| --- |
+| Контейнеры типа `LocalStackContainer` |
 
-| `ChromaConnectionDetails`
-| Контейнеры типа `ChromaDBContainer`
+| `ChromaConnectionDetails` |
+| --- |
+| Контейнеры типа `ChromaDBContainer` |
 
-| `McpSseClientConnectionDetails`
-| Контейнеры типа `DockerMcpGatewayContainer`
+| `McpSseClientConnectionDetails` |
+| --- |
+| Контейнеры типа `DockerMcpGatewayContainer` |
 
-| `MilvusServiceClientConnectionDetails`
-| Контейнеры типа `MilvusContainer`
+| `MilvusServiceClientConnectionDetails` |
+| --- |
+| Контейнеры типа `MilvusContainer` |
 
-| `OllamaConnectionDetails`
-| Контейнеры типа `OllamaContainer`
+| `OllamaConnectionDetails` |
+| --- |
+| Контейнеры типа `OllamaContainer` |
 
-| `OpenSearchConnectionDetails`
-| Контейнеры типа `OpensearchContainer`
+| `OpenSearchConnectionDetails` |
+| --- |
+| Контейнеры типа `OpensearchContainer` |
 
-| `QdrantConnectionDetails`
-| Контейнеры типа `QdrantContainer`
+| `QdrantConnectionDetails` |
+| --- |
+| Контейнеры типа `QdrantContainer` |
 
-| `TypesenseConnectionDetails`
-| Контейнеры типа `TypesenseContainer`
+| `TypesenseConnectionDetails` |
+| --- |
+| Контейнеры типа `TypesenseContainer` |
 
-| `WeaviateConnectionDetails`
-| Контейнеры типа `WeaviateContainer`
+| `WeaviateConnectionDetails` |
+| --- |
+| Контейнеры типа `WeaviateContainer` |
 
 Дополнительные соединения с сервисами предоставляются модулем spring boot `spring-boot-testcontainers`. Обратитесь к странице документации https://docs.spring.io/spring-boot/reference/testing/testcontainers.html#testing.testcontainers.service-connections[Соединения сервисов Testcontainers] для получения полного списка.

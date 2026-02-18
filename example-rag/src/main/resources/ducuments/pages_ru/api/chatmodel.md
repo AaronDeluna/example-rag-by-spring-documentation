@@ -1,4 +1,3 @@
-[[ChatModel]]
 # Chat Model API
 
 API Chat Model предоставляет разработчикам возможность интегрировать возможности завершения чата на основе ИИ в свои приложения. Он использует предварительно обученные языковые модели, такие как GPT (Generative Pre-trained Transformer), для генерации ответов, похожих на человеческие, на пользовательские запросы на естественном языке.
@@ -148,7 +147,6 @@ Spring AI предоставляет сложную систему для нас
 
 Разделение параметров запуска и времени выполнения позволяет как глобальные конфигурации, так и настройки, специфичные для запроса.
 
-[[ChatResponse]]
 ### ChatResponse
 
 Структура класса `ChatResponse` выглядит следующим образом:
@@ -173,7 +171,6 @@ public class ChatResponse implements ModelResponse<Generation> {
 
 Класс `ChatResponse` также содержит `ChatResponseMetadata`, метаданные о ответе ИИ-модели.
 
-[[Generation]]
 ### Generation
 
 Наконец, класс https://github.com/spring-projects/spring-ai/blob/main/spring-ai-model/src/main/java/org/springframework/ai/chat/model/Generation.java[Generation] наследуется от `ModelResult`, чтобы представлять вывод модели (сообщение помощника) и связанные метаданные:

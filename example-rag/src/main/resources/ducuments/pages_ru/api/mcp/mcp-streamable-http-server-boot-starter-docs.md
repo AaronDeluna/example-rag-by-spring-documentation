@@ -74,7 +74,6 @@
 
 Свойства аннотаций сервера mcp-annotations начинаются с префикса `spring.ai.mcp.server.annotation-scanner`:
 
-[cols="3,4,3"]
 | Property | Description | Default Value |
 | --- | --- | --- |
 | `enabled` |  |  |

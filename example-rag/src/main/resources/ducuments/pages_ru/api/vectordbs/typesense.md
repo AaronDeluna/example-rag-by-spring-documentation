@@ -85,7 +85,6 @@ spring:
 
 Свойства, начинающиеся с `spring.ai.vectorstore.typesense.*`, используются для настройки `TypesenseVectorStore`:
 
-[cols="2,5,1",stripes=even]
 | Свойство | Описание | Значение по умолчанию |
 | --- | --- | --- |
 | `spring.ai.vectorstore.typesense.initialize-schema` |  |  |

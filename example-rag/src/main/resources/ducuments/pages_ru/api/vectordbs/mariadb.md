@@ -74,7 +74,6 @@ vectorStore.add(documents);
 List<Document> results = vectorStore.similaritySearch(SearchRequest.builder().query("Spring").topK(5).build());
 ```
 
-[[mariadbvector-properties]]
 ### Свойства конфигурацииЧтобы подключиться к MariaDB и использовать `MariaDBVectorStore`, вам необходимо предоставить данные доступа к вашему экземпляру. Простую конфигурацию можно задать через `application.yml` Spring Boot:
 
 ```yaml
@@ -95,7 +94,6 @@ spring:
 
 Свойства, начинающиеся с `spring.ai.vectorstore.mariadb.*`, используются для настройки `MariaDBVectorStore`:
 
-[cols="2,5,1",stripes=even]
 | Свойство | Описание | Значение по умолчанию |
 | --- | --- | --- |
 | `spring.ai.vectorstore.mariadb.initialize-schema` | Нужно ли инициализировать требуемую схему | `false` |

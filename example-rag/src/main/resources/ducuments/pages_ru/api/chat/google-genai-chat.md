@@ -80,49 +80,50 @@ dependencies {
 
 Префикс `spring.ai.google.genai` используется в качестве префикса свойств, который позволяет вам подключаться к Google GenAI.
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.model.chat   | Включить клиент модели чата |  google-genai
-| spring.ai.google.genai.api-key   | API-ключ для Gemini Developer API. Если он предоставлен, клиент использует Gemini Developer API вместо Vertex AI. |  -
-| spring.ai.google.genai.project-id   | Идентификатор проекта Google Cloud Platform (обязателен для режима Vertex AI) |  -
-| spring.ai.google.genai.location    | Регион Google Cloud (обязателен для режима Vertex AI) |  -
-| spring.ai.google.genai.credentials-uri    | URI для учетных данных Google Cloud. Если он предоставлен, он используется для создания экземпляра `GoogleCredentials` для аутентификации. |  -
+| spring.ai.model.chat | Включить клиент модели чата | google-genai |
+| --- | --- | --- |
+| spring.ai.google.genai.api-key | API-ключ для Gemini Developer API. Если он предоставлен, клиент использует Gemini Developer API вместо Vertex AI. | - |
+| spring.ai.google.genai.project-id | Идентификатор проекта Google Cloud Platform (обязателен для режима Vertex AI) | - |
+| spring.ai.google.genai.location | Регион Google Cloud (обязателен для режима Vertex AI) | - |
+| spring.ai.google.genai.credentials-uri | URI для учетных данных Google Cloud. Если он предоставлен, он используется для создания экземпляра `GoogleCredentials` для аутентификации. | - |
 
 #### Свойства модели чата
 
 Префикс `spring.ai.google.genai.chat` — это префикс свойств, который позволяет вам настраивать реализацию модели чата для Google GenAI Chat.
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.google.genai.chat.options.model | Поддерживаемые https://ai.google.dev/gemini-api/docs/models[модели Google GenAI Chat], которые можно использовать, включают `gemini-2.0-flash`, `gemini-2.0-flash-lite`, `gemini-pro` и `gemini-1.5-flash`. | gemini-2.0-flash
-| spring.ai.google.genai.chat.options.response-mime-type | MIME-тип выходного ответа сгенерированного текстового кандидата. |  `text/plain`: (по умолчанию) Текстовый вывод или `application/json`: JSON-ответ.
-| spring.ai.google.genai.chat.options.google-search-retrieval | Использовать функцию Grounding Google Search | `true` или `false`, по умолчанию `false`.
-| spring.ai.google.genai.chat.options.temperature | Управляет случайностью вывода. Значения могут варьироваться от [0.0,1.0], включая. Значение, ближе к 1.0, будет производить более разнообразные ответы, в то время как значение, ближе к 0.0, обычно приведет к менее неожиданным ответам от генеративной модели. | -
-| spring.ai.google.genai.chat.options.top-k | Максимальное количество токенов, которые следует учитывать при выборке. Генеративная модель использует комбинированную выборку Top-k и nucleus. Выборка Top-k учитывает набор из topK наиболее вероятных токенов. | -
-| spring.ai.google.genai.chat.options.top-p | Максимальная кумулятивная вероятность токенов, которые следует учитывать при выборке. Генеративная модель использует комбинированную выборку Top-k и nucleus. Выборка nucleus учитывает наименьший набор токенов, сумма вероятностей которых составляет не менее topP.  | -
-| spring.ai.google.genai.chat.options.candidate-count | Количество сгенерированных ответных сообщений для возврата. Это значение должно быть в диапазоне [1, 8], включая. По умолчанию 1. | 1
-| spring.ai.google.genai.chat.options.max-output-tokens | Максимальное количество токенов для генерации. | -
-| spring.ai.google.genai.chat.options.frequency-penalty | Штрафы за частоту для уменьшения повторений. | -
-| spring.ai.google.genai.chat.options.presence-penalty | Штрафы за присутствие для уменьшения повторений. | -
-| spring.ai.google.genai.chat.options.thinking-budget | Бюджет на размышления для процесса размышления. См. <<thinking-config>>. | -
-| spring.ai.google.genai.chat.options.thinking-level | Уровень токенов размышлений, которые модель должна генерировать. Допустимые значения: `LOW`, `HIGH`, `THINKING_LEVEL_UNSPECIFIED`. См. <<thinking-config>>. | -
-| spring.ai.google.genai.chat.options.include-thoughts | Включить подписи мыслей для вызова функций. **Обязательно** для Gemini 3 Pro, чтобы избежать ошибок валидации во время внутреннего цикла выполнения инструмента. См. <<thought-signatures>>. | false
-| spring.ai.google.genai.chat.options.tool-names | Список инструментов, идентифицированных по их именам, которые следует включить для вызова функций в одном запросе. Инструменты с этими именами должны существовать в реестре ToolCallback. | -
-| spring.ai.google.genai.chat.options.tool-callbacks | Обратные вызовы инструментов для регистрации с ChatModel. | -
-| spring.ai.google.genai.chat.options.internal-tool-execution-enabled | Если true, выполнение инструмента должно быть выполнено, в противном случае ответ от модели возвращается пользователю. По умолчанию null, но если он null, будет учитываться `ToolCallingChatOptions.DEFAULT_TOOL_EXECUTION_ENABLED`, который равен true | -
-| spring.ai.google.genai.chat.options.safety-settings | Список настроек безопасности для управления фильтрами безопасности, как определено в https://ai.google.dev/gemini-api/docs/safety-settings[Настройки безопасности Google GenAI]. Каждая настройка безопасности может иметь метод, порог и категорию. | -
-| spring.ai.google.genai.chat.options.cached-content-name | Имя кэшированного контента, который следует использовать для этого запроса. Когда установлено вместе с `use-cached-content=true`, кэшированный контент будет использоваться в качестве контекста. См. <<cached-content>>. | -
-| spring.ai.google.genai.chat.options.use-cached-content | Использовать ли кэшированный контент, если он доступен. Когда true и `cached-content-name` установлен, система будет использовать кэшированный контент. | false
-| spring.ai.google.genai.chat.options.auto-cache-threshold | Автоматически кэшировать запросы, которые превышают этот порог токенов. Когда установлено, запросы, превышающие это значение, будут автоматически кэшироваться для повторного использования. Установите в null, чтобы отключить авто-кэширование. | -
-| spring.ai.google.genai.chat.options.auto-cache-ttl | Время жизни (Duration) для автоматически кэшированного контента в формате ISO-8601 (например, `PT1H` для 1 часа). Используется, когда авто-кэширование включено. | PT1H
-| spring.ai.google.genai.chat.enable-cached-content | Включить бин `GoogleGenAiCachedContentService` для управления кэшированным контентом. | true
+| spring.ai.google.genai.chat.options.model | Поддерживаемые https://ai.google.dev/gemini-api/docs/models[модели Google GenAI Chat], которые можно использовать, включают `gemini-2.0-flash`, `gemini-2.0-flash-lite`, `gemini-pro` и `gemini-1.5-flash`. | gemini-2.0-flash |
+| --- | --- | --- |
+| spring.ai.google.genai.chat.options.response-mime-type | MIME-тип выходного ответа сгенерированного текстового кандидата. | `text/plain`: (по умолчанию) Текстовый вывод или `application/json`: JSON-ответ. |
+| spring.ai.google.genai.chat.options.google-search-retrieval | Использовать функцию Grounding Google Search | `true` или `false`, по умолчанию `false`. |
+| spring.ai.google.genai.chat.options.temperature | Управляет случайностью вывода. Значения могут варьироваться от [0.0,1.0], включая. Значение, ближе к 1.0, будет производить более разнообразные ответы, в то время как значение, ближе к 0.0, обычно приведет к менее неожиданным ответам от генеративной модели. | - |
+| spring.ai.google.genai.chat.options.top-k | Максимальное количество токенов, которые следует учитывать при выборке. Генеративная модель использует комбинированную выборку Top-k и nucleus. Выборка Top-k учитывает набор из topK наиболее вероятных токенов. | - |
+| spring.ai.google.genai.chat.options.top-p | Максимальная кумулятивная вероятность токенов, которые следует учитывать при выборке. Генеративная модель использует комбинированную выборку Top-k и nucleus. Выборка nucleus учитывает наименьший набор токенов, сумма вероятностей которых составляет не менее topP. | - |
+| spring.ai.google.genai.chat.options.candidate-count | Количество сгенерированных ответных сообщений для возврата. Это значение должно быть в диапазоне [1, 8], включая. По умолчанию 1. | 1 |
+| spring.ai.google.genai.chat.options.max-output-tokens | Максимальное количество токенов для генерации. | - |
+| spring.ai.google.genai.chat.options.frequency-penalty | Штрафы за частоту для уменьшения повторений. | - |
+| spring.ai.google.genai.chat.options.presence-penalty | Штрафы за присутствие для уменьшения повторений. | - |
+| spring.ai.google.genai.chat.options.thinking-budget | Бюджет на размышления для процесса размышления. См. <<thinking-config>>. | - |
+| spring.ai.google.genai.chat.options.thinking-level | Уровень токенов размышлений, которые модель должна генерировать. Допустимые значения: `LOW`, `HIGH`, `THINKING_LEVEL_UNSPECIFIED`. См. <<thinking-config>>. | - |
+| spring.ai.google.genai.chat.options.include-thoughts | Включить подписи мыслей для вызова функций. **Обязательно** для Gemini 3 Pro, чтобы избежать ошибок валидации во время внутреннего цикла выполнения инструмента. См. <<thought-signatures>>. | false |
+| spring.ai.google.genai.chat.options.tool-names | Список инструментов, идентифицированных по их именам, которые следует включить для вызова функций в одном запросе. Инструменты с этими именами должны существовать в реестре ToolCallback. | - |
+| spring.ai.google.genai.chat.options.tool-callbacks | Обратные вызовы инструментов для регистрации с ChatModel. | - |
+| spring.ai.google.genai.chat.options.internal-tool-execution-enabled | Если true, выполнение инструмента должно быть выполнено, в противном случае ответ от модели возвращается пользователю. По умолчанию null, но если он null, будет учитываться `ToolCallingChatOptions.DEFAULT_TOOL_EXECUTION_ENABLED`, который равен true | - |
+| spring.ai.google.genai.chat.options.safety-settings | Список настроек безопасности для управления фильтрами безопасности, как определено в https://ai.google.dev/gemini-api/docs/safety-settings[Настройки безопасности Google GenAI]. Каждая настройка безопасности может иметь метод, порог и категорию. | - |
+| spring.ai.google.genai.chat.options.cached-content-name | Имя кэшированного контента, который следует использовать для этого запроса. Когда установлено вместе с `use-cached-content=true`, кэшированный контент будет использоваться в качестве контекста. См. <<cached-content>>. | - |
+| spring.ai.google.genai.chat.options.use-cached-content | Использовать ли кэшированный контент, если он доступен. Когда true и `cached-content-name` установлен, система будет использовать кэшированный контент. | false |
+| spring.ai.google.genai.chat.options.auto-cache-threshold | Автоматически кэшировать запросы, которые превышают этот порог токенов. Когда установлено, запросы, превышающие это значение, будут автоматически кэшироваться для повторного использования. Установите в null, чтобы отключить авто-кэширование. | - |
+| spring.ai.google.genai.chat.options.auto-cache-ttl | Время жизни (Duration) для автоматически кэшированного контента в формате ISO-8601 (например, `PT1H` для 1 часа). Используется, когда авто-кэширование включено. | PT1H |
+| spring.ai.google.genai.chat.enable-cached-content | Включить бин `GoogleGenAiCachedContentService` для управления кэшированным контентом. | true |
 
 
 > **Совет:** Все свойства с префиксом `spring.ai.google.genai.chat.options` могут быть переопределены во время выполнения, добавив специфичные для запроса <<chat-options>> к вызову `Prompt`.
 
-## Опции времени выполнения [[chat-options]]
 
 [GoogleGenAiChatOptions.java](https://github.com/spring-projects/spring-ai/blob/main/models/spring-ai-google-genai/src/main/java/org/springframework/ai/google/genai/GoogleGenAiChatOptions.java) предоставляет конфигурации модели, такие как температура, topK и т. д.
 
@@ -182,7 +183,6 @@ String response = ChatClient.create(this.chatModel)
 
 Дополнительную информацию смотрите в документации xref:api/tools.adoc[Инструменты].
 
-## Конфигурация размышлений [[thinking-config]]
 
 Модели Gemini поддерживают возможность "размышления", которая позволяет модели выполнять более глубокое рассуждение перед генерацией ответов. Это контролируется через `ThinkingConfig`, который включает три связанных параметра: `thinkingBudget`, `thinkingLevel` и `includeThoughts`.
 
@@ -190,12 +190,13 @@ String response = ChatClient.create(this.chatModel)
 
 Параметр `thinkingLevel` управляет глубиной токенов размышлений, которые генерирует модель. Это доступно для моделей, которые поддерживают размышления (например, Gemini 3 Pro Preview).
 
-[cols="1,3", stripes=even]
-| Значение | Описание
+| Значение | Описание |
+| --- | --- |
 
-| `LOW` | Минимальные размышления. Используйте для простых запросов, где скорость предпочтительнее глубокого анализа.
-| `HIGH` | Обширные размышления. Используйте для сложных задач, требующих глубокого анализа и пошагового рассуждения.
-| `THINKING_LEVEL_UNSPECIFIED` | Модель использует свое поведение по умолчанию.
+| `LOW` | Минимальные размышления. Используйте для простых запросов, где скорость предпочтительнее глубокого анализа. |
+| --- | --- |
+| `HIGH` | Обширные размышления. Используйте для сложных задач, требующих глубокого анализа и пошагового рассуждения. |
+| `THINKING_LEVEL_UNSPECIFIED` | Модель использует свое поведение по умолчанию. |
 
 #### Конфигурация через свойства
 
@@ -278,33 +279,38 @@ ChatResponse response = chatModel.call(
 
 Опции конфигурации размышлений специфичны для модели:
 
-[cols="2,1,1,2", stripes=even]
-| Модель | thinkingLevel | thinkingBudget | Примечания
+| Модель | thinkingLevel | thinkingBudget | Примечания |
+| --- | --- | --- | --- |
 
-| Gemini 3 Pro (Preview)
-| ✅ Поддерживается
-| ⚠️ Обратная совместимость только
-| Используйте `thinkingLevel`. Невозможно отключить размышления. Требует **глобальной** конечной точки.
+| Gemini 3 Pro (Preview) |
+| --- |
+| ✅ Поддерживается |
+| ⚠️ Обратная совместимость только |
+| Используйте `thinkingLevel`. Невозможно отключить размышления. Требует **глобальной** конечной точки. |
 
-| Gemini 2.5 Pro
-| ❌ Не поддерживается
-| ✅ Поддерживается
-| Используйте `thinkingBudget`. Установите в 0, чтобы отключить, -1 для динамического.
+| Gemini 2.5 Pro |
+| --- |
+| ❌ Не поддерживается |
+| ✅ Поддерживается |
+| Используйте `thinkingBudget`. Установите в 0, чтобы отключить, -1 для динамического. |
 
-| Gemini 2.5 Flash
-| ❌ Не поддерживается
-| ✅ Поддерживается
-| Используйте `thinkingBudget`. Установите в 0, чтобы отключить, -1 для динамического.
+| Gemini 2.5 Flash |
+| --- |
+| ❌ Не поддерживается |
+| ✅ Поддерживается |
+| Используйте `thinkingBudget`. Установите в 0, чтобы отключить, -1 для динамического. |
 
-| Gemini 2.5 Flash-Lite
-| ❌ Не поддерживается
-| ✅ Поддерживается
-| Размышления отключены по умолчанию. Установите `thinkingBudget`, чтобы включить.
+| Gemini 2.5 Flash-Lite |
+| --- |
+| ❌ Не поддерживается |
+| ✅ Поддерживается |
+| Размышления отключены по умолчанию. Установите `thinkingBudget`, чтобы включить. |
 
-| Gemini 2.0 Flash
-| ❌ Не поддерживается
-| ❌ Не поддерживается
-| Размышления недоступны.
+| Gemini 2.0 Flash |
+| --- |
+| ❌ Не поддерживается |
+| ❌ Не поддерживается |
+| Размышления недоступны. |
 
 [ВАЖНО]
 ====
@@ -315,7 +321,6 @@ ChatResponse response = chatModel.call(
 
 > **Примечание:** Включение функций размышлений увеличивает использование токенов и затраты на API. Используйте соответственно в зависимости от сложности ваших запросов.
 
-## Подписи мыслей [[thought-signatures]]
 
 Gemini 3 Pro вводит подписи мыслей, которые представляют собой непрозрачные массивы байтов, сохраняющие контекст размышлений модели во время вызова функций. Когда `includeThoughts` включен, модель возвращает подписи мыслей, которые должны быть переданы обратно в **тот же ход** во время внутреннего цикла выполнения инструмента.
 
@@ -445,7 +450,6 @@ var userMessage = UserMessage.builder()
 var response = this.chatModel.call(new Prompt(List.of(userMessage)));
 ```
 
-## Кэшированный контент [[cached-content]]
 
 [Контекстное кэширование](https://ai.google.dev/gemini-api/docs/caching) Google GenAI позволяет вам кэшировать большие объемы контента (таких как длинные документы, репозитории кода или медиа) и повторно использовать его в нескольких запросах. Это значительно снижает затраты на API и улучшает задержку ответа для повторяющихся запросов на один и тот же контент.
 
@@ -767,6 +771,5 @@ ChatResponse response = this.chatModel.call(
 - Вам нужны специфические функции предприятия Vertex AI
 - Ваша организация требует развертывания только в Google Cloud
 
-## Низкоуровневый Java-клиент [[low-level-api]]
 
 Реализация Google GenAI основана на новом Java SDK Google GenAI, который предоставляет современный, упрощенный API для доступа к моделям Gemini.

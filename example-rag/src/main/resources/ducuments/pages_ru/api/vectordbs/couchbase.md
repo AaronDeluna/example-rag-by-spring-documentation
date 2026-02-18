@@ -71,7 +71,6 @@ vectorStore.add(documents);
 List<Document> results = vectorStore.similaritySearch(SearchRequest.query("Spring").withTopK(5));
 ```
 
-[[couchbasevector-properties]]
 ### Параметры конфигурацииЧтобы подключиться к Couchbase и использовать `CouchbaseSearchVectorStore`, вам необходимо предоставить данные доступа к вашему экземпляру. Конфигурацию можно задать через `application.properties` Spring Boot:
 
 ```properties

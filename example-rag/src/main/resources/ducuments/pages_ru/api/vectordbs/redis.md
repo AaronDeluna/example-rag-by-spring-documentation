@@ -79,7 +79,6 @@ vectorStore.add(documents);
 List<Document> results = this.vectorStore.similaritySearch(SearchRequest.builder().query("Spring").topK(5).build());
 ```
 
-[[redisvector-properties]]
 ### Параметры конфигурацииЧтобы подключиться к Redis и использовать `RedisVectorStore`, вам необходимо предоставить данные доступа к вашему экземпляру. Простую конфигурацию можно задать через `application.yml` Spring Boot:
 
 ```yaml
@@ -106,7 +105,6 @@ spring.data.redis.password=
 
 Свойства, начинающиеся с `spring.ai.vectorstore.redis.*`, используются для настройки `RedisVectorStore`:
 
-[cols="2,5,1",stripes=even]
 | Свойство | Описание | Значение по умолчанию |
 | --- | --- | --- |
 | `spring.ai.vectorstore.redis.initialize-schema` | Нужно ли инициализировать требуемую схему | `false` |
@@ -399,10 +397,8 @@ dependencies {
 > **Совет:** Автонастройка предоставляет модель эмбеддинга по умолчанию, оптимизированную для семантического кэширования (`redis/langcache-embed-v1`).
 Вы можете переопределить это, предоставив свой собственный бин `EmbeddingModel`.
 
-[[semantic-cache-properties]]
 ### Свойства конфигурацииProperties, начинающиеся с `spring.ai.vectorstore.redis.semantic-cache.*`, настраивают семантический кэш:
 
-[cols="2,5,1",stripes=even]
 | Свойство | Описание | Значение по умолчанию |
 | --- | --- | --- |
 | `spring.ai.vectorstore.redis.semantic-cache.enabled` | Включить или отключить семантический кэш | `true` |

@@ -99,7 +99,6 @@ vectorStore.add(documents);
 List<Document> results = this.vectorStore.similaritySearch(SearchRequest.builder().query("Spring").topK(5).build());
 ```
 
-[[elasticsearchvector-properties]]
 ### Параметры конфигурацииЧтобы подключиться к Elasticsearch и использовать `ElasticsearchVectorStore`, вам необходимо предоставить данные доступа к вашему экземпляру. Простую конфигурацию можно задать через `application.yml` Spring Boot:
 
 ```yaml
@@ -119,7 +118,6 @@ spring:
 
 Свойства Spring Boot, начинающиеся с `spring.elasticsearch.*`, используются для настройки клиента Elasticsearch:
 
-[cols="2,5,1",stripes=even]
 | Свойство | Описание | Значение по умолчанию |
 | --- | --- | --- |
 | `spring.elasticsearch.connection-timeout` | Таймаут подключения, используемый при взаимодействии с Elasticsearch. | `1s` |
@@ -135,7 +133,6 @@ spring:
 
 Свойства, начинающиеся с `spring.ai.vectorstore.elasticsearch.*`, используются для настройки `ElasticsearchVectorStore`:
 
-[cols="2,5,1",stripes=even]
 | Свойство | Описание | Значение по умолчанию |
 | --- | --- | --- |
 | `spring.ai.vectorstore.elasticsearch.initialize-schema` | Нужно ли инициализировать требуемую схему | `false` |

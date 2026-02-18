@@ -67,11 +67,12 @@ dependencies {
 
 ### Свойства генерации изображенийThe prefix `spring.ai.stabilityai` используется как префикс свойств, который позволяет вам подключиться к Stability AI.
 
-[cols="3,5,1"]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.stabilityai.base-url   | URL для подключения |  https://api.stability.ai/v1
-| spring.ai.stabilityai.api-key    | API-ключ           |  -
+| spring.ai.stabilityai.base-url | URL для подключения | https://api.stability.ai/v1 |
+| --- | --- | --- |
+| spring.ai.stabilityai.api-key | API-ключ | - |
 
 [NOTE]
 ====
@@ -86,27 +87,27 @@ dependencies {
 
 Префикс `spring.ai.stabilityai.image` — это префикс свойств, который позволяет вам настроить реализацию `ImageModel` для Stability AI.
 
-[cols="2,5,1"]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.stabilityai.image.enabled (Удалено и больше не актуально) | Включить модель изображения Stability AI.  | true
-| spring.ai.model.image | Включить модель изображения Stability AI.  | stabilityai
-| spring.ai.stabilityai.image.base-url              | Необязательный параметр, переопределяющий spring.ai.openai.base-url для предоставления конкретного URL |  `+https://api.stability.ai/v1+`
-| spring.ai.stabilityai.image.api-key              | Необязательный параметр, переопределяющий spring.ai.openai.api-key для предоставления конкретного api-ключа |  -
-| spring.ai.stabilityai.image.option.n               | Количество изображений для генерации. Должно быть от 1 до 10.                                                            | 1
-| spring.ai.stabilityai.image.option.model                 | Двигатель/модель, используемая в Stability AI. Модель передается в URL как параметр пути.          | `stable-diffusion-v1-6`
-| spring.ai.stabilityai.image.option.width                 | Ширина генерируемого изображения в пикселях, кратная 64. Применяется валидация размеров, специфичная для движка. | 512
-| spring.ai.stabilityai.image.option.height               | Высота генерируемого изображения в пикселях, кратная 64. Применяется валидация размеров, специфичная для движка.| 512
-| spring.ai.stabilityai.image.option.responseFormat        | Формат, в котором возвращаются сгенерированные изображения. Должен быть "application/json" или "image/png".                         | -
-| spring.ai.stabilityai.image.option.cfg_scale             | Уровень строгости соблюдения процесса диффузии тексту подсказки. Диапазон: от 0 до 35.                               | 7
-| spring.ai.stabilityai.image.option.clip_guidance_preset  | Передайте стильный пресет, чтобы направить модель изображения к определенному стилю. Этот список стильных пресетов может изменяться. | `NONE`
-| spring.ai.stabilityai.image.option.sampler               | Какой сэмплер использовать для процесса диффузии. Если это значение опущено, будет автоматически выбран подходящий сэмплер. | -
-| spring.ai.stabilityai.image.option.seed                  | Случайное семя шума (опустите этот параметр или используйте 0 для случайного семени). Допустимый диапазон: от 0 до 4294967295.                             | 0
-| spring.ai.stabilityai.image.option.steps                 | Количество шагов диффузии для выполнения. Допустимый диапазон: от 10 до 50.                                                                   | 30
-| spring.ai.stabilityai.image.option.style_preset          | Передайте стильный пресет, чтобы направить модель изображения к определенному стилю. Этот список стильных пресетов может изменяться. | -
+| spring.ai.stabilityai.image.enabled (Удалено и больше не актуально) | Включить модель изображения Stability AI. | true |
+| --- | --- | --- |
+| spring.ai.model.image | Включить модель изображения Stability AI. | stabilityai |
+| spring.ai.stabilityai.image.base-url | Необязательный параметр, переопределяющий spring.ai.openai.base-url для предоставления конкретного URL | `+https://api.stability.ai/v1+` |
+| spring.ai.stabilityai.image.api-key | Необязательный параметр, переопределяющий spring.ai.openai.api-key для предоставления конкретного api-ключа | - |
+| spring.ai.stabilityai.image.option.n | Количество изображений для генерации. Должно быть от 1 до 10. | 1 |
+| spring.ai.stabilityai.image.option.model | Двигатель/модель, используемая в Stability AI. Модель передается в URL как параметр пути. | `stable-diffusion-v1-6` |
+| spring.ai.stabilityai.image.option.width | Ширина генерируемого изображения в пикселях, кратная 64. Применяется валидация размеров, специфичная для движка. | 512 |
+| spring.ai.stabilityai.image.option.height | Высота генерируемого изображения в пикселях, кратная 64. Применяется валидация размеров, специфичная для движка. | 512 |
+| spring.ai.stabilityai.image.option.responseFormat | Формат, в котором возвращаются сгенерированные изображения. Должен быть "application/json" или "image/png". | - |
+| spring.ai.stabilityai.image.option.cfg_scale | Уровень строгости соблюдения процесса диффузии тексту подсказки. Диапазон: от 0 до 35. | 7 |
+| spring.ai.stabilityai.image.option.clip_guidance_preset | Передайте стильный пресет, чтобы направить модель изображения к определенному стилю. Этот список стильных пресетов может изменяться. | `NONE` |
+| spring.ai.stabilityai.image.option.sampler | Какой сэмплер использовать для процесса диффузии. Если это значение опущено, будет автоматически выбран подходящий сэмплер. | - |
+| spring.ai.stabilityai.image.option.seed | Случайное семя шума (опустите этот параметр или используйте 0 для случайного семени). Допустимый диапазон: от 0 до 4294967295. | 0 |
+| spring.ai.stabilityai.image.option.steps | Количество шагов диффузии для выполнения. Допустимый диапазон: от 10 до 50. | 30 |
+| spring.ai.stabilityai.image.option.style_preset | Передайте стильный пресет, чтобы направить модель изображения к определенному стилю. Этот список стильных пресетов может изменяться. | - |
 
 
-## Runtime Options [[image-options]]Документ [StabilityAiImageOptions.java](https://github.com/spring-projects/spring-ai/blob/main/models/spring-ai-stabilityai/src/main/java/org/springframework/ai/stabilityai/api/StabilityAiImageOptions.java) предоставляет конфигурации модели, такие как используемая модель, стиль, размер и т.д.
 
 При запуске параметры по умолчанию можно настроить с помощью конструктора `StabilityAiImageModel(StabilityAiApi stabilityAiApi, StabilityAiImageOptions options)`. В качестве альтернативы можно использовать свойства `spring.ai.openai.image.options.*`, описанные ранее.
 

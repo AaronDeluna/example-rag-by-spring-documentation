@@ -17,7 +17,6 @@ Spring AI не предоставляет специального модуля 
 
 Кроме того, вам потребуется настроенный бин `EmbeddingModel`. Обратитесь к разделу xref:api/embeddings.adoc#available-implementations[EmbeddingModel] для получения дополнительной информации.
 
-[[hanacloudvectorstore-properties]]
 ## Свойства HanaCloudVectorStore
 
 Вы можете использовать следующие свойства в вашей конфигурации Spring Boot для настройки векторного хранилища SAP Hana. Он использует свойства `spring.datasource.**` для настройки источника данных Hana и свойства `spring.ai.vectorstore.hanadb.**` для настройки векторного хранилища Hana.

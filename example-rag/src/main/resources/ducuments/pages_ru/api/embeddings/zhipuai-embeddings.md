@@ -76,25 +76,27 @@ dependencies {
 
 Префикс `spring.ai.retry` используется как префикс свойства, который позволяет вам настроить механизм повторных попыток для модели эмбеддингов ZhiPuAI.
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.retry.max-attempts   | Максимальное количество попыток повторного запроса. |  10
-| spring.ai.retry.backoff.initial-interval | Начальная продолжительность ожидания для политики экспоненциального увеличения. |  2 сек.
-| spring.ai.retry.backoff.multiplier | Множитель интервала ожидания. |  5
-| spring.ai.retry.backoff.max-interval | Максимальная продолжительность ожидания. |  3 мин.
-| spring.ai.retry.on-client-errors | Если false, выбросить NonTransientAiException и не пытаться повторить запрос для кодов ошибок клиента `4xx` | false
-| spring.ai.retry.exclude-on-http-codes | Список кодов состояния HTTP, которые не должны вызывать повторный запрос (например, для выброса NonTransientAiException). | пусто
-| spring.ai.retry.on-http-codes | Список кодов состояния HTTP, которые должны вызывать повторный запрос (например, для выброса TransientAiException). | пусто
+| spring.ai.retry.max-attempts | Максимальное количество попыток повторного запроса. | 10 |
+| --- | --- | --- |
+| spring.ai.retry.backoff.initial-interval | Начальная продолжительность ожидания для политики экспоненциального увеличения. | 2 сек. |
+| spring.ai.retry.backoff.multiplier | Множитель интервала ожидания. | 5 |
+| spring.ai.retry.backoff.max-interval | Максимальная продолжительность ожидания. | 3 мин. |
+| spring.ai.retry.on-client-errors | Если false, выбросить NonTransientAiException и не пытаться повторить запрос для кодов ошибок клиента `4xx` | false |
+| spring.ai.retry.exclude-on-http-codes | Список кодов состояния HTTP, которые не должны вызывать повторный запрос (например, для выброса NonTransientAiException). | пусто |
+| spring.ai.retry.on-http-codes | Список кодов состояния HTTP, которые должны вызывать повторный запрос (например, для выброса TransientAiException). | пусто |
 #### Свойства подключения
 
 Префикс `spring.ai.zhipuai` используется в качестве префикса свойств, который позволяет вам подключаться к ZhiPuAI.
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.zhipuai.base-url   | URL для подключения |  https://open.bigmodel.cn/api/paas
-| spring.ai.zhipuai.api-key    | API-ключ           |  -
+| spring.ai.zhipuai.base-url | URL для подключения | https://open.bigmodel.cn/api/paas |
+| --- | --- | --- |
+| spring.ai.zhipuai.api-key | API-ключ | - |
 
 #### Свойства конфигурации
 
@@ -111,15 +113,16 @@ dependencies {
 
 Префикс `spring.ai.zhipuai.embedding` — это префикс свойств, который настраивает реализацию `EmbeddingModel` для ZhiPuAI.
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.zhipuai.embedding.enabled (Удалено и больше не актуально) | Включить модель встраивания ZhiPuAI.  | true
-| spring.ai.model.embedding | Включить модель встраивания ZhiPuAI.  | zhipuai
-| spring.ai.zhipuai.embedding.base-url   | Необязательный параметр, переопределяющий spring.ai.zhipuai.base-url для предоставления специфического URL для встраивания | -
-| spring.ai.zhipuai.embedding.api-key    | Необязательный параметр, переопределяющий spring.ai.zhipuai.api-key для предоставления специфического API-ключа для встраивания  | -
-| spring.ai.zhipuai.embedding.options.model      | Модель для использования      | embedding-2
-| spring.ai.zhipuai.embedding.options.dimensions      | Количество измерений, значение по умолчанию — 2048, когда модель — embedding-3 | -
+| spring.ai.zhipuai.embedding.enabled (Удалено и больше не актуально) | Включить модель встраивания ZhiPuAI. | true |
+| --- | --- | --- |
+| spring.ai.model.embedding | Включить модель встраивания ZhiPuAI. | zhipuai |
+| spring.ai.zhipuai.embedding.base-url | Необязательный параметр, переопределяющий spring.ai.zhipuai.base-url для предоставления специфического URL для встраивания | - |
+| spring.ai.zhipuai.embedding.api-key | Необязательный параметр, переопределяющий spring.ai.zhipuai.api-key для предоставления специфического API-ключа для встраивания | - |
+| spring.ai.zhipuai.embedding.options.model | Модель для использования | embedding-2 |
+| spring.ai.zhipuai.embedding.options.dimensions | Количество измерений, значение по умолчанию — 2048, когда модель — embedding-3 | - |
 
 > **Примечание:** Вы можете переопределить общие `spring.ai.zhipuai.base-url` и `spring.ai.zhipuai.api-key` для реализаций `ChatModel` и `EmbeddingModel`.
 Свойства `spring.ai.zhipuai.embedding.base-url` и `spring.ai.zhipuai.embedding.api-key`, если они установлены, имеют приоритет над общими свойствами.
@@ -128,7 +131,6 @@ dependencies {
 
 > **Совет:** Все свойства с префиксом `spring.ai.zhipuai.embedding.options` могут быть переопределены во время выполнения, добавив специфические для запроса <<embedding-options>> в вызов `EmbeddingRequest`.
 
-## Опции времени выполнения [[embedding-options]]
 
 Файл https://github.com/spring-projects/spring-ai/blob/main/models/spring-ai-zhipuai/src/main/java/org/springframework/ai/zhipuai/ZhiPuAiEmbeddingOptions.java[ZhiPuAiEmbeddingOptions.java] предоставляет конфигурации ZhiPuAI, такие как используемая модель и т.д.
 

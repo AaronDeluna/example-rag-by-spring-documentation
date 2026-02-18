@@ -36,10 +36,10 @@ dependencies {
 
 Префикс `spring.ai.elevenlabs` используется в качестве префикса свойств для **всех** конфигураций, связанных с ElevenLabs (как для подключения, так и для конкретных настроек TTS). Это определено в `ElevenLabsConnectionProperties`.
 
-[cols="3,5,1"]
-| Свойство | Описание | По умолчанию
-| spring.ai.elevenlabs.base-url | Базовый URL для API ElevenLabs. | https://api.elevenlabs.io
-| spring.ai.elevenlabs.api-key  | Ваш API-ключ ElevenLabs.           | -
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
+| spring.ai.elevenlabs.base-url | Базовый URL для API ElevenLabs. | https://api.elevenlabs.io |
+| spring.ai.elevenlabs.api-key | Ваш API-ключ ElevenLabs. | - |
 
 ### Свойства конфигурации
 
@@ -56,44 +56,43 @@ dependencies {
 
 Префикс `spring.ai.elevenlabs.tts` используется в качестве префикса свойств для настройки клиента ElevenLabs Text-to-Speech, в частности. Это определено в `ElevenLabsSpeechProperties`.
 
-[cols="3,5,2"]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.model.audio.speech   | Включить модель аудиоречи |  elevenlabs
-| spring.ai.elevenlabs.tts.options.model-id | ID модели для использования. | eleven_turbo_v2_5
-| spring.ai.elevenlabs.tts.options.voice-id | ID голоса для использования. Это **ID голоса**, а не имя голоса. | 9BWtsMINqrJLrRacOk9x
-| spring.ai.elevenlabs.tts.options.output-format |  Формат вывода для сгенерированного аудио. См. раздел [Форматы вывода](xref:#output-formats) ниже. | mp3_22050_32
+| spring.ai.model.audio.speech | Включить модель аудиоречи | elevenlabs |
+| --- | --- | --- |
+| spring.ai.elevenlabs.tts.options.model-id | ID модели для использования. | eleven_turbo_v2_5 |
+| spring.ai.elevenlabs.tts.options.voice-id | ID голоса для использования. Это **ID голоса**, а не имя голоса. | 9BWtsMINqrJLrRacOk9x |
+| spring.ai.elevenlabs.tts.options.output-format | Формат вывода для сгенерированного аудио. См. раздел [Форматы вывода](xref:#output-formats) ниже. | mp3_22050_32 |
 
 > **Примечание:** Базовый URL и API-ключ также могут быть настроены **конкретно** для TTS с использованием `spring.ai.elevenlabs.tts.base-url` и `spring.ai.elevenlabs.tts.api-key`. Однако, как правило, рекомендуется использовать глобальный префикс `spring.ai.elevenlabs` для простоты, если у вас нет конкретной причины использовать разные учетные данные для различных сервисов ElevenLabs. Более специфические свойства `tts` будут переопределять глобальные.
 
 > **Совет:** Все свойства с префиксом `spring.ai.elevenlabs.tts.options` могут быть переопределены во время выполнения.
 
-[[output-formats]]
 .Доступные форматы вывода
-[cols="1,1"]
-| Значение Enum         | Описание
-| MP3_22050_32       | MP3, 22.05 кГц, 32 кбит/с
-| MP3_44100_32       | MP3, 44.1 кГц, 32 кбит/с
-| MP3_44100_64       | MP3, 44.1 кГц, 64 кбит/с
-| MP3_44100_96       | MP3, 44.1 кГц, 96 кбит/с
-| MP3_44100_128      | MP3, 44.1 кГц, 128 кбит/с
-| MP3_44100_192      | MP3, 44.1 кГц, 192 кбит/с
-| PCM_8000           | PCM, 8 кГц
-| PCM_16000          | PCM, 16 кГц
-| PCM_22050          | PCM, 22.05 кГц
-| PCM_24000          | PCM, 24 кГц
-| PCM_44100          | PCM, 44.1 кГц
-| PCM_48000          | PCM, 48 кГц
-| ULAW_8000          | µ-law, 8 кГц
-| ALAW_8000          | A-law, 8 кГц
-| OPUS_48000_32      | Opus, 48 кГц, 32 кбит/с
-| OPUS_48000_64      | Opus, 48 кГц, 64 кбит/с
-| OPUS_48000_96      | Opus, 48 кГц, 96 кбит/с
-| OPUS_48000_128     | Opus, 48 кГц, 128 кбит/с
-| OPUS_48000_192     | Opus, 48 кГц, 192 кбит/с
+| Значение Enum | Описание |
+| --- | --- |
+| MP3_22050_32 | MP3, 22.05 кГц, 32 кбит/с |
+| MP3_44100_32 | MP3, 44.1 кГц, 32 кбит/с |
+| MP3_44100_64 | MP3, 44.1 кГц, 64 кбит/с |
+| MP3_44100_96 | MP3, 44.1 кГц, 96 кбит/с |
+| MP3_44100_128 | MP3, 44.1 кГц, 128 кбит/с |
+| MP3_44100_192 | MP3, 44.1 кГц, 192 кбит/с |
+| PCM_8000 | PCM, 8 кГц |
+| PCM_16000 | PCM, 16 кГц |
+| PCM_22050 | PCM, 22.05 кГц |
+| PCM_24000 | PCM, 24 кГц |
+| PCM_44100 | PCM, 44.1 кГц |
+| PCM_48000 | PCM, 48 кГц |
+| ULAW_8000 | µ-law, 8 кГц |
+| ALAW_8000 | A-law, 8 кГц |
+| OPUS_48000_32 | Opus, 48 кГц, 32 кбит/с |
+| OPUS_48000_64 | Opus, 48 кГц, 64 кбит/с |
+| OPUS_48000_96 | Opus, 48 кГц, 96 кбит/с |
+| OPUS_48000_128 | Opus, 48 кГц, 128 кбит/с |
+| OPUS_48000_192 | Opus, 48 кГц, 192 кбит/с |
 
 
-## Параметры времени выполнения [[speech-options]]
 
 Класс `ElevenLabsTextToSpeechOptions` предоставляет параметры, которые можно использовать при выполнении запроса на синтез речи. При запуске используются параметры, указанные в `spring.ai.elevenlabs.tts`, но вы можете переопределить их во время выполнения. Доступные параметры:
 

@@ -128,28 +128,30 @@ dependencies {
 
 Префикс `spring.ai.openai-sdk` используется в качестве префикса свойств, который позволяет вам настраивать клиент OpenAI SDK.
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.openai-sdk.base-url        | URL для подключения. Автоопределяется из переменной окружения `OPENAI_BASE_URL`, если не установлено. |  https://api.openai.com/v1
-| spring.ai.openai-sdk.api-key         | API-ключ. Автоопределяется из переменной окружения `OPENAI_API_KEY`, если не установлено. |  -
-| spring.ai.openai-sdk.organization-id | Опционально укажите, какую организацию использовать для API-запросов. |  -
-| spring.ai.openai-sdk.timeout         | Длительность таймаута запроса. |  -
-| spring.ai.openai-sdk.max-retries     | Максимальное количество попыток повторного запроса для неудачных запросов. |  -
-| spring.ai.openai-sdk.proxy           | Настройки прокси для клиента OpenAI (объект Java `Proxy`). |  -
-| spring.ai.openai-sdk.custom-headers  | Пользовательские HTTP-заголовки, которые следует включить в запросы. Карта имени заголовка к значению заголовка. |  -
+| spring.ai.openai-sdk.base-url | URL для подключения. Автоопределяется из переменной окружения `OPENAI_BASE_URL`, если не установлено. | https://api.openai.com/v1 |
+| --- | --- | --- |
+| spring.ai.openai-sdk.api-key | API-ключ. Автоопределяется из переменной окружения `OPENAI_API_KEY`, если не установлено. | - |
+| spring.ai.openai-sdk.organization-id | Опционально укажите, какую организацию использовать для API-запросов. | - |
+| spring.ai.openai-sdk.timeout | Длительность таймаута запроса. | - |
+| spring.ai.openai-sdk.max-retries | Максимальное количество попыток повторного запроса для неудачных запросов. | - |
+| spring.ai.openai-sdk.proxy | Настройки прокси для клиента OpenAI (объект Java `Proxy`). | - |
+| spring.ai.openai-sdk.custom-headers | Пользовательские HTTP-заголовки, которые следует включить в запросы. Карта имени заголовка к значению заголовка. | - |
 
 #### Свойства Microsoft Foundry (Azure OpenAI)
 
 Реализация OpenAI SDK предоставляет нативную поддержку для Microsoft Foundry (Azure OpenAI) с автоматической конфигурацией:
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.openai-sdk.microsoft-foundry           | Включить режим Microsoft Foundry. Автоопределяется, если базовый URL содержит `openai.azure.com`, `cognitiveservices.azure.com` или `.openai.microsoftFoundry.com`. |  false
-| spring.ai.openai-sdk.microsoft-deployment-name | Имя развертывания Microsoft Foundry. Если не указано, будет использоваться имя модели. Также доступно через псевдоним `deployment-name`. |  -
-| spring.ai.openai-sdk.microsoft-foundry-service-version | Версия API-сервиса Microsoft Foundry. |  -
-| spring.ai.openai-sdk.credential      | Объект учетных данных для аутентификации без пароля (требуется зависимость `com.azure:azure-identity`). |  -
+| spring.ai.openai-sdk.microsoft-foundry | Включить режим Microsoft Foundry. Автоопределяется, если базовый URL содержит `openai.azure.com`, `cognitiveservices.azure.com` или `.openai.microsoftFoundry.com`. | false |
+| --- | --- | --- |
+| spring.ai.openai-sdk.microsoft-deployment-name | Имя развертывания Microsoft Foundry. Если не указано, будет использоваться имя модели. Также доступно через псевдоним `deployment-name`. | - |
+| spring.ai.openai-sdk.microsoft-foundry-service-version | Версия API-сервиса Microsoft Foundry. | - |
+| spring.ai.openai-sdk.credential | Объект учетных данных для аутентификации без пароля (требуется зависимость `com.azure:azure-identity`). | - |
 
 > **Совет:** Microsoft Foundry поддерживает аутентификацию без пароля. Добавьте зависимость `com.azure:azure-identity`, и реализация автоматически попытается использовать учетные данные Azure из окружения, когда API-ключ не предоставлен.
 
@@ -157,10 +159,11 @@ dependencies {
 
 Доступна нативная поддержка моделей GitHub:
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.openai-sdk.github-models   | Включить режим моделей GitHub. Автоопределяется, если базовый URL содержит `models.github.ai` или `models.inference.ai.azure.com`. |  false
+| spring.ai.openai-sdk.github-models | Включить режим моделей GitHub. Автоопределяется, если базовый URL содержит `models.github.ai` или `models.inference.ai.azure.com`. | false |
+| --- | --- | --- |
 
 > **Совет:** Модели GitHub требуют токен доступа с областью `models:read`. Установите его через переменную окружения `OPENAI_API_KEY` или свойство `spring.ai.openai-sdk.api-key`.
 
@@ -168,37 +171,38 @@ dependencies {
 
 Префикс `spring.ai.openai-sdk.chat` является префиксом свойств для настройки реализации модели чата:
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.openai-sdk.chat.options.model | Имя модели чата OpenAI, которую следует использовать. Вы можете выбрать между моделями, такими как: `gpt-5-mini`, `gpt-4o`, `gpt-4o-mini`, `gpt-4-turbo`, `o1`, `o3-mini` и другими. Смотрите страницу https://platform.openai.com/docs/models[модели] для получения дополнительной информации. | `gpt-5-mini`
-| spring.ai.openai-sdk.chat.options.temperature | Температура выборки, которая контролирует очевидную креативность сгенерированных завершений. Более высокие значения сделают вывод более случайным, в то время как более низкие значения сделают результаты более сосредоточенными и детерминированными. Не рекомендуется изменять `temperature` и `top_p` для одного и того же запроса завершения, так как взаимодействие этих двух настроек трудно предсказать. | 1.0
-| spring.ai.openai-sdk.chat.options.frequency-penalty | Число от -2.0 до 2.0. Положительные значения штрафуют новые токены на основе их существующей частоты в тексте до сих пор, уменьшая вероятность повторения той же строки дословно. | 0.0
-| spring.ai.openai-sdk.chat.options.logit-bias | Измените вероятность появления указанных токенов в завершении. | -
-| spring.ai.openai-sdk.chat.options.logprobs | Указывает, следует ли возвращать логарифмические вероятности выходных токенов. | false
-| spring.ai.openai-sdk.chat.options.top-logprobs | Целое число от 0 до 5, указывающее количество наиболее вероятных токенов, которые следует вернуть на каждой позиции токена. Требует, чтобы `logprobs` было истинным. | -
-| spring.ai.openai-sdk.chat.options.max-tokens | Максимальное количество токенов для генерации. **Используйте для моделей без рассуждений** (например, gpt-4o, gpt-3.5-turbo). **Не может использоваться с моделями рассуждений** (например, o1, o3, o4-mini серии). **Взаимно исключается с maxCompletionTokens**. | -
-| spring.ai.openai-sdk.chat.options.max-completion-tokens | Верхний предел количества токенов, которые могут быть сгенерированы для завершения, включая видимые выходные токены и токены рассуждений. **Требуется для моделей рассуждений** (например, o1, o3, o4-mini серии). **Не может использоваться с моделями без рассуждений**. **Взаимно исключается с maxTokens**. | -
-| spring.ai.openai-sdk.chat.options.n | Сколько вариантов завершения чата сгенерировать для каждого входного сообщения. | 1
-| spring.ai.openai-sdk.chat.options.output-modalities | Список выходных модальностей. Может включать "text" и "audio". | -
-| spring.ai.openai-sdk.chat.options.output-audio | Параметры для аудиовыхода. Используйте `AudioParameters` с голосом (ALLOY, ASH, BALLAD, CORAL, ECHO, FABLE, ONYX, NOVA, SAGE, SHIMMER) и форматом (MP3, FLAC, OPUS, PCM16, WAV, AAC). | -
-| spring.ai.openai-sdk.chat.options.presence-penalty | Число от -2.0 до 2.0. Положительные значения штрафуют новые токены на основе того, появляются ли они в тексте до сих пор. | 0.0
-| spring.ai.openai-sdk.chat.options.response-format.type | Тип формата ответа: `TEXT`, `JSON_OBJECT` или `JSON_SCHEMA`. | TEXT
-| spring.ai.openai-sdk.chat.options.response-format.json-schema | JSON-схема для структурированных выходов, когда тип равен `JSON_SCHEMA`. | -
-| spring.ai.openai-sdk.chat.options.seed | Если указано, система постарается сделать выборку детерминированно для воспроизводимых результатов. | -
-| spring.ai.openai-sdk.chat.options.stop | До 4 последовательностей, при которых API прекратит генерировать дальнейшие токены. | -
-| spring.ai.openai-sdk.chat.options.top-p | Альтернатива выборке с температурой, называемая ядерной выборкой. | -
-| spring.ai.openai-sdk.chat.options.user | Уникальный идентификатор, представляющий вашего конечного пользователя, который может помочь OpenAI отслеживать и обнаруживать злоупотребления. | -
-| spring.ai.openai-sdk.chat.options.parallel-tool-calls | Указывает, следует ли включить параллельные вызовы функций во время использования инструментов. | true
-| spring.ai.openai-sdk.chat.options.reasoning-effort | Ограничивает усилия по рассуждению для моделей рассуждений: `low`, `medium` или `high`. | -
-| spring.ai.openai-sdk.chat.options.verbosity | Контролирует подробность ответа модели. | -
-| spring.ai.openai-sdk.chat.options.store | Указывает, следует ли сохранять вывод этого запроса на завершение чата для использования в дистилляции модели OpenAI или продуктах evals. | false
-| spring.ai.openai-sdk.chat.options.metadata | Теги и значения, определенные разработчиком, используемые для фильтрации завершений на панели управления. | -
-| spring.ai.openai-sdk.chat.options.service-tier | Указывает уровень задержки, который следует использовать: `auto`, `default`, `flex` или `priority`. | -
-| spring.ai.openai-sdk.chat.options.stream-options.include-usage | Указывает, следует ли включать статистику использования в потоковых ответах. | false
-| spring.ai.openai-sdk.chat.options.stream-options.include-obfuscation | Указывает, следует ли включать обфускацию в потоковых ответах. | false
-| spring.ai.openai-sdk.chat.options.tool-choice | Контролирует, какая (если есть) функция вызывается моделью. | -
-| spring.ai.openai-sdk.chat.options.internal-tool-execution-enabled | Если false, Spring AI будет проксировать вызовы инструментов клиенту для ручной обработки. Если true (по умолчанию), Spring AI обрабатывает вызовы функций внутренне. | true
+| spring.ai.openai-sdk.chat.options.model | Имя модели чата OpenAI, которую следует использовать. Вы можете выбрать между моделями, такими как: `gpt-5-mini`, `gpt-4o`, `gpt-4o-mini`, `gpt-4-turbo`, `o1`, `o3-mini` и другими. Смотрите страницу https://platform.openai.com/docs/models[модели] для получения дополнительной информации. | `gpt-5-mini` |
+| --- | --- | --- |
+| spring.ai.openai-sdk.chat.options.temperature | Температура выборки, которая контролирует очевидную креативность сгенерированных завершений. Более высокие значения сделают вывод более случайным, в то время как более низкие значения сделают результаты более сосредоточенными и детерминированными. Не рекомендуется изменять `temperature` и `top_p` для одного и того же запроса завершения, так как взаимодействие этих двух настроек трудно предсказать. | 1.0 |
+| spring.ai.openai-sdk.chat.options.frequency-penalty | Число от -2.0 до 2.0. Положительные значения штрафуют новые токены на основе их существующей частоты в тексте до сих пор, уменьшая вероятность повторения той же строки дословно. | 0.0 |
+| spring.ai.openai-sdk.chat.options.logit-bias | Измените вероятность появления указанных токенов в завершении. | - |
+| spring.ai.openai-sdk.chat.options.logprobs | Указывает, следует ли возвращать логарифмические вероятности выходных токенов. | false |
+| spring.ai.openai-sdk.chat.options.top-logprobs | Целое число от 0 до 5, указывающее количество наиболее вероятных токенов, которые следует вернуть на каждой позиции токена. Требует, чтобы `logprobs` было истинным. | - |
+| spring.ai.openai-sdk.chat.options.max-tokens | Максимальное количество токенов для генерации. **Используйте для моделей без рассуждений** (например, gpt-4o, gpt-3.5-turbo). **Не может использоваться с моделями рассуждений** (например, o1, o3, o4-mini серии). **Взаимно исключается с maxCompletionTokens**. | - |
+| spring.ai.openai-sdk.chat.options.max-completion-tokens | Верхний предел количества токенов, которые могут быть сгенерированы для завершения, включая видимые выходные токены и токены рассуждений. **Требуется для моделей рассуждений** (например, o1, o3, o4-mini серии). **Не может использоваться с моделями без рассуждений**. **Взаимно исключается с maxTokens**. | - |
+| spring.ai.openai-sdk.chat.options.n | Сколько вариантов завершения чата сгенерировать для каждого входного сообщения. | 1 |
+| spring.ai.openai-sdk.chat.options.output-modalities | Список выходных модальностей. Может включать "text" и "audio". | - |
+| spring.ai.openai-sdk.chat.options.output-audio | Параметры для аудиовыхода. Используйте `AudioParameters` с голосом (ALLOY, ASH, BALLAD, CORAL, ECHO, FABLE, ONYX, NOVA, SAGE, SHIMMER) и форматом (MP3, FLAC, OPUS, PCM16, WAV, AAC). | - |
+| spring.ai.openai-sdk.chat.options.presence-penalty | Число от -2.0 до 2.0. Положительные значения штрафуют новые токены на основе того, появляются ли они в тексте до сих пор. | 0.0 |
+| spring.ai.openai-sdk.chat.options.response-format.type | Тип формата ответа: `TEXT`, `JSON_OBJECT` или `JSON_SCHEMA`. | TEXT |
+| spring.ai.openai-sdk.chat.options.response-format.json-schema | JSON-схема для структурированных выходов, когда тип равен `JSON_SCHEMA`. | - |
+| spring.ai.openai-sdk.chat.options.seed | Если указано, система постарается сделать выборку детерминированно для воспроизводимых результатов. | - |
+| spring.ai.openai-sdk.chat.options.stop | До 4 последовательностей, при которых API прекратит генерировать дальнейшие токены. | - |
+| spring.ai.openai-sdk.chat.options.top-p | Альтернатива выборке с температурой, называемая ядерной выборкой. | - |
+| spring.ai.openai-sdk.chat.options.user | Уникальный идентификатор, представляющий вашего конечного пользователя, который может помочь OpenAI отслеживать и обнаруживать злоупотребления. | - |
+| spring.ai.openai-sdk.chat.options.parallel-tool-calls | Указывает, следует ли включить параллельные вызовы функций во время использования инструментов. | true |
+| spring.ai.openai-sdk.chat.options.reasoning-effort | Ограничивает усилия по рассуждению для моделей рассуждений: `low`, `medium` или `high`. | - |
+| spring.ai.openai-sdk.chat.options.verbosity | Контролирует подробность ответа модели. | - |
+| spring.ai.openai-sdk.chat.options.store | Указывает, следует ли сохранять вывод этого запроса на завершение чата для использования в дистилляции модели OpenAI или продуктах evals. | false |
+| spring.ai.openai-sdk.chat.options.metadata | Теги и значения, определенные разработчиком, используемые для фильтрации завершений на панели управления. | - |
+| spring.ai.openai-sdk.chat.options.service-tier | Указывает уровень задержки, который следует использовать: `auto`, `default`, `flex` или `priority`. | - |
+| spring.ai.openai-sdk.chat.options.stream-options.include-usage | Указывает, следует ли включать статистику использования в потоковых ответах. | false |
+| spring.ai.openai-sdk.chat.options.stream-options.include-obfuscation | Указывает, следует ли включать обфускацию в потоковых ответах. | false |
+| spring.ai.openai-sdk.chat.options.tool-choice | Контролирует, какая (если есть) функция вызывается моделью. | - |
+| spring.ai.openai-sdk.chat.options.internal-tool-execution-enabled | Если false, Spring AI будет проксировать вызовы инструментов клиенту для ручной обработки. Если true (по умолчанию), Spring AI обрабатывает вызовы функций внутренне. | true |
 
 [NOTE]
 ====
@@ -214,11 +218,12 @@ dependencies {
 
 OpenAI предоставляет два взаимно исключающих параметра для контроля ограничений на генерацию токенов:
 
-[cols="2,3,3", stripes=even]
-| Параметр | Случай использования | Совместимые модели
+| Параметр | Случай использования | Совместимые модели |
+| --- | --- | --- |
 
-| `maxTokens` | Модели без рассуждений | gpt-4o, gpt-4o-mini, gpt-4-turbo, gpt-3.5-turbo
-| `maxCompletionTokens` | Модели рассуждений | o1, o1-mini, o1-preview, o3, o4-mini серии
+| `maxTokens` | Модели без рассуждений | gpt-4o, gpt-4o-mini, gpt-4-turbo, gpt-3.5-turbo |
+| --- | --- | --- |
+| `maxCompletionTokens` | Модели рассуждений | o1, o1-mini, o1-preview, o3, o4-mini серии |
 
 > **Важно:** Эти параметры **взаимно исключают друг друга**. Установка обоих приведет к ошибке API от OpenAI.
 
@@ -248,7 +253,6 @@ ChatResponse response = chatModel.call(
     ));
 ```
 
-## Опции времени выполнения [[chat-options]]
 
 Класс https://github.com/spring-projects/spring-ai/blob/main/models/spring-ai-openai-sdk/src/main/java/org/springframework/ai/openaisdk/OpenAiSdkChatOptions.java[OpenAiSdkChatOptions.java] предоставляет конфигурации модели, такие как модель для использования, температура, штраф за частоту и т. д.
 
@@ -588,16 +592,17 @@ var chatModel = OpenAiSdkChatModel.builder()
 
 Эта реализация отличается от xref:api/chat/openai-chat.adoc[реализации Spring AI OpenAI] несколькими способами:
 
-[cols="2,3,3", stripes=even]
-| Аспект | Официальный OpenAI SDK | Существующий OpenAI
+| Аспект | Официальный OpenAI SDK | Существующий OpenAI |
+| --- | --- | --- |
 
-| **HTTP-клиент** | OkHttp (через официальный SDK) | Spring RestClient/WebClient
-| **Обновления API** | Автоматические через обновления SDK | Ручное обслуживание
-| **Поддержка Azure** | Нативная с аутентификацией без пароля | Ручное построение URL
-| **Модели GitHub** | Нативная поддержка | Не поддерживается
-| **Аудио/Модерация** | Пока не поддерживается | Полностью поддерживается
-| **Логика повторных попыток** | Управляется SDK (экспоненциальный откат) | Spring Retry (настраиваемый)
-| **Зависимости** | Официальный OpenAI SDK | Spring WebFlux
+| **HTTP-клиент** | OkHttp (через официальный SDK) | Spring RestClient/WebClient |
+| --- | --- | --- |
+| **Обновления API** | Автоматические через обновления SDK | Ручное обслуживание |
+| **Поддержка Azure** | Нативная с аутентификацией без пароля | Ручное построение URL |
+| **Модели GitHub** | Нативная поддержка | Не поддерживается |
+| **Аудио/Модерация** | Пока не поддерживается | Полностью поддерживается |
+| **Логика повторных попыток** | Управляется SDK (экспоненциальный откат) | Spring Retry (настраиваемый) |
+| **Зависимости** | Официальный OpenAI SDK | Spring WebFlux |
 
 **Когда использовать OpenAI SDK:**
 

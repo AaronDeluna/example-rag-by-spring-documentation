@@ -97,12 +97,12 @@ dependencies {
 
 Префикс `spring.ai.huggingface` — это префикс свойства, который позволяет вам настраивать реализацию модели чата для Hugging Face.
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
-| spring.ai.huggingface.chat.api-key    | Ключ API для аутентификации с конечной точкой Inference.  |  -
-| spring.ai.huggingface.chat.url        | URL конечной точки Inference для подключения           |  -
-| spring.ai.huggingface.chat.enabled (Удалено и больше не актуально)   | Включить модель чата Hugging Face.                       | true
-| spring.ai.model.chat                  | Включить модель чата Hugging Face.                       | huggingface
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
+| spring.ai.huggingface.chat.api-key | Ключ API для аутентификации с конечной точкой Inference. | - |
+| spring.ai.huggingface.chat.url | URL конечной точки Inference для подключения | - |
+| spring.ai.huggingface.chat.enabled (Удалено и больше не актуально) | Включить модель чата Hugging Face. | true |
+| spring.ai.model.chat | Включить модель чата Hugging Face. | huggingface |
 
 ## Пример контроллера (Автоконфигурация)
 

@@ -60,20 +60,21 @@ dependencies {
 
 ### Свойства чатаThe prefix `spring.ai.bedrock.aws` — это префикс свойств для настройки подключения к AWS Bedrock.
 
-[cols="3,3,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.bedrock.aws.region     | Регион AWS для использования  | us-east-1
-| spring.ai.bedrock.aws.timeout    | Максимальная продолжительность для всего API вызова | 5m
-| spring.ai.bedrock.aws.connectionTimeout | Максимальная продолжительность ожидания при установлении соединения | 5s
-| spring.ai.bedrock.aws.connectionAcquisitionTimeout | Максимальная продолжительность ожидания нового соединения из пула | 30s
-| spring.ai.bedrock.aws.asyncReadTimeout | Максимальная продолжительность чтения асинхронных ответов | 30s
-| spring.ai.bedrock.aws.access-key | Ключ доступа AWS  | -
-| spring.ai.bedrock.aws.secret-key | Секретный ключ AWS  | -
-| spring.ai.bedrock.aws.session-token | Токен сессии AWS для временных учетных данных | -
-| spring.ai.bedrock.aws.profile.name | Имя профиля AWS.  | -
-| spring.ai.bedrock.aws.profile.credentials-path | Путь к файлу учетных данных AWS.  | -
-| spring.ai.bedrock.aws.profile.configuration-path | Путь к файлу конфигурации AWS.  | -
+| spring.ai.bedrock.aws.region | Регион AWS для использования | us-east-1 |
+| --- | --- | --- |
+| spring.ai.bedrock.aws.timeout | Максимальная продолжительность для всего API вызова | 5m |
+| spring.ai.bedrock.aws.connectionTimeout | Максимальная продолжительность ожидания при установлении соединения | 5s |
+| spring.ai.bedrock.aws.connectionAcquisitionTimeout | Максимальная продолжительность ожидания нового соединения из пула | 30s |
+| spring.ai.bedrock.aws.asyncReadTimeout | Максимальная продолжительность чтения асинхронных ответов | 30s |
+| spring.ai.bedrock.aws.access-key | Ключ доступа AWS | - |
+| spring.ai.bedrock.aws.secret-key | Секретный ключ AWS | - |
+| spring.ai.bedrock.aws.session-token | Токен сессии AWS для временных учетных данных | - |
+| spring.ai.bedrock.aws.profile.name | Имя профиля AWS. | - |
+| spring.ai.bedrock.aws.profile.credentials-path | Путь к файлу учетных данных AWS. | - |
+| spring.ai.bedrock.aws.profile.configuration-path | Путь к файлу конфигурации AWS. | - |
 
 [NOTE]
 ====
@@ -88,18 +89,18 @@ dependencies {
 
 Префикс `spring.ai.bedrock.converse.chat` — это префикс свойств, который настраивает реализацию модели чата для API Converse.
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.bedrock.converse.chat.enabled (Удалено и больше не актуально) | Включить модель чата Bedrock Converse. | true
-| spring.ai.model.chat | Включить модель чата Bedrock Converse. | bedrock-converse
-| spring.ai.bedrock.converse.chat.options.model | Идентификатор модели для использования. Вы можете использовать https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference-supported-models-features.html[Поддерживаемые модели и функции моделей]  | Нет. Выберите ваш https://us-east-1.console.aws.amazon.com/bedrock/home?region=us-east-1#/models[modelId] из консоли AWS Bedrock.
-| spring.ai.bedrock.converse.chat.options.temperature | Управляет случайностью вывода. Значения могут варьироваться от [0.0,1.0] | 0.8
-| spring.ai.bedrock.converse.chat.options.top-p | Максимальная кумулятивная вероятность токенов для учета при выборке. | По умолчанию AWS Bedrock
-| spring.ai.bedrock.converse.chat.options.top-k | Количество вариантов токенов для генерации следующего токена. | По умолчанию AWS Bedrock
-| spring.ai.bedrock.converse.chat.options.max-tokens | Максимальное количество токенов в сгенерированном ответе. | 500
+| spring.ai.bedrock.converse.chat.enabled (Удалено и больше не актуально) | Включить модель чата Bedrock Converse. | true |
+| --- | --- | --- |
+| spring.ai.model.chat | Включить модель чата Bedrock Converse. | bedrock-converse |
+| spring.ai.bedrock.converse.chat.options.model | Идентификатор модели для использования. Вы можете использовать https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference-supported-models-features.html[Поддерживаемые модели и функции моделей] | Нет. Выберите ваш https://us-east-1.console.aws.amazon.com/bedrock/home?region=us-east-1#/models[modelId] из консоли AWS Bedrock. |
+| spring.ai.bedrock.converse.chat.options.temperature | Управляет случайностью вывода. Значения могут варьироваться от [0.0,1.0] | 0.8 |
+| spring.ai.bedrock.converse.chat.options.top-p | Максимальная кумулятивная вероятность токенов для учета при выборке. | По умолчанию AWS Bedrock |
+| spring.ai.bedrock.converse.chat.options.top-k | Количество вариантов токенов для генерации следующего токена. | По умолчанию AWS Bedrock |
+| spring.ai.bedrock.converse.chat.options.max-tokens | Максимальное количество токенов в сгенерированном ответе. | 500 |
 
-## Опции времени выполнения [[chat-options]]
 
 Используйте переносимые `ChatOptions` или `BedrockChatOptions` переносимые сборщики для создания конфигураций модели, таких как температура, maxToken, topP и т.д.
 
@@ -612,12 +613,13 @@ public class MultiTenantAIService {
 
 Изменения на каждом уровне делают недействительными этот уровень и все последующие уровни:
 
-[cols="1,1,1,1", stripes=even]
-| Что изменилось | Кэш инструментов | Кэш системы | Кэш сообщений
+| Что изменилось | Кэш инструментов | Кэш системы | Кэш сообщений |
+| --- | --- | --- | --- |
 
-| Инструменты | ❌ Недействителен | ❌ Недействителен | ❌ Недействителен
-| Система | ✅ Действителен | ❌ Недействителен | ❌ Недействителен
-| Сообщения | ✅ Действителен | ✅ Действителен | ❌ Недействителен
+| Инструменты | ❌ Недействителен | ❌ Недействителен | ❌ Недействителен |
+| --- | --- | --- | --- |
+| Система | ✅ Действителен | ❌ Недействителен | ❌ Недействителен |
+| Сообщения | ✅ Действителен | ✅ Действителен | ❌ Недействителен |
 
 **Пример с стратегией `SYSTEM_AND_TOOLS`**:
 

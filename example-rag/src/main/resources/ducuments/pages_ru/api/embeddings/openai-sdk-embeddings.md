@@ -126,28 +126,30 @@ dependencies {
 
 Префикс `spring.ai.openai-sdk` используется в качестве префикса свойств, который позволяет вам настроить клиент OpenAI SDK.
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.openai-sdk.base-url        | URL для подключения. Автоматически определяет из переменной окружения `OPENAI_BASE_URL`, если не задано. |  https://api.openai.com/v1
-| spring.ai.openai-sdk.api-key         | API-ключ. Автоматически определяет из переменной окружения `OPENAI_API_KEY`, если не задано. |  -
-| spring.ai.openai-sdk.organization-id | Опционально укажите, какую организацию использовать для API-запросов. |  -
-| spring.ai.openai-sdk.timeout         | Длительность таймаута запроса. |  -
-| spring.ai.openai-sdk.max-retries     | Максимальное количество попыток повторного запроса для неудачных запросов. |  -
-| spring.ai.openai-sdk.proxy           | Настройки прокси для клиента OpenAI (объект Java `Proxy`). |  -
-| spring.ai.openai-sdk.custom-headers  | Пользовательские HTTP-заголовки, которые следует включить в запросы. Карта имени заголовка к значению заголовка. |  -
+| spring.ai.openai-sdk.base-url | URL для подключения. Автоматически определяет из переменной окружения `OPENAI_BASE_URL`, если не задано. | https://api.openai.com/v1 |
+| --- | --- | --- |
+| spring.ai.openai-sdk.api-key | API-ключ. Автоматически определяет из переменной окружения `OPENAI_API_KEY`, если не задано. | - |
+| spring.ai.openai-sdk.organization-id | Опционально укажите, какую организацию использовать для API-запросов. | - |
+| spring.ai.openai-sdk.timeout | Длительность таймаута запроса. | - |
+| spring.ai.openai-sdk.max-retries | Максимальное количество попыток повторного запроса для неудачных запросов. | - |
+| spring.ai.openai-sdk.proxy | Настройки прокси для клиента OpenAI (объект Java `Proxy`). | - |
+| spring.ai.openai-sdk.custom-headers | Пользовательские HTTP-заголовки, которые следует включить в запросы. Карта имени заголовка к значению заголовка. | - |
 
 #### Свойства Microsoft Foundry
 
 Реализация OpenAI SDK предоставляет нативную поддержку Microsoft Foundry с автоматической конфигурацией:
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.openai-sdk.microsoft-foundry           | Включить режим Microsoft Foundry. Автоматически определяется, если базовый URL содержит `openai.azure.com`, `cognitiveservices.azure.com` или `.openai.microsoftFoundry.com`. |  false
-| spring.ai.openai-sdk.microsoft-deployment-name | Имя развертывания Microsoft Foundry. Если не указано, будет использоваться имя модели. Также доступно через псевдоним `deployment-name`. |  -
-| spring.ai.openai-sdk.microsoft-foundry-service-version | Версия API-сервиса Microsoft Foundry. |  -
-| spring.ai.openai-sdk.credential      | Объект учетных данных для аутентификации без пароля (требуется зависимость `com.azure:azure-identity`). |  -
+| spring.ai.openai-sdk.microsoft-foundry | Включить режим Microsoft Foundry. Автоматически определяется, если базовый URL содержит `openai.azure.com`, `cognitiveservices.azure.com` или `.openai.microsoftFoundry.com`. | false |
+| --- | --- | --- |
+| spring.ai.openai-sdk.microsoft-deployment-name | Имя развертывания Microsoft Foundry. Если не указано, будет использоваться имя модели. Также доступно через псевдоним `deployment-name`. | - |
+| spring.ai.openai-sdk.microsoft-foundry-service-version | Версия API-сервиса Microsoft Foundry. | - |
+| spring.ai.openai-sdk.credential | Объект учетных данных для аутентификации без пароля (требуется зависимость `com.azure:azure-identity`). | - |
 
 > **Совет:** Microsoft Foundry поддерживает аутентификацию без пароля. Добавьте зависимость `com.azure:azure-identity`, и реализация автоматически попытается использовать учетные данные Azure из окружения, когда API-ключ не предоставлен.
 
@@ -155,26 +157,27 @@ dependencies {
 
 Нативная поддержка моделей GitHub доступна:
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.openai-sdk.github-models   | Включить режим моделей GitHub. Автоматически определяется, если базовый URL содержит `models.github.ai` или `models.inference.ai.azure.com`. |  false
+| spring.ai.openai-sdk.github-models | Включить режим моделей GitHub. Автоматически определяется, если базовый URL содержит `models.github.ai` или `models.inference.ai.azure.com`. | false |
+| --- | --- | --- |
 
 > **Совет:** Модели GitHub требуют токен доступа с областью `models:read`. Установите его через переменную окружения `OPENAI_API_KEY` или свойство `spring.ai.openai-sdk.api-key`.
 
 #### Свойства модели встраиванияThe prefix `spring.ai.openai-sdk.embedding` — это префикс свойств для настройки реализации модели встраивания:
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.openai-sdk.embedding.metadata-mode      | Режим извлечения содержимого документа.      | EMBED
-| spring.ai.openai-sdk.embedding.options.model      | Модель для использования. Вы можете выбрать между моделями, такими как: `text-embedding-ada-002`, `text-embedding-3-small`, `text-embedding-3-large`. Дополнительную информацию смотрите на странице https://platform.openai.com/docs/models[модели]. | `text-embedding-ada-002`
-| spring.ai.openai-sdk.embedding.options.user   | Уникальный идентификатор, представляющий вашего конечного пользователя, который может помочь OpenAI отслеживать и выявлять злоупотребления.  | -
-| spring.ai.openai-sdk.embedding.options.dimensions   | Количество измерений, которые должны иметь результирующие встраивания. Поддерживается только в моделях `text-embedding-3` и более поздних.  | -
+| spring.ai.openai-sdk.embedding.metadata-mode | Режим извлечения содержимого документа. | EMBED |
+| --- | --- | --- |
+| spring.ai.openai-sdk.embedding.options.model | Модель для использования. Вы можете выбрать между моделями, такими как: `text-embedding-ada-002`, `text-embedding-3-small`, `text-embedding-3-large`. Дополнительную информацию смотрите на странице https://platform.openai.com/docs/models[модели]. | `text-embedding-ada-002` |
+| spring.ai.openai-sdk.embedding.options.user | Уникальный идентификатор, представляющий вашего конечного пользователя, который может помочь OpenAI отслеживать и выявлять злоупотребления. | - |
+| spring.ai.openai-sdk.embedding.options.dimensions | Количество измерений, которые должны иметь результирующие встраивания. Поддерживается только в моделях `text-embedding-3` и более поздних. | - |
 
 > **Совет:** Все свойства с префиксом `spring.ai.openai-sdk.embedding.options` могут быть переопределены во время выполнения, добавив специфические для запроса <<embedding-options>> в вызов `EmbeddingRequest`.
 
-## Опции во время выполнения [[embedding-options]]
 
 Файл https://github.com/spring-projects/spring-ai/blob/main/models/spring-ai-openai-sdk/src/main/java/org/springframework/ai/openaisdk/OpenAiSdkEmbeddingOptions.java[OpenAiSdkEmbeddingOptions.java] предоставляет конфигурации OpenAI, такие как модель для использования, размеры и идентификатор пользователя.
 

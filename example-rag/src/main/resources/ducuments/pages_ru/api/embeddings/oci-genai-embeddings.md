@@ -45,19 +45,20 @@ dependencies {
 
 Префикс `spring.ai.oci.genai` — это префикс свойств для настройки соединения с OCI GenAI.
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.oci.genai.authenticationType | Тип аутентификации, используемый при аутентификации в OCI. Может быть `file`, `instance-principal`, `workload-identity` или `simple`. | file
-| spring.ai.oci.genai.region | Регион службы OCI. | us-chicago-1
-| spring.ai.oci.genai.tenantId | OCID арендатора OCI, используемый при аутентификации с `simple` auth. | -
-| spring.ai.oci.genai.userId | OCID пользователя OCI, используемый при аутентификации с `simple` auth. | -
-| spring.ai.oci.genai.fingerprint | Отпечаток закрытого ключа, используемый при аутентификации с `simple` auth. | -
-| spring.ai.oci.genai.privateKey | Содержимое закрытого ключа, используемое при аутентификации с `simple` auth. | -
-| spring.ai.oci.genai.passPhrase | Необязательная фраза-пароль для закрытого ключа, используемая при аутентификации с `simple` auth и защищенным паролем закрытым ключом. | -
-| spring.ai.oci.genai.file | Путь к файлу конфигурации OCI. Используется при аутентификации с `file` auth. | <user's home directory>/.oci/config
-| spring.ai.oci.genai.profile | Имя профиля OCI. Используется при аутентификации с `file` auth. | DEFAULT
-| spring.ai.oci.genai.endpoint | Необязательный конечный пункт OCI GenAI. | -
+| spring.ai.oci.genai.authenticationType | Тип аутентификации, используемый при аутентификации в OCI. Может быть `file`, `instance-principal`, `workload-identity` или `simple`. | file |
+| --- | --- | --- |
+| spring.ai.oci.genai.region | Регион службы OCI. | us-chicago-1 |
+| spring.ai.oci.genai.tenantId | OCID арендатора OCI, используемый при аутентификации с `simple` auth. | - |
+| spring.ai.oci.genai.userId | OCID пользователя OCI, используемый при аутентификации с `simple` auth. | - |
+| spring.ai.oci.genai.fingerprint | Отпечаток закрытого ключа, используемый при аутентификации с `simple` auth. | - |
+| spring.ai.oci.genai.privateKey | Содержимое закрытого ключа, используемое при аутентификации с `simple` auth. | - |
+| spring.ai.oci.genai.passPhrase | Необязательная фраза-пароль для закрытого ключа, используемая при аутентификации с `simple` auth и защищенным паролем закрытым ключом. | - |
+| spring.ai.oci.genai.file | Путь к файлу конфигурации OCI. Используется при аутентификации с `file` auth. | <user's home directory>/.oci/config |
+| spring.ai.oci.genai.profile | Имя профиля OCI. Используется при аутентификации с `file` auth. | DEFAULT |
+| spring.ai.oci.genai.endpoint | Необязательный конечный пункт OCI GenAI. | - |
 
 
 [NOTE]
@@ -73,19 +74,19 @@ dependencies {
 
 Префикс `spring.ai.oci.genai.embedding` — это префикс свойств, который настраивает реализацию `EmbeddingModel` для OCI GenAI.
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.oci.genai.embedding.enabled (Удалено и больше не актуально) | Включить модель встраивания OCI GenAI. | true
-| spring.ai.model.embedding | Включить модель встраивания OCI GenAI. | oci-genai
-| spring.ai.oci.genai.embedding.compartment | OCID модели. | -
-| spring.ai.oci.genai.embedding.servingMode | Режим обслуживания модели, который будет использоваться. Может быть `on-demand` или `dedicated`. | on-demand
-| spring.ai.oci.genai.embedding.truncate | Как обрезать текст, если он превышает контекст встраивания. Может быть `START` или `END`. | END
-| spring.ai.oci.genai.embedding.model | Модель или конечная точка модели, используемая для встраиваний. | -
+| spring.ai.oci.genai.embedding.enabled (Удалено и больше не актуально) | Включить модель встраивания OCI GenAI. | true |
+| --- | --- | --- |
+| spring.ai.model.embedding | Включить модель встраивания OCI GenAI. | oci-genai |
+| spring.ai.oci.genai.embedding.compartment | OCID модели. | - |
+| spring.ai.oci.genai.embedding.servingMode | Режим обслуживания модели, который будет использоваться. Может быть `on-demand` или `dedicated`. | on-demand |
+| spring.ai.oci.genai.embedding.truncate | Как обрезать текст, если он превышает контекст встраивания. Может быть `START` или `END`. | END |
+| spring.ai.oci.genai.embedding.model | Модель или конечная точка модели, используемая для встраиваний. | - |
 
 > **Совет:** Все свойства с префиксом `spring.ai.oci.genai.embedding.options` могут быть переопределены во время выполнения, добавив специфичные для запроса <<embedding-options>> в вызов `EmbeddingRequest`.
 
-## Параметры времени выполнения [[embedding-options]]
 
 `OCIEmbeddingOptions` предоставляет информацию о конфигурации для запросов встраивания.
 `OCIEmbeddingOptions` предлагает строителя для создания параметров.

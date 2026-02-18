@@ -204,10 +204,8 @@ MilvusSearchRequest request = MilvusSearchRequest.milvusBuilder()
 
 Использование `nativeExpression` обеспечивает продвинутую фильтрацию, в то время как `searchParamsJson` предотвращает неэффективные поиски, вызванные низким значением по умолчанию для `nprobe`.
 
-[[milvus-properties]]
 ## Свойства Milvus VectorStoreВы можете использовать следующие свойства в конфигурации Spring Boot для настройки хранилища векторов Milvus.
 
-[cols="4,5,1",stripes=even]
 | Свойство | Описание | Значение по умолчанию |
 | --- | --- | --- |
 | spring.ai.vectorstore.milvus.database-name | Имя базы данных Milvus, которую нужно использовать. | default |
@@ -238,7 +236,7 @@ MilvusSearchRequest request = MilvusSearchRequest.milvusBuilder()
 | spring.ai.vectorstore.milvus.client.secure | Обеспечивает авторизацию для этого соединения, установите в True для включения TLS. | false |
 | spring.ai.vectorstore.milvus.client.idle-timeout-ms | Значение таймаута простоя клиентского канала. Значение таймаута должно быть больше нуля. | 24h |
 | spring.ai.vectorstore.milvus.client.username | Имя пользователя и пароль для этого соединения. | root |
-| spring.ai.vectorstore.milvus.client.password | Пароль для этого соединения. | milvus |## Запуск Milvus Store
+| spring.ai.vectorstore.milvus.client.password | Пароль для этого соединения. | milvus | ## Запуск Milvus Store |
 
 Из папки `src/test/resources/` выполните:
 

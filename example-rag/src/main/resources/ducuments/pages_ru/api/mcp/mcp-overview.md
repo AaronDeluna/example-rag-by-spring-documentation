@@ -43,8 +43,10 @@ Java-реализация MCP следует трехуровневой архи
 
 | link:https://modelcontextprotocol.io/sdk/java/mcp-client[MCP Client] |
 | --- |
+| --- |
 
 | link:https://modelcontextprotocol.io/sdk/java/mcp-server[MCP Server] |
+| --- |
 | --- |
 
 Для получения подробных рекомендаций по реализации с использованием низкоуровневых API MCP Client/Server обратитесь к [документации MCP Java SDK](https://modelcontextprotocol.io/sdk/java/mcp-overview). Для упрощенной настройки с использованием Spring Boot используйте описанные ниже MCP Boot Starters.

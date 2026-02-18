@@ -72,7 +72,6 @@ vectorStore.add(documents);
 List<Document> results = vectorStore.similaritySearch(SearchRequest.builder().query("Spring").topK(5).build());
 ```
 
-[[mongodbvector-properties]]
 ### Параметры конфигурацииЧтобы подключиться к MongoDB Atlas и использовать `MongoDBAtlasVectorStore`, вам необходимо предоставить данные доступа к вашему экземпляру. Простую конфигурацию можно задать через `application.yml` Spring Boot:
 
 ```yaml
@@ -93,7 +92,6 @@ spring:
 
 Свойства, начинающиеся с `spring.ai.vectorstore.mongodb.*`, используются для настройки `MongoDBAtlasVectorStore`:
 
-[cols="2,5,1",stripes=even]
 | Свойство | Описание | Значение по умолчанию |
 | --- | --- | --- |
 | `spring.ai.vectorstore.mongodb.initialize-schema` | Нужно ли инициализировать требуемую схему | `false` |

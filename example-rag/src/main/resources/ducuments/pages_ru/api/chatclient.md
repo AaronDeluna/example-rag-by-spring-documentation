@@ -1,5 +1,4 @@
 ```markdown
-[[ChatClient]]
 # API клиента чата
 
 `ChatClient` предлагает удобный API для общения с AI моделью.

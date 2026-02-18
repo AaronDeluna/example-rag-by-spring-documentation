@@ -77,13 +77,14 @@ dependencies {
 Свойства подключения общие для модуля Google GenAI Chat. Если вы используете как чат, так и эмбеддинги, вам нужно настроить подключение только один раз, используя либо префикс `spring.ai.google.genai` (для чата), либо префикс `spring.ai.google.genai.embedding` (для эмбеддингов).
 ====
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.google.genai.embedding.api-key   | API-ключ для Gemini Developer API. Если он предоставлен, клиент использует Gemini Developer API вместо Vertex AI. |  -
-| spring.ai.google.genai.embedding.project-id   | Идентификатор проекта Google Cloud Platform (обязателен для режима Vertex AI) |  -
-| spring.ai.google.genai.embedding.location   | Регион Google Cloud (обязателен для режима Vertex AI) |  -
-| spring.ai.google.genai.embedding.credentials-uri   | URI для учетных данных Google Cloud. Если он предоставлен, используется для создания экземпляра `GoogleCredentials` для аутентификации. |  -
+| spring.ai.google.genai.embedding.api-key | API-ключ для Gemini Developer API. Если он предоставлен, клиент использует Gemini Developer API вместо Vertex AI. | - |
+| --- | --- | --- |
+| spring.ai.google.genai.embedding.project-id | Идентификатор проекта Google Cloud Platform (обязателен для режима Vertex AI) | - |
+| spring.ai.google.genai.embedding.location | Регион Google Cloud (обязателен для режима Vertex AI) | - |
+| spring.ai.google.genai.embedding.credentials-uri | URI для учетных данных Google Cloud. Если он предоставлен, используется для создания экземпляра `GoogleCredentials` для аутентификации. | - |
 
 
 [NOTE]
@@ -101,15 +102,16 @@ dependencies {
 
 Префикс `spring.ai.google.genai.embedding.text` — это префикс свойств, который позволяет вам настраивать реализацию модели эмбеддингов для Google GenAI Text Embedding.
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.model.embedding.text | Включить модель Google GenAI Embedding API. | google-genai
-| spring.ai.google.genai.embedding.text.options.model | Модель [Google GenAI Text Embedding](https://ai.google.dev/gemini-api/docs/models/gemini#text-embedding), которую следует использовать. Поддерживаемые модели включают `text-embedding-004` и `text-multilingual-embedding-002` | text-embedding-004
-| spring.ai.google.genai.embedding.text.options.task-type | Предполагаемое приложение, чтобы помочь модели производить более качественные эмбеддинги. Доступные [task-types](https://ai.google.dev/api/embeddings#tasktype): `RETRIEVAL_QUERY`, `RETRIEVAL_DOCUMENT`, `SEMANTIC_SIMILARITY`, `CLASSIFICATION`, `CLUSTERING`, `QUESTION_ANSWERING`, `FACT_VERIFICATION`  | `RETRIEVAL_DOCUMENT`
-| spring.ai.google.genai.embedding.text.options.title | Необязательный заголовок, действителен только при task_type=RETRIEVAL_DOCUMENT.  | -
-| spring.ai.google.genai.embedding.text.options.dimensions | Количество измерений, которые должны иметь результирующие выходные эмбеддинги. Поддерживается для версии модели 004 и выше. Вы можете использовать этот параметр для уменьшения размера эмбеддинга, например, для оптимизации хранения.  | -
-| spring.ai.google.genai.embedding.text.options.auto-truncate | Если установлено в true, входной текст будет обрезан. Если установлено в false, будет возвращена ошибка, если входной текст длиннее максимальной длины, поддерживаемой моделью.  | true
+| spring.ai.model.embedding.text | Включить модель Google GenAI Embedding API. | google-genai |
+| --- | --- | --- |
+| spring.ai.google.genai.embedding.text.options.model | Модель [Google GenAI Text Embedding](https://ai.google.dev/gemini-api/docs/models/gemini#text-embedding), которую следует использовать. Поддерживаемые модели включают `text-embedding-004` и `text-multilingual-embedding-002` | text-embedding-004 |
+| spring.ai.google.genai.embedding.text.options.task-type | Предполагаемое приложение, чтобы помочь модели производить более качественные эмбеддинги. Доступные [task-types](https://ai.google.dev/api/embeddings#tasktype): `RETRIEVAL_QUERY`, `RETRIEVAL_DOCUMENT`, `SEMANTIC_SIMILARITY`, `CLASSIFICATION`, `CLUSTERING`, `QUESTION_ANSWERING`, `FACT_VERIFICATION` | `RETRIEVAL_DOCUMENT` |
+| spring.ai.google.genai.embedding.text.options.title | Необязательный заголовок, действителен только при task_type=RETRIEVAL_DOCUMENT. | - |
+| spring.ai.google.genai.embedding.text.options.dimensions | Количество измерений, которые должны иметь результирующие выходные эмбеддинги. Поддерживается для версии модели 004 и выше. Вы можете использовать этот параметр для уменьшения размера эмбеддинга, например, для оптимизации хранения. | - |
+| spring.ai.google.genai.embedding.text.options.auto-truncate | Если установлено в true, входной текст будет обрезан. Если установлено в false, будет возвращена ошибка, если входной текст длиннее максимальной длины, поддерживаемой моделью. | true |
 
 ## Пример контроллера
 

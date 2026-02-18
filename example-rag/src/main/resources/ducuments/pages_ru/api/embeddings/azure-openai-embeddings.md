@@ -123,12 +123,13 @@ dependencies {
 
 Префикс `spring.ai.azure.openai` — это префикс свойства для настройки подключения к Azure OpenAI.
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.azure.openai.api-key |  Ключ из раздела Azure AI OpenAI `Keys and Endpoint` в `Resource Management`  | -
-| spring.ai.azure.openai.endpoint | Конечная точка из раздела Azure AI OpenAI `Keys and Endpoint` в `Resource Management` | -
-| spring.ai.azure.openai.openai-api-key | (не Azure) Ключ API OpenAI. Используется для аутентификации с сервисом OpenAI, вместо Azure OpenAI. Это автоматически устанавливает конечную точку на https://api.openai.com/v1. Используйте либо свойство `api-key`, либо `openai-api-key`. С этой конфигурацией свойство `spring.ai.azure.openai.embedding.options.deployment-name` рассматривается как имя https://platform.openai.com/docs/models[модели OpenAi]. | -
+| spring.ai.azure.openai.api-key | Ключ из раздела Azure AI OpenAI `Keys and Endpoint` в `Resource Management` | - |
+| --- | --- | --- |
+| spring.ai.azure.openai.endpoint | Конечная точка из раздела Azure AI OpenAI `Keys and Endpoint` в `Resource Management` | - |
+| spring.ai.azure.openai.openai-api-key | (не Azure) Ключ API OpenAI. Используется для аутентификации с сервисом OpenAI, вместо Azure OpenAI. Это автоматически устанавливает конечную точку на https://api.openai.com/v1. Используйте либо свойство `api-key`, либо `openai-api-key`. С этой конфигурацией свойство `spring.ai.azure.openai.embedding.options.deployment-name` рассматривается как имя https://platform.openai.com/docs/models[модели OpenAi]. | - |
 
 [NOTE]
 ====
@@ -143,18 +144,18 @@ dependencies {
 
 Префикс `spring.ai.azure.openai.embedding` — это префикс свойства, который настраивает реализацию `EmbeddingModel` для Azure OpenAI.
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.azure.openai.embedding.enabled (Удалено и больше не актуально) | Включить модель встраивания Azure OpenAI.  | true
-| spring.ai.model.embedding | Включить модель встраивания Azure OpenAI.  | azure-openai
-| spring.ai.azure.openai.embedding.metadata-mode | Режим извлечения содержимого документа    | EMBED
-| spring.ai.azure.openai.embedding.options.deployment-name | Это значение 'Deployment Name', как представлено в портале Azure AI | text-embedding-ada-002
-| spring.ai.azure.openai.embedding.options.user | Идентификатор для вызывающего или конечного пользователя операции. Это может быть использовано для отслеживания или ограничения частоты. | -
+| spring.ai.azure.openai.embedding.enabled (Удалено и больше не актуально) | Включить модель встраивания Azure OpenAI. | true |
+| --- | --- | --- |
+| spring.ai.model.embedding | Включить модель встраивания Azure OpenAI. | azure-openai |
+| spring.ai.azure.openai.embedding.metadata-mode | Режим извлечения содержимого документа | EMBED |
+| spring.ai.azure.openai.embedding.options.deployment-name | Это значение 'Deployment Name', как представлено в портале Azure AI | text-embedding-ada-002 |
+| spring.ai.azure.openai.embedding.options.user | Идентификатор для вызывающего или конечного пользователя операции. Это может быть использовано для отслеживания или ограничения частоты. | - |
 
 > **Совет:** Все свойства с префиксом `spring.ai.azure.openai.embedding.options` могут быть переопределены во время выполнения, добавив специфичные для запроса <<embedding-options>> в вызов `EmbeddingRequest`.
 
-## Параметры времени выполнения [[embedding-options]]
 
 `AzureOpenAiEmbeddingOptions` предоставляет информацию о конфигурации для запросов встраивания. `AzureOpenAiEmbeddingOptions` предлагает строителя для создания параметров.
 

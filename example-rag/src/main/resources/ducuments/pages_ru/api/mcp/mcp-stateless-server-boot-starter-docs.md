@@ -77,7 +77,6 @@ spring.ai.mcp.server.protocol=STATELESS
 
 Свойства аннотаций сервера mcp-annotations начинаются с `spring.ai.mcp.server.annotation-scanner`:
 
-[cols="3,4,3"]
 | Property | Description | Default Value |
 | --- | --- | --- |
 | `enabled` |  |  |

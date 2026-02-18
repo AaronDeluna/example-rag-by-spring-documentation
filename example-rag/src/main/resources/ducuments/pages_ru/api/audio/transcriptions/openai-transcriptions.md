@@ -38,12 +38,12 @@ dependencies {
 
 Префикс `spring.ai.openai` используется в качестве префикса свойства, который позволяет вам подключаться к OpenAI.
 
-[cols="3,5,1"]
-| Property | Description | Default
-| spring.ai.openai.base-url   | URL для подключения |  https://api.openai.com
-| spring.ai.openai.api-key    | API-ключ           |  -
-| spring.ai.openai.organization-id | Опционально вы можете указать, какая организация используется для API-запроса. |  -
-| spring.ai.openai.project-id      | Опционально вы можете указать, какой проект используется для API-запроса. |  -
+| Property | Description | Default |
+| --- | --- | --- |
+| spring.ai.openai.base-url | URL для подключения | https://api.openai.com |
+| spring.ai.openai.api-key | API-ключ | - |
+| spring.ai.openai.organization-id | Опционально вы можете указать, какая организация используется для API-запроса. | - |
+| spring.ai.openai.project-id | Опционально вы можете указать, какой проект используется для API-запроса. | - |
 
 > **Совет:** Для пользователей, которые принадлежат нескольким организациям (или получают доступ к своим проектам через свой устаревший пользовательский API-ключ), вы можете опционально указать, какая организация и проект используются для API-запроса. Использование этих API-запросов будет учитываться как использование для указанной организации и проекта.
 
@@ -62,21 +62,22 @@ dependencies {
 
 Префикс `spring.ai.openai.audio.transcription` используется в качестве префикса свойства, который позволяет вам настраивать механизм повторных попыток для модели транскрипции OpenAI.
 
-[cols="3,5,2"]
-| Property | Description | Default
+| Property | Description | Default |
+| --- | --- | --- |
 
-| spring.ai.model.audio.transcription   | Включить модель транскрипции аудио OpenAI |  openai
-| spring.ai.openai.audio.transcription.base-url   | URL для подключения |  https://api.openai.com
-| spring.ai.openai.audio.transcription.api-key    | API-ключ           |  -
-| spring.ai.openai.audio.transcription.organization-id | Опционально вы можете указать, какая организация используется для API-запроса. |  -
-| spring.ai.openai.audio.transcription.project-id      | Опционально вы можете указать, какой проект используется для API-запроса. |  -
-| spring.ai.openai.audio.transcription.transcription-path | Путь к конечной точке API для транскрипции аудио. Полезно для совместимых с OpenAI API с различными структурами конечных точек. | /v1/audio/transcriptions
-| spring.ai.openai.audio.transcription.options.model  | ID модели, используемой для транскрипции. Доступные модели: `gpt-4o-transcribe` (преобразование речи в текст на основе GPT-4o), `gpt-4o-mini-transcribe` (преобразование речи в текст на основе GPT-4o mini) или `whisper-1` (модель распознавания речи общего назначения, по умолчанию). |  whisper-1
-| spring.ai.openai.audio.transcription.options.response-format | Формат выходного транскрипта, один из следующих вариантов: json, text, srt, verbose_json или vtt. |  json
+| spring.ai.model.audio.transcription | Включить модель транскрипции аудио OpenAI | openai |
+| --- | --- | --- |
+| spring.ai.openai.audio.transcription.base-url | URL для подключения | https://api.openai.com |
+| spring.ai.openai.audio.transcription.api-key | API-ключ | - |
+| spring.ai.openai.audio.transcription.organization-id | Опционально вы можете указать, какая организация используется для API-запроса. | - |
+| spring.ai.openai.audio.transcription.project-id | Опционально вы можете указать, какой проект используется для API-запроса. | - |
+| spring.ai.openai.audio.transcription.transcription-path | Путь к конечной точке API для транскрипции аудио. Полезно для совместимых с OpenAI API с различными структурами конечных точек. | /v1/audio/transcriptions |
+| spring.ai.openai.audio.transcription.options.model | ID модели, используемой для транскрипции. Доступные модели: `gpt-4o-transcribe` (преобразование речи в текст на основе GPT-4o), `gpt-4o-mini-transcribe` (преобразование речи в текст на основе GPT-4o mini) или `whisper-1` (модель распознавания речи общего назначения, по умолчанию). | whisper-1 |
+| spring.ai.openai.audio.transcription.options.response-format | Формат выходного транскрипта, один из следующих вариантов: json, text, srt, verbose_json или vtt. | json |
 | spring.ai.openai.audio.transcription.options.prompt | Необязательный текст для управления стилем модели или продолжения предыдущего аудиосегмента. Подсказка должна соответствовать языку аудио. |
 | spring.ai.openai.audio.transcription.options.language | Язык входного аудио. Указание входного языка в формате ISO-639-1 улучшит точность и задержку. |
-| spring.ai.openai.audio.transcription.options.temperature | Температура выборки, от 0 до 1. Более высокие значения, такие как 0.8, сделают вывод более случайным, в то время как более низкие значения, такие как 0.2, сделают его более сосредоточенным и детерминированным. Если установить 0, модель будет использовать логарифмическую вероятность для автоматического увеличения температуры до достижения определенных порогов. | 0
-| spring.ai.openai.audio.transcription.options.timestamp_granularities | Гранулярности временных меток, которые необходимо заполнить для этой транскрипции. response_format должен быть установлен в verbose_json, чтобы использовать гранулярности временных меток. Поддерживаются одна или обе из этих опций: word или segment. Примечание: дополнительной задержки для временных меток сегментов нет, но генерация временных меток слов требует дополнительной задержки. | segment
+| spring.ai.openai.audio.transcription.options.temperature | Температура выборки, от 0 до 1. Более высокие значения, такие как 0.8, сделают вывод более случайным, в то время как более низкие значения, такие как 0.2, сделают его более сосредоточенным и детерминированным. Если установить 0, модель будет использовать логарифмическую вероятность для автоматического увеличения температуры до достижения определенных порогов. | 0 |
+| spring.ai.openai.audio.transcription.options.timestamp_granularities | Гранулярности временных меток, которые необходимо заполнить для этой транскрипции. response_format должен быть установлен в verbose_json, чтобы использовать гранулярности временных меток. Поддерживаются одна или обе из этих опций: word или segment. Примечание: дополнительной задержки для временных меток сегментов нет, но генерация временных меток слов требует дополнительной задержки. | segment |
 
 > **Примечание:** Вы можете переопределить общие свойства `spring.ai.openai.base-url`, `spring.ai.openai.api-key`, `spring.ai.openai.organization-id` и `spring.ai.openai.project-id`. Свойства `spring.ai.openai.audio.transcription.base-url`, `spring.ai.openai.audio.transcription.api-key`, `spring.ai.openai.audio.transcription.organization-id` и `spring.ai.openai.audio.transcription.project-id`, если они установлены, имеют приоритет над общими свойствами. Это полезно, если вы хотите использовать разные учетные записи OpenAI для разных моделей и разных конечных точек моделей.
 
@@ -97,7 +98,6 @@ spring.ai.openai.audio.transcription.transcription-path=/custom/path/to/transcri
 - Тестирование против макетных конечных точек с пользовательскими путями
 - Развертывание в средах с требованиями к маршрутизации на основе путей
 
-## Runtime Options [[transcription-options]]
 
 Класс `OpenAiAudioTranscriptionOptions` предоставляет параметры, которые можно использовать при выполнении транскрипции. При запуске используются параметры, указанные в `spring.ai.openai.audio.transcription`, но вы можете переопределить их во время выполнения.
 

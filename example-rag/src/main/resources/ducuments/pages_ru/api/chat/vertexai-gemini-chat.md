@@ -69,40 +69,41 @@ dependencies {
 
 Префикс `spring.ai.vertex.ai.gemini` используется в качестве префикса свойств, который позволяет вам подключаться к VertexAI.
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.model.chat   | Включить клиент модели чата |  vertexai
-| spring.ai.vertex.ai.gemini.project-id   | Идентификатор проекта Google Cloud Platform |  -
-| spring.ai.vertex.ai.gemini.location    | Регион           |  -
-| spring.ai.vertex.ai.gemini.credentials-uri    | URI для учетных данных Vertex AI Gemini. При предоставлении он используется для создания экземпляра `GoogleCredentials` для аутентификации `VertexAI`. |  -
-| spring.ai.vertex.ai.gemini.api-endpoint | Конечная точка API Vertex AI Gemini. |  -
-| spring.ai.vertex.ai.gemini.scopes |  |  -
-| spring.ai.vertex.ai.gemini.transport | Транспорт API. GRPC или REST. |  GRPC
+| spring.ai.model.chat | Включить клиент модели чата | vertexai |
+| --- | --- | --- |
+| spring.ai.vertex.ai.gemini.project-id | Идентификатор проекта Google Cloud Platform | - |
+| spring.ai.vertex.ai.gemini.location | Регион | - |
+| spring.ai.vertex.ai.gemini.credentials-uri | URI для учетных данных Vertex AI Gemini. При предоставлении он используется для создания экземпляра `GoogleCredentials` для аутентификации `VertexAI`. | - |
+| spring.ai.vertex.ai.gemini.api-endpoint | Конечная точка API Vertex AI Gemini. | - |
+| spring.ai.vertex.ai.gemini.scopes |  | - |
+| spring.ai.vertex.ai.gemini.transport | Транспорт API. GRPC или REST. | GRPC |
 
 Префикс `spring.ai.vertex.ai.gemini.chat` — это префикс свойств, который позволяет вам настраивать реализацию модели чата для VertexAI Gemini Chat.
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.vertex.ai.gemini.chat.options.model | Поддерживаемые [модели чата Vertex AI Gemini](https://cloud.google.com/vertex-ai/generative-ai/docs/models#gemini-models) для использования включают `gemini-2.0-flash`, `gemini-2.0-flash-lite` и новые модели `gemini-2.5-pro-preview-03-25`, `gemini-2.5-flash-preview-04-17`. | gemini-2.0-flash
-| spring.ai.vertex.ai.gemini.chat.options.response-mime-type | MIME-тип выходного ответа сгенерированного текстового кандидата. |  `text/plain`: (по умолчанию) Текстовый вывод или `application/json`: JSON-ответ.
-| spring.ai.vertex.ai.gemini.chat.options.response-schema | Строка, содержащая схему выходного ответа в формате OpenAPI, как описано в https://ai.google.dev/gemini-api/docs/structured-output#json-schemas. |  -
-| spring.ai.vertex.ai.gemini.chat.options.google-search-retrieval | Использовать функцию Grounding Google Search | `true` или `false`, по умолчанию `false`.
-| spring.ai.vertex.ai.gemini.chat.options.temperature | Управляет случайностью вывода. Значения могут варьироваться от [0.0,1.0], включая. Значение, близкое к 1.0, будет производить более разнообразные ответы, в то время как значение, близкое к 0.0, обычно приведет к менее неожиданным ответам от генеративной модели. Это значение указывает значение по умолчанию, которое будет использоваться сервером при вызове генеративной модели. | -
-| spring.ai.vertex.ai.gemini.chat.options.top-k | Максимальное количество токенов, которые следует учитывать при выборке. Генеративная модель использует комбинированную выборку Top-k и nucleus. Выборка Top-k учитывает набор наиболее вероятных токенов topK. | -
-| spring.ai.vertex.ai.gemini.chat.options.top-p | Максимальная кумулятивная вероятность токенов, которые следует учитывать при выборке. Генеративная модель использует комбинированную выборку Top-k и nucleus. Выборка nucleus учитывает наименьший набор токенов, сумма вероятностей которых составляет не менее topP.  | -
-| spring.ai.vertex.ai.gemini.chat.options.candidate-count | Количество сгенерированных ответных сообщений для возврата. Это значение должно быть в диапазоне [1, 8], включая. По умолчанию 1. | 1
-| spring.ai.vertex.ai.gemini.chat.options.max-output-tokens | Максимальное количество токенов для генерации. | -
-| spring.ai.vertex.ai.gemini.chat.options.tool-names | Список инструментов, идентифицированных по их именам, которые следует включить для вызова функций в одном запросе. Инструменты с этими именами должны существовать в реестре ToolCallback. | -
-| spring.ai.vertex.ai.gemini.chat.options.tool-callbacks | Обратные вызовы инструментов для регистрации с ChatModel. | -
-| spring.ai.vertex.ai.gemini.chat.options.internal-tool-execution-enabled | Если true, выполнение инструмента должно быть выполнено, в противном случае ответ от модели возвращается пользователю. По умолчанию null, но если это null, будет учитываться `ToolCallingChatOptions.DEFAULT_TOOL_EXECUTION_ENABLED`, который равен true | -
-| spring.ai.vertex.ai.gemini.chat.options.safety-settings | Список настроек безопасности для управления фильтрами безопасности, как определено в [Фильтры безопасности Vertex AI](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/configure-safety-filters). Каждая настройка безопасности может иметь метод, порог и категорию. | -
+| spring.ai.vertex.ai.gemini.chat.options.model | Поддерживаемые [модели чата Vertex AI Gemini](https://cloud.google.com/vertex-ai/generative-ai/docs/models#gemini-models) для использования включают `gemini-2.0-flash`, `gemini-2.0-flash-lite` и новые модели `gemini-2.5-pro-preview-03-25`, `gemini-2.5-flash-preview-04-17`. | gemini-2.0-flash |
+| --- | --- | --- |
+| spring.ai.vertex.ai.gemini.chat.options.response-mime-type | MIME-тип выходного ответа сгенерированного текстового кандидата. | `text/plain`: (по умолчанию) Текстовый вывод или `application/json`: JSON-ответ. |
+| spring.ai.vertex.ai.gemini.chat.options.response-schema | Строка, содержащая схему выходного ответа в формате OpenAPI, как описано в https://ai.google.dev/gemini-api/docs/structured-output#json-schemas. | - |
+| spring.ai.vertex.ai.gemini.chat.options.google-search-retrieval | Использовать функцию Grounding Google Search | `true` или `false`, по умолчанию `false`. |
+| spring.ai.vertex.ai.gemini.chat.options.temperature | Управляет случайностью вывода. Значения могут варьироваться от [0.0,1.0], включая. Значение, близкое к 1.0, будет производить более разнообразные ответы, в то время как значение, близкое к 0.0, обычно приведет к менее неожиданным ответам от генеративной модели. Это значение указывает значение по умолчанию, которое будет использоваться сервером при вызове генеративной модели. | - |
+| spring.ai.vertex.ai.gemini.chat.options.top-k | Максимальное количество токенов, которые следует учитывать при выборке. Генеративная модель использует комбинированную выборку Top-k и nucleus. Выборка Top-k учитывает набор наиболее вероятных токенов topK. | - |
+| spring.ai.vertex.ai.gemini.chat.options.top-p | Максимальная кумулятивная вероятность токенов, которые следует учитывать при выборке. Генеративная модель использует комбинированную выборку Top-k и nucleus. Выборка nucleus учитывает наименьший набор токенов, сумма вероятностей которых составляет не менее topP. | - |
+| spring.ai.vertex.ai.gemini.chat.options.candidate-count | Количество сгенерированных ответных сообщений для возврата. Это значение должно быть в диапазоне [1, 8], включая. По умолчанию 1. | 1 |
+| spring.ai.vertex.ai.gemini.chat.options.max-output-tokens | Максимальное количество токенов для генерации. | - |
+| spring.ai.vertex.ai.gemini.chat.options.tool-names | Список инструментов, идентифицированных по их именам, которые следует включить для вызова функций в одном запросе. Инструменты с этими именами должны существовать в реестре ToolCallback. | - |
+| spring.ai.vertex.ai.gemini.chat.options.tool-callbacks | Обратные вызовы инструментов для регистрации с ChatModel. | - |
+| spring.ai.vertex.ai.gemini.chat.options.internal-tool-execution-enabled | Если true, выполнение инструмента должно быть выполнено, в противном случае ответ от модели возвращается пользователю. По умолчанию null, но если это null, будет учитываться `ToolCallingChatOptions.DEFAULT_TOOL_EXECUTION_ENABLED`, который равен true | - |
+| spring.ai.vertex.ai.gemini.chat.options.safety-settings | Список настроек безопасности для управления фильтрами безопасности, как определено в [Фильтры безопасности Vertex AI](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/configure-safety-filters). Каждая настройка безопасности может иметь метод, порог и категорию. | - |
 
 
 > **Совет:** Все свойства с префиксом `spring.ai.vertex.ai.gemini.chat.options` могут быть переопределены во время выполнения, добавив специфичные для запроса <<chat-options>> в вызов `Prompt`.
 
-## Опции времени выполнения [[chat-options]]
 
 [VertexAiGeminiChatOptions.java](https://github.com/spring-projects/spring-ai/blob/main/models/spring-ai-vertex-ai-gemini/src/main/java/org/springframework/ai/vertexai/gemini/VertexAiGeminiChatOptions.java) предоставляет конфигурации модели, такие как температура, topK и т. д.
 
@@ -368,7 +369,6 @@ ChatResponse response = this.chatModel.call(
 `VertexAiGeminiChatOptions` предоставляет информацию о конфигурации для запросов чата. 
 `VertexAiGeminiChatOptions.Builder` — это удобный строитель опций.
 
-## Низкоуровневый Java-клиент [[low-level-api]]
 
 Следующая диаграмма классов иллюстрирует нативный Java API Vertex AI Gemini:
 

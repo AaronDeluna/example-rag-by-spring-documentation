@@ -52,18 +52,19 @@ dependencies {
 
 Префикс `spring.ai.openai.audio.transcription` используется как префикс свойства, который позволяет вам настроить механизм повторных попыток для модели изображения OpenAI.
 
-[cols="3,5,2"]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.azure.openai.audio.transcription.enabled (Удалено и больше не действительно)  | Включить модель транскрипции Azure OpenAI. | true
-| spring.ai.model.audio.transcription  | Включить модель транскрипции Azure OpenAI. | azure-openai
-| spring.ai.azure.openai.audio.transcription.options.model  | ID модели, которую следует использовать. В настоящее время доступна только whisper. | whisper
-| spring.ai.azure.openai.audio.transcription.options.deployment-name  | Имя развертывания, под которым модель развернута. |
-| spring.ai.azure.openai.audio.transcription.options.response-format | Формат выходной транскрипции, один из следующих вариантов: json, text, srt, verbose_json или vtt. | json
+| spring.ai.azure.openai.audio.transcription.enabled (Удалено и больше не действительно) | Включить модель транскрипции Azure OpenAI. | true |
+| --- | --- | --- |
+| spring.ai.model.audio.transcription | Включить модель транскрипции Azure OpenAI. | azure-openai |
+| spring.ai.azure.openai.audio.transcription.options.model | ID модели, которую следует использовать. В настоящее время доступна только whisper. | whisper |
+| spring.ai.azure.openai.audio.transcription.options.deployment-name | Имя развертывания, под которым модель развернута. |
+| spring.ai.azure.openai.audio.transcription.options.response-format | Формат выходной транскрипции, один из следующих вариантов: json, text, srt, verbose_json или vtt. | json |
 | spring.ai.azure.openai.audio.transcription.options.prompt | Необязательный текст для управления стилем модели или продолжения предыдущего аудиосегмента. Подсказка должна соответствовать языку аудио. |
 | spring.ai.azure.openai.audio.transcription.options.language | Язык входного аудио. Указание входного языка в формате ISO-639-1 улучшит точность и задержку. |
-| spring.ai.azure.openai.audio.transcription.options.temperature | Температура выборки, от 0 до 1. Более высокие значения, такие как 0.8, сделают вывод более случайным, в то время как более низкие значения, такие как 0.2, сделают его более сосредоточенным и детерминированным. Если установлено в 0, модель будет использовать логарифмическую вероятность для автоматического увеличения температуры до достижения определенных порогов. | 0
-| spring.ai.azure.openai.audio.transcription.options.timestamp-granularities | Гранулярности временных меток, которые необходимо заполнить для этой транскрипции. response_format должен быть установлен в verbose_json, чтобы использовать гранулярности временных меток. Поддерживаются одна или обе из этих опций: word или segment. Примечание: дополнительной задержки для временных меток сегментов нет, но генерация временных меток слов требует дополнительной задержки. | segment
+| spring.ai.azure.openai.audio.transcription.options.temperature | Температура выборки, от 0 до 1. Более высокие значения, такие как 0.8, сделают вывод более случайным, в то время как более низкие значения, такие как 0.2, сделают его более сосредоточенным и детерминированным. Если установлено в 0, модель будет использовать логарифмическую вероятность для автоматического увеличения температуры до достижения определенных порогов. | 0 |
+| spring.ai.azure.openai.audio.transcription.options.timestamp-granularities | Гранулярности временных меток, которые необходимо заполнить для этой транскрипции. response_format должен быть установлен в verbose_json, чтобы использовать гранулярности временных меток. Поддерживаются одна или обе из этих опций: word или segment. Примечание: дополнительной задержки для временных меток сегментов нет, но генерация временных меток слов требует дополнительной задержки. | segment |
 
 ## Опции выполнения
 

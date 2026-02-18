@@ -1,5 +1,4 @@
 ```markdown
-[[Speech]]
 # API синтеза речи (TTS)
 
 Spring AI предоставляет унифицированный API для синтеза речи (TTS) через интерфейсы `TextToSpeechModel` и `StreamingTextToSpeechModel`. Это позволяет вам писать переносимый код, который работает с различными поставщиками TTS.

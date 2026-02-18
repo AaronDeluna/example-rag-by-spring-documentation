@@ -92,7 +92,6 @@ spring:
 
 Свойства, начинающиеся с `spring.ai.vectorstore.opensearch.*`, используются для настройки `OpenSearchVectorStore`:
 
-[cols="2,5,1",stripes=even]
 | Свойство | Описание | Значение по умолчанию |
 | --- | --- | --- |
 | `spring.ai.vectorstore.opensearch.uris` | URIs конечных точек кластера OpenSearch | - |

@@ -43,7 +43,6 @@ MCP Client Boot Starter предоставляет:
 
 Общие свойства начинаются с префикса `spring.ai.mcp.client`:
 
-[cols="3,4,3"]
 | Свойство | Описание | Значение по умолчанию |
 | --- | --- | --- |
 | `enabled` |  |  |
@@ -75,7 +74,6 @@ MCP Client Boot Starter предоставляет:
 
 Аннотации клиента MCP предоставляют декларативный способ реализации обработчиков клиентов MCP с использованием аннотаций Java. Свойства аннотаций клиента mcp-annotations начинаются с префикса `spring.ai.mcp.client.annotation-scanner`:
 
-[cols="3,4,3"]
 | Свойство | Описание | Значение по умолчанию |
 | --- | --- | --- |
 | `enabled` |  |  |
@@ -84,7 +82,6 @@ MCP Client Boot Starter предоставляет:
 
 ### Свойства транспорта StdioProperties для стандартного I/O транспорта имеют префикс `spring.ai.mcp.client.stdio`:
 
-[cols="3,4,3"]
 | Свойство | Описание | Значение по умолчанию |
 | --- | --- | --- |
 | `servers-configuration` |  |  |
@@ -276,7 +273,6 @@ private static boolean isWindows() {
 
 Свойства для транспорта Streamable-HTTP начинаются с префикса `spring.ai.mcp.client.streamable-http`:
 
-[cols="3,4,3"]
 | Свойство | Описание | Значение по умолчанию |
 | --- | --- | --- |
 | `connections` |  |  |
@@ -306,7 +302,6 @@ spring:
 
 ### Свойства транспорта SSEProperties для транспорта Server-Sent Events (SSE) начинаются с префикса `spring.ai.mcp.client.sse`:
 
-[cols="3,4,3"]
 | Свойство | Описание | Значение по умолчанию |
 | --- | --- | --- |
 | `connections` |  |  |
@@ -348,7 +343,6 @@ spring:
 
 Когда у вас есть полный URL SSE, разделите его на базовый URL и путь конечной точки:
 
-[cols="2,2"]
 | Полный URL | Конфигурация |
 | --- | --- |
 | `\http://localhost:3000/mcp-hub/sse/token123` |  |
@@ -370,7 +364,6 @@ spring:
 
 Свойства для транспорта Streamable Http начинаются с префикса `spring.ai.mcp.client.streamable-http`:
 
-[cols="3,4,3"]
 | Свойство | Описание | Значение по умолчанию |
 | --- | --- | --- |
 | `connections` |  |  |

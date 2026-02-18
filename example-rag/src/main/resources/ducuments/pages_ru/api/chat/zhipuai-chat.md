@@ -81,27 +81,30 @@ dependencies {
 
 Префикс `spring.ai.retry` используется как префикс свойства, который позволяет вам настроить механизм повторной попытки для модели чата ZhiPu AI.
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.retry.max-attempts   | Максимальное количество попыток повторной попытки. |  10
-| spring.ai.retry.backoff.initial-interval | Начальная продолжительность ожидания для политики экспоненциального отката. |  2 сек.
-| spring.ai.retry.backoff.multiplier | Множитель интервала отката. |  5
-| spring.ai.retry.backoff.max-interval | Максимальная продолжительность отката. |  3 мин.
-| spring.ai.retry.on-client-errors | Если false, выбросить NonTransientAiException и не пытаться повторить для кодов ошибок клиента `4xx` | false
-| spring.ai.retry.exclude-on-http-codes | Список кодов состояния HTTP, которые не должны вызывать повторную попытку (например, для выброса NonTransientAiException). | пусто
-| spring.ai.retry.on-http-codes | Список кодов состояния HTTP, которые должны вызывать повторную попытку (например, для выброса TransientAiException). | пусто
+| spring.ai.retry.max-attempts | Максимальное количество попыток повторной попытки. | 10 |
+| --- | --- | --- |
+| spring.ai.retry.backoff.initial-interval | Начальная продолжительность ожидания для политики экспоненциального отката. | 2 сек. |
+| spring.ai.retry.backoff.multiplier | Множитель интервала отката. | 5 |
+| spring.ai.retry.backoff.max-interval | Максимальная продолжительность отката. | 3 мин. |
+| spring.ai.retry.on-client-errors | Если false, выбросить NonTransientAiException и не пытаться повторить для кодов ошибок клиента `4xx` | false |
+| spring.ai.retry.exclude-on-http-codes | Список кодов состояния HTTP, которые не должны вызывать повторную попытку (например, для выброса NonTransientAiException). | пусто |
+| spring.ai.retry.on-http-codes | Список кодов состояния HTTP, которые должны вызывать повторную попытку (например, для выброса TransientAiException). | пусто |
 
 #### Свойства подключения
 
 Префикс `spring.ai.zhipuai` используется как префикс свойства, который позволяет вам подключиться к ZhiPuAI.
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.zhipuai.base-url   | URL для подключения к API ZhiPuAI. +
+| spring.ai.zhipuai.base-url | URL для подключения к API ZhiPuAI. + |
+| --- | --- |
 Если вы используете платформу Z.ai, вам нужно установить его на `https://api.z.ai/api/paas[https://api.z.ai/api/paas]`. |  `https://open.bigmodel.cn/api/paas[https://open.bigmodel.cn/api/paas]`
-| spring.ai.zhipuai.api-key    | API ключ           |  -
+| spring.ai.zhipuai.api-key | API ключ | - |
+| --- | --- | --- |
 
 #### Свойства конфигурации
 
@@ -118,26 +121,27 @@ dependencies {
 
 Префикс `spring.ai.zhipuai.chat` — это префикс свойства, который позволяет вам настроить реализацию модели чата для ZhiPuAI.
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.zhipuai.chat.enabled (Удалено и больше не действительно) | Включить модель чата ZhiPuAI.  | true
-| spring.ai.model.chat | Включить модель чата ZhiPuAI.  | zhipuai
-| spring.ai.zhipuai.chat.base-url | Необязательный переопределяет spring.ai.zhipuai.base-url для предоставления специфического URL для чата. Если вы используете платформу Z.ai, вам нужно установить его на `https://api.z.ai/api/paas[https://api.z.ai/api/paas]`. | `https://open.bigmodel.cn/api/paas[https://open.bigmodel.cn/api/paas]`
-| spring.ai.zhipuai.chat.api-key | Необязательный переопределяет spring.ai.zhipuai.api-key для предоставления специфического для чата api-key. |  -
-| spring.ai.zhipuai.chat.options.model | Это модель чата ZhiPuAI, которую следует использовать. Вы можете выбрать между моделями, такими как: `glm-4.6`, `glm-4.5`, `glm-4-air` и другими. | `glm-4-air`
-| spring.ai.zhipuai.chat.options.maxTokens | Максимальное количество токенов, которые нужно сгенерировать в завершении чата. Общая длина входных токенов и сгенерированных токенов ограничена длиной контекста модели. | -
-| spring.ai.zhipuai.chat.options.temperature | Какую температуру выборки использовать, от 0 до 1. Более высокие значения, такие как 0.8, сделают вывод более случайным, в то время как более низкие значения, такие как 0.2, сделают его более сосредоточенным и детерминированным. Мы обычно рекомендуем изменять это или top_p, но не оба. | -
-| spring.ai.zhipuai.chat.options.topP | Альтернатива выборке с температурой, называемая выборкой по ядру, где модель учитывает результаты токенов с вероятностью top_p. Таким образом, 0.1 означает, что учитываются только токены, составляющие верхние 10% вероятностной массы. Мы обычно рекомендуем изменять это или температуру, но не оба. | 1.0
-| spring.ai.zhipuai.chat.options.stop | Модель прекратит генерировать символы, указанные в stop, и в настоящее время поддерживает только одно стоп-слово в формате ["stop_word1"] | -
-| spring.ai.zhipuai.chat.options.user | Уникальный идентификатор, представляющий вашего конечного пользователя, который может помочь ZhiPuAI отслеживать и обнаруживать злоупотребления. | -
-| spring.ai.zhipuai.chat.options.requestId | Параметр передается клиентом и должен обеспечивать уникальность. Он используется для различения уникального идентификатора для каждого запроса. Если клиент не предоставляет его, платформа сгенерирует его по умолчанию. | -
-| spring.ai.zhipuai.chat.options.doSample | Когда do_sample установлено в true, стратегия выборки включена. Если do_sample равно false, параметры стратегии выборки температура и top_p не будут действовать. | true
-| spring.ai.zhipuai.chat.options.response-format.type | Управляет форматом вывода модели. Установите на `json_object`, чтобы гарантировать, что сообщение является допустимым объектом JSON. Доступные варианты: `text` или `json_object`. | -
-| spring.ai.zhipuai.chat.options.thinking.type | Управляет тем, включать ли цепочку размышлений большой модели. Доступные варианты: `enabled` или `disabled`. | -
-| spring.ai.zhipuai.chat.options.tool-names | Список инструментов, идентифицированных по их именам, которые следует включить для вызова функций в одном запросе. Инструменты с этими именами должны существовать в реестре ToolCallback. | -
-| spring.ai.zhipuai.chat.options.tool-callbacks | Обратные вызовы инструментов для регистрации с ChatModel. | -
-| spring.ai.zhipuai.chat.options.internal-tool-execution-enabled | Если false, Spring AI не будет обрабатывать вызовы инструментов внутренне, а будет проксировать их клиенту. Тогда клиент несет ответственность за обработку вызовов инструментов, их распределение на соответствующую функцию и возврат результатов. Если true (по умолчанию), Spring AI будет обрабатывать вызовы функций внутренне. Применимо только для моделей чата с поддержкой вызова функций | true
+| spring.ai.zhipuai.chat.enabled (Удалено и больше не действительно) | Включить модель чата ZhiPuAI. | true |
+| --- | --- | --- |
+| spring.ai.model.chat | Включить модель чата ZhiPuAI. | zhipuai |
+| spring.ai.zhipuai.chat.base-url | Необязательный переопределяет spring.ai.zhipuai.base-url для предоставления специфического URL для чата. Если вы используете платформу Z.ai, вам нужно установить его на `https://api.z.ai/api/paas[https://api.z.ai/api/paas]`. | `https://open.bigmodel.cn/api/paas[https://open.bigmodel.cn/api/paas]` |
+| spring.ai.zhipuai.chat.api-key | Необязательный переопределяет spring.ai.zhipuai.api-key для предоставления специфического для чата api-key. | - |
+| spring.ai.zhipuai.chat.options.model | Это модель чата ZhiPuAI, которую следует использовать. Вы можете выбрать между моделями, такими как: `glm-4.6`, `glm-4.5`, `glm-4-air` и другими. | `glm-4-air` |
+| spring.ai.zhipuai.chat.options.maxTokens | Максимальное количество токенов, которые нужно сгенерировать в завершении чата. Общая длина входных токенов и сгенерированных токенов ограничена длиной контекста модели. | - |
+| spring.ai.zhipuai.chat.options.temperature | Какую температуру выборки использовать, от 0 до 1. Более высокие значения, такие как 0.8, сделают вывод более случайным, в то время как более низкие значения, такие как 0.2, сделают его более сосредоточенным и детерминированным. Мы обычно рекомендуем изменять это или top_p, но не оба. | - |
+| spring.ai.zhipuai.chat.options.topP | Альтернатива выборке с температурой, называемая выборкой по ядру, где модель учитывает результаты токенов с вероятностью top_p. Таким образом, 0.1 означает, что учитываются только токены, составляющие верхние 10% вероятностной массы. Мы обычно рекомендуем изменять это или температуру, но не оба. | 1.0 |
+| spring.ai.zhipuai.chat.options.stop | Модель прекратит генерировать символы, указанные в stop, и в настоящее время поддерживает только одно стоп-слово в формате ["stop_word1"] | - |
+| spring.ai.zhipuai.chat.options.user | Уникальный идентификатор, представляющий вашего конечного пользователя, который может помочь ZhiPuAI отслеживать и обнаруживать злоупотребления. | - |
+| spring.ai.zhipuai.chat.options.requestId | Параметр передается клиентом и должен обеспечивать уникальность. Он используется для различения уникального идентификатора для каждого запроса. Если клиент не предоставляет его, платформа сгенерирует его по умолчанию. | - |
+| spring.ai.zhipuai.chat.options.doSample | Когда do_sample установлено в true, стратегия выборки включена. Если do_sample равно false, параметры стратегии выборки температура и top_p не будут действовать. | true |
+| spring.ai.zhipuai.chat.options.response-format.type | Управляет форматом вывода модели. Установите на `json_object`, чтобы гарантировать, что сообщение является допустимым объектом JSON. Доступные варианты: `text` или `json_object`. | - |
+| spring.ai.zhipuai.chat.options.thinking.type | Управляет тем, включать ли цепочку размышлений большой модели. Доступные варианты: `enabled` или `disabled`. | - |
+| spring.ai.zhipuai.chat.options.tool-names | Список инструментов, идентифицированных по их именам, которые следует включить для вызова функций в одном запросе. Инструменты с этими именами должны существовать в реестре ToolCallback. | - |
+| spring.ai.zhipuai.chat.options.tool-callbacks | Обратные вызовы инструментов для регистрации с ChatModel. | - |
+| spring.ai.zhipuai.chat.options.internal-tool-execution-enabled | Если false, Spring AI не будет обрабатывать вызовы инструментов внутренне, а будет проксировать их клиенту. Тогда клиент несет ответственность за обработку вызовов инструментов, их распределение на соответствующую функцию и возврат результатов. Если true (по умолчанию), Spring AI будет обрабатывать вызовы функций внутренне. Применимо только для моделей чата с поддержкой вызова функций | true |
 
 > **Примечание:** Вы можете переопределить общие `spring.ai.zhipuai.base-url` и `spring.ai.zhipuai.api-key` для реализаций `ChatModel`.
 Свойства `spring.ai.zhipuai.chat.base-url` и `spring.ai.zhipuai.chat.api-key`, если установлены, имеют приоритет над общими свойствами.
@@ -145,7 +149,6 @@ dependencies {
 
 > **Совет:** Все свойства с префиксом `spring.ai.zhipuai.chat.options` могут быть переопределены во время выполнения, добавив специфичные для запроса <<chat-options>> в вызов `Prompt`.
 
-## Опции времени выполнения [[chat-options]]
 
 [ZhiPuAiChatOptions.java](https://github.com/spring-projects/spring-ai/blob/main/models/spring-ai-zhipuai/src/main/java/org/springframework/ai/zhipuai/ZhiPuAiChatOptions.java) предоставляет конфигурации модели, такие как модель для использования, температура, штраф за частоту и т. д.
 
@@ -253,7 +256,6 @@ Flux<ChatResponse> streamResponse = this.chatModel.stream(
 `ZhiPuAiChatOptions` предоставляет информацию о конфигурации для запросов чата.
 `ZhiPuAiChatOptions.Builder` — это удобный строитель параметров.
 
-### Низкоуровневый клиент ZhiPuAiApi [[низкоуровневый-api]]
 
 [ZhiPuAiApi](https://github.com/spring-projects/spring-ai/blob/main/models/spring-ai-zhipuai/src/main/java/org/springframework/ai/zhipuai/api/ZhiPuAiApi.java) предоставляет легковесный Java-клиент для [ZhiPu AI API](https://open.bigmodel.cn/dev/api).
 

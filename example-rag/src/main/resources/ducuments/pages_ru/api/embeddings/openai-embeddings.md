@@ -76,26 +76,28 @@ dependencies {
 
 Префикс `spring.ai.retry` используется как префикс свойства, который позволяет вам настроить механизм повторных попыток для модели эмбеддингов OpenAI.
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.retry.max-attempts   | Максимальное количество попыток повторного запроса. |  10
-| spring.ai.retry.backoff.initial-interval | Начальная продолжительность ожидания для политики экспоненциального увеличения. |  2 сек.
-| spring.ai.retry.backoff.multiplier | Множитель интервала ожидания. |  5
-| spring.ai.retry.backoff.max-interval | Максимальная продолжительность ожидания. |  3 мин.
-| spring.ai.retry.on-client-errors | Если false, выбросить NonTransientAiException и не пытаться повторить запрос для кодов ошибок клиента `4xx` | false
-| spring.ai.retry.exclude-on-http-codes | Список кодов состояния HTTP, которые не должны вызывать повторный запрос (например, для выброса NonTransientAiException). | пусто
-| spring.ai.retry.on-http-codes | Список кодов состояния HTTP, которые должны вызывать повторный запрос (например, для выброса TransientAiException). | пусто
+| spring.ai.retry.max-attempts | Максимальное количество попыток повторного запроса. | 10 |
+| --- | --- | --- |
+| spring.ai.retry.backoff.initial-interval | Начальная продолжительность ожидания для политики экспоненциального увеличения. | 2 сек. |
+| spring.ai.retry.backoff.multiplier | Множитель интервала ожидания. | 5 |
+| spring.ai.retry.backoff.max-interval | Максимальная продолжительность ожидания. | 3 мин. |
+| spring.ai.retry.on-client-errors | Если false, выбросить NonTransientAiException и не пытаться повторить запрос для кодов ошибок клиента `4xx` | false |
+| spring.ai.retry.exclude-on-http-codes | Список кодов состояния HTTP, которые не должны вызывать повторный запрос (например, для выброса NonTransientAiException). | пусто |
+| spring.ai.retry.on-http-codes | Список кодов состояния HTTP, которые должны вызывать повторный запрос (например, для выброса TransientAiException). | пусто |
 
 #### Свойства подключенияThe prefix `spring.ai.openai` используется как префикс свойств, который позволяет вам подключаться к OpenAI.
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.openai.base-url   | URL для подключения |  +https://api.openai.com+
-| spring.ai.openai.api-key    | API-ключ           |  -
-| spring.ai.openai.organization-id | При желании вы можете указать, какая организация используется для API-запроса. |  -
-| spring.ai.openai.project-id      | При желании вы можете указать, какой проект используется для API-запроса. |  -
+| spring.ai.openai.base-url | URL для подключения | +https://api.openai.com+ |
+| --- | --- | --- |
+| spring.ai.openai.api-key | API-ключ | - |
+| spring.ai.openai.organization-id | При желании вы можете указать, какая организация используется для API-запроса. | - |
+| spring.ai.openai.project-id | При желании вы можете указать, какой проект используется для API-запроса. | - |
 
 > **Совет:** Для пользователей, которые принадлежат нескольким организациям (или получают доступ к своим проектам через свой устаревший API-ключ пользователя), при желании вы можете указать, какая организация и проект используются для API-запроса. Использование этих API-запросов будет учитываться как использование для указанной организации и проекта.
 
@@ -114,27 +116,27 @@ dependencies {
 
 Префикс `spring.ai.openai.embedding` — это префикс свойств, который настраивает реализацию `EmbeddingModel` для OpenAI.
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.openai.embedding.enabled (Обязательно и больше не действительно) | Включить модель встраивания OpenAI.  | true
-| spring.ai.model.embedding | Включить модель встраивания OpenAI.  | openai
-| spring.ai.openai.embedding.base-url   | Необязательно переопределяет spring.ai.openai.base-url для предоставления специфического URL для встраивания | -
-| spring.ai.openai.embedding.embeddings-path   | Путь, который нужно добавить к базовому URL  |  `/v1/embeddings`
-| spring.ai.openai.embedding.api-key    | Необязательно переопределяет spring.ai.openai.api-key для предоставления специфического API-ключа для встраивания  | -
-| spring.ai.openai.embedding.organization-id | При желании вы можете указать, какая организация используется для API-запроса. |  -
-| spring.ai.openai.embedding.project-id      | При желании вы можете указать, какой проект используется для API-запроса. |  -
-| spring.ai.openai.embedding.metadata-mode      | Режим извлечения содержимого документа.      | EMBED
-| spring.ai.openai.embedding.options.model      | Модель для использования      | text-embedding-ada-002 (другие варианты: text-embedding-3-large, text-embedding-3-small)
-| spring.ai.openai.embedding.options.encodingFormat   | Формат, в котором будут возвращены встраивания. Может быть либо float, либо base64.  | -
-| spring.ai.openai.embedding.options.user   | Уникальный идентификатор, представляющий вашего конечного пользователя, который может помочь OpenAI отслеживать и выявлять злоупотребления.  | -
-| spring.ai.openai.embedding.options.dimensions   | Количество измерений, которые должны иметь результирующие выходные встраивания. Поддерживается только в моделях `text-embedding-3` и более поздних.  | -
+| spring.ai.openai.embedding.enabled (Обязательно и больше не действительно) | Включить модель встраивания OpenAI. | true |
+| --- | --- | --- |
+| spring.ai.model.embedding | Включить модель встраивания OpenAI. | openai |
+| spring.ai.openai.embedding.base-url | Необязательно переопределяет spring.ai.openai.base-url для предоставления специфического URL для встраивания | - |
+| spring.ai.openai.embedding.embeddings-path | Путь, который нужно добавить к базовому URL | `/v1/embeddings` |
+| spring.ai.openai.embedding.api-key | Необязательно переопределяет spring.ai.openai.api-key для предоставления специфического API-ключа для встраивания | - |
+| spring.ai.openai.embedding.organization-id | При желании вы можете указать, какая организация используется для API-запроса. | - |
+| spring.ai.openai.embedding.project-id | При желании вы можете указать, какой проект используется для API-запроса. | - |
+| spring.ai.openai.embedding.metadata-mode | Режим извлечения содержимого документа. | EMBED |
+| spring.ai.openai.embedding.options.model | Модель для использования | text-embedding-ada-002 (другие варианты: text-embedding-3-large, text-embedding-3-small) |
+| spring.ai.openai.embedding.options.encodingFormat | Формат, в котором будут возвращены встраивания. Может быть либо float, либо base64. | - |
+| spring.ai.openai.embedding.options.user | Уникальный идентификатор, представляющий вашего конечного пользователя, который может помочь OpenAI отслеживать и выявлять злоупотребления. | - |
+| spring.ai.openai.embedding.options.dimensions | Количество измерений, которые должны иметь результирующие выходные встраивания. Поддерживается только в моделях `text-embedding-3` и более поздних. | - |
 
 > **Примечание:** Вы можете переопределить общие `spring.ai.openai.base-url` и `spring.ai.openai.api-key` для реализаций `ChatModel` и `EmbeddingModel`. Свойства `spring.ai.openai.embedding.base-url` и `spring.ai.openai.embedding.api-key`, если они установлены, имеют приоритет над общими свойствами. Аналогично, свойства `spring.ai.openai.chat.base-url` и `spring.ai.openai.chat.api-key`, если они установлены, имеют приоритет над общими свойствами. Это полезно, если вы хотите использовать разные учетные записи OpenAI для разных моделей и различных конечных точек моделей.
 
 > **Совет:** Все свойства с префиксом `spring.ai.openai.embedding.options` могут быть переопределены во время выполнения, добавив специфические для запроса <<embedding-options>> в вызов `EmbeddingRequest`.
 
-## Параметры времени выполнения [[embedding-options]]The https://github.com/spring-projects/spring-ai/blob/main/models/spring-ai-openai/src/main/java/org/springframework/ai/openai/OpenAiEmbeddingOptions.java[OpenAiEmbeddingOptions.java] предоставляет конфигурации OpenAI, такие как используемая модель и т.д.
 
 Настройки по умолчанию также можно настроить с помощью свойств `spring.ai.openai.embedding.options`.
 

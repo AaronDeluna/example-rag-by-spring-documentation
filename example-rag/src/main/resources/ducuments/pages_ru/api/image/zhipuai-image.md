@@ -88,22 +88,22 @@ dependencies {
 
 Префикс `spring.ai.zhipuai.image` — это префикс свойства, который позволяет вам настроить реализацию `ImageModel` для ZhiPuAI.
 
-[cols="3,5,1"]
-| Свойство | Описание | По умолчанию
-| spring.ai.zhipuai.image.enabled (Удалено и больше не актуально)       | Включить модель изображения ZhiPuAI.  | true
-| spring.ai.model.image       | Включить модель изображения ZhiPuAI.  | zhipuai
-| spring.ai.zhipuai.image.base-url       | Необязательный параметр, переопределяющий spring.ai.zhipuai.base-url для предоставления специфического URL для чата |  -
-| spring.ai.zhipuai.image.api-key        | Необязательный параметр, переопределяющий spring.ai.zhipuai.api-key для предоставления специфического API ключа для чата |  -
-| spring.ai.zhipuai.image.options.model  | Модель, используемая для генерации изображений.  | cogview-3
-| spring.ai.zhipuai.image.options.user   | Уникальный идентификатор, представляющий вашего конечного пользователя, который может помочь ZhiPuAI отслеживать и обнаруживать злоупотребления. | -
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
+| spring.ai.zhipuai.image.enabled (Удалено и больше не актуально) | Включить модель изображения ZhiPuAI. | true |
+| spring.ai.model.image | Включить модель изображения ZhiPuAI. | zhipuai |
+| spring.ai.zhipuai.image.base-url | Необязательный параметр, переопределяющий spring.ai.zhipuai.base-url для предоставления специфического URL для чата | - |
+| spring.ai.zhipuai.image.api-key | Необязательный параметр, переопределяющий spring.ai.zhipuai.api-key для предоставления специфического API ключа для чата | - |
+| spring.ai.zhipuai.image.options.model | Модель, используемая для генерации изображений. | cogview-3 |
+| spring.ai.zhipuai.image.options.user | Уникальный идентификатор, представляющий вашего конечного пользователя, который может помочь ZhiPuAI отслеживать и обнаруживать злоупотребления. | - |
 #### Свойства подключения
 
 Префикс `spring.ai.zhipuai` используется в качестве префикса свойств, который позволяет вам подключиться к ZhiPuAI.
 
-[cols="3,5,1"]
-| Свойство | Описание | По умолчанию
-| spring.ai.zhipuai.base-url   | URL для подключения |  https://open.bigmodel.cn/api/paas
-| spring.ai.zhipuai.api-key    | API-ключ           |  -
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
+| spring.ai.zhipuai.base-url | URL для подключения | https://open.bigmodel.cn/api/paas |
+| spring.ai.zhipuai.api-key | API-ключ | - |
 
 #### Свойства конфигурации
 
@@ -112,19 +112,19 @@ dependencies {
 
 Префикс `spring.ai.retry` используется в качестве префикса свойств, который позволяет вам настроить механизм повторных попыток для клиента ZhiPuAI Image.
 
-[cols="3,5,1"]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.retry.max-attempts   | Максимальное количество попыток повторного запроса. |  10
-| spring.ai.retry.backoff.initial-interval | Начальная продолжительность ожидания для политики экспоненциального увеличения. |  2 сек.
-| spring.ai.retry.backoff.multiplier | Множитель для интервала увеличения. |  5
-| spring.ai.retry.backoff.max-interval | Максимальная продолжительность увеличения. |  3 мин.
-| spring.ai.retry.on-client-errors | Если false, выбрасывается NonTransientAiException, и повторная попытка не осуществляется для кодов ошибок клиента `4xx` | false
-| spring.ai.retry.exclude-on-http-codes | Список кодов состояния HTTP, которые не должны вызывать повторную попытку (например, для выброса NonTransientAiException). | пусто
-| spring.ai.retry.on-http-codes | Список кодов состояния HTTP, которые должны вызывать повторную попытку (например, для выброса TransientAiException). | пусто
+| spring.ai.retry.max-attempts | Максимальное количество попыток повторного запроса. | 10 |
+| --- | --- | --- |
+| spring.ai.retry.backoff.initial-interval | Начальная продолжительность ожидания для политики экспоненциального увеличения. | 2 сек. |
+| spring.ai.retry.backoff.multiplier | Множитель для интервала увеличения. | 5 |
+| spring.ai.retry.backoff.max-interval | Максимальная продолжительность увеличения. | 3 мин. |
+| spring.ai.retry.on-client-errors | Если false, выбрасывается NonTransientAiException, и повторная попытка не осуществляется для кодов ошибок клиента `4xx` | false |
+| spring.ai.retry.exclude-on-http-codes | Список кодов состояния HTTP, которые не должны вызывать повторную попытку (например, для выброса NonTransientAiException). | пусто |
+| spring.ai.retry.on-http-codes | Список кодов состояния HTTP, которые должны вызывать повторную попытку (например, для выброса TransientAiException). | пусто |
 
 
-## Параметры времени выполнения [[image-options]]
 
 Файл https://github.com/spring-projects/spring-ai/blob/main/models/spring-ai-zhipuai/src/main/java/org/springframework/ai/zhipuai/ZhiPuAiImageOptions.java[ZhiPuAiImageOptions.java] предоставляет конфигурации модели, такие как используемая модель, качество, размер и т. д.
 

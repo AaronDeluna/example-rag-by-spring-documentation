@@ -67,7 +67,6 @@ vectorStore.add(documents);
 List<Document> results = vectorStore.similaritySearch(SearchRequest.builder().query("Spring").topK(5).build());
 ```
 
-[[qdrant-vectorstore-properties]]
 ### Параметры конфигурацииЧтобы подключиться к Qdrant и использовать `QdrantVectorStore`, вам необходимо предоставить данные для доступа к вашему экземпляру. Простую конфигурацию можно задать через `application.yml` Spring Boot:
 
 ```yaml
@@ -86,7 +85,6 @@ spring:
 
 Свойства, начинающиеся с `spring.ai.vectorstore.qdrant.*`, используются для настройки `QdrantVectorStore`:
 
-[cols="2,5,1",stripes=even]
 | Свойство | Описание | Значение по умолчанию |
 | --- | --- | --- |
 | `spring.ai.vectorstore.qdrant.host` | Хост сервера Qdrant | `localhost` |

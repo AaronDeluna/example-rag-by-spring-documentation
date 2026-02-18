@@ -39,10 +39,10 @@ dependencies {
 
 ### Свойства подключения
 Префикс spring.ai.mistralai используется в качестве префикса свойств, который позволяет вам подключаться к Mistral AI.
-[cols="3,3,1"]
-| Свойство | Описание | По умолчанию
-| spring.ai.mistralai.base-url   | URL для подключения |  https://api.mistral.ai
-| spring.ai.mistralai.api-key    | API-ключ           |  -
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
+| spring.ai.mistralai.base-url | URL для подключения | https://api.mistral.ai |
+| spring.ai.mistralai.api-key | API-ключ | - |
 
 ### Свойства конфигурации
 
@@ -58,12 +58,12 @@ dependencies {
 ====
 
 Префикс spring.ai.mistralai.moderation используется в качестве префикса свойств для настройки модели модерации Mistral AI.
-[cols="3,5,1"]
-| Свойство | Описание | По умолчанию
-| spring.ai.model.moderation   | Включить модель модерации |  mistral
-| spring.ai.mistralai.moderation.base-url   | URL для подключения |  https://api.mistral.ai
-| spring.ai.mistralai.moderation.api-key    | API-ключ           |  -
-| spring.ai.mistralai.moderation.options.model  | ID модели, используемой для модерации. | mistral-moderation-latest
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
+| spring.ai.model.moderation | Включить модель модерации | mistral |
+| spring.ai.mistralai.moderation.base-url | URL для подключения | https://api.mistral.ai |
+| spring.ai.mistralai.moderation.api-key | API-ключ | - |
+| spring.ai.mistralai.moderation.options.model | ID модели, используемой для модерации. | mistral-moderation-latest |
 
 > **Примечание:** Вы можете переопределить общие свойства `spring.ai.mistralai.base-url`, `spring.ai.mistralai.api-key`. Свойства `spring.ai.mistralai.moderation.base-url`, `spring.ai.mistralai.moderation.api-key`, если они установлены, имеют приоритет над общими свойствами. Это полезно, если вы хотите использовать разные учетные записи Mistral AI для разных моделей и разные конечные точки моделей.
 

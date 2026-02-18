@@ -48,19 +48,20 @@ dependencies {
 
 Префикс `spring.ai.oci.genai` — это префикс свойств для настройки подключения к OCI GenAI.
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.oci.genai.authenticationType |  Тип аутентификации, используемый при аутентификации в OCI. Может быть `file`, `instance-principal`, `workload-identity` или `simple`.  | file
-| spring.ai.oci.genai.region | Регион службы OCI. | us-chicago-1
-| spring.ai.oci.genai.tenantId | OCID арендатора OCI, используемый при аутентификации с помощью `simple` auth. | -
-| spring.ai.oci.genai.userId | OCID пользователя OCI, используемый при аутентификации с помощью `simple` auth. | -
-| spring.ai.oci.genai.fingerprint | Отпечаток закрытого ключа, используемый при аутентификации с помощью `simple` auth. | -
-| spring.ai.oci.genai.privateKey | Содержимое закрытого ключа, используемое при аутентификации с помощью `simple` auth. | -
-| spring.ai.oci.genai.passPhrase | Необязательная фраза-пароль для закрытого ключа, используемая при аутентификации с помощью `simple` auth и защищенного паролем закрытого ключа. | -
-| spring.ai.oci.genai.file | Путь к конфигурационному файлу OCI. Используется при аутентификации с помощью `file` auth. | <user's home directory>/.oci/config
-| spring.ai.oci.genai.profile | Имя профиля OCI. Используется при аутентификации с помощью `file` auth. | DEFAULT
-| spring.ai.oci.genai.endpoint | Необязательный конечный пункт OCI GenAI. | -
+| spring.ai.oci.genai.authenticationType | Тип аутентификации, используемый при аутентификации в OCI. Может быть `file`, `instance-principal`, `workload-identity` или `simple`. | file |
+| --- | --- | --- |
+| spring.ai.oci.genai.region | Регион службы OCI. | us-chicago-1 |
+| spring.ai.oci.genai.tenantId | OCID арендатора OCI, используемый при аутентификации с помощью `simple` auth. | - |
+| spring.ai.oci.genai.userId | OCID пользователя OCI, используемый при аутентификации с помощью `simple` auth. | - |
+| spring.ai.oci.genai.fingerprint | Отпечаток закрытого ключа, используемый при аутентификации с помощью `simple` auth. | - |
+| spring.ai.oci.genai.privateKey | Содержимое закрытого ключа, используемое при аутентификации с помощью `simple` auth. | - |
+| spring.ai.oci.genai.passPhrase | Необязательная фраза-пароль для закрытого ключа, используемая при аутентификации с помощью `simple` auth и защищенного паролем закрытого ключа. | - |
+| spring.ai.oci.genai.file | Путь к конфигурационному файлу OCI. Используется при аутентификации с помощью `file` auth. | <user's home directory>/.oci/config |
+| spring.ai.oci.genai.profile | Имя профиля OCI. Используется при аутентификации с помощью `file` auth. | DEFAULT |
+| spring.ai.oci.genai.endpoint | Необязательный конечный пункт OCI GenAI. | - |
 
 
 
@@ -76,26 +77,26 @@ dependencies {
 
 Префикс `spring.ai.oci.genai.cohere.chat` — это префикс свойств, который настраивает реализацию `ChatModel` для OCI GenAI Cohere Chat.
 
-[cols="3,5,1", stripes=even]
-| Свойство | Описание | По умолчанию
+| Свойство | Описание | По умолчанию |
+| --- | --- | --- |
 
-| spring.ai.model.chat | Включить модель чата OCI GenAI Cohere.  | oci-genai
-| spring.ai.oci.genai.cohere.chat.enabled (больше не действительно) | Включить модель чата OCI GenAI Cohere.  | true
-| spring.ai.oci.genai.cohere.chat.options.model | OCID модели или конечный пункт | -
-| spring.ai.oci.genai.cohere.chat.options.compartment | OCID раздела модели.  | -
-| spring.ai.oci.genai.cohere.chat.options.servingMode | Режим обслуживания модели, который будет использоваться. Может быть `on-demand` или `dedicated`.  | on-demand
-| spring.ai.oci.genai.cohere.chat.options.preambleOverride | Переопределить предисловие подсказки модели чата | -
-| spring.ai.oci.genai.cohere.chat.options.temperature | Температура вывода | -
-| spring.ai.oci.genai.cohere.chat.options.topP | Параметр Top P | -
-| spring.ai.oci.genai.cohere.chat.options.topK | Параметр Top K | -
-| spring.ai.oci.genai.cohere.chat.options.frequencyPenalty | Более высокие значения уменьшат повторяющиеся токены, и вывод будет более случайным. | -
-| spring.ai.oci.genai.cohere.chat.options.presencePenalty | Более высокие значения способствуют генерации выводов с токенами, которые не использовались. | -
-| spring.ai.oci.genai.cohere.chat.options.stop | Список текстовых последовательностей, которые завершат генерацию завершений. | -
-| spring.ai.oci.genai.cohere.chat.options.documents | Список документов, используемых в контексте чата. | -
+| spring.ai.model.chat | Включить модель чата OCI GenAI Cohere. | oci-genai |
+| --- | --- | --- |
+| spring.ai.oci.genai.cohere.chat.enabled (больше не действительно) | Включить модель чата OCI GenAI Cohere. | true |
+| spring.ai.oci.genai.cohere.chat.options.model | OCID модели или конечный пункт | - |
+| spring.ai.oci.genai.cohere.chat.options.compartment | OCID раздела модели. | - |
+| spring.ai.oci.genai.cohere.chat.options.servingMode | Режим обслуживания модели, который будет использоваться. Может быть `on-demand` или `dedicated`. | on-demand |
+| spring.ai.oci.genai.cohere.chat.options.preambleOverride | Переопределить предисловие подсказки модели чата | - |
+| spring.ai.oci.genai.cohere.chat.options.temperature | Температура вывода | - |
+| spring.ai.oci.genai.cohere.chat.options.topP | Параметр Top P | - |
+| spring.ai.oci.genai.cohere.chat.options.topK | Параметр Top K | - |
+| spring.ai.oci.genai.cohere.chat.options.frequencyPenalty | Более высокие значения уменьшат повторяющиеся токены, и вывод будет более случайным. | - |
+| spring.ai.oci.genai.cohere.chat.options.presencePenalty | Более высокие значения способствуют генерации выводов с токенами, которые не использовались. | - |
+| spring.ai.oci.genai.cohere.chat.options.stop | Список текстовых последовательностей, которые завершат генерацию завершений. | - |
+| spring.ai.oci.genai.cohere.chat.options.documents | Список документов, используемых в контексте чата. | - |
 
 > **Совет:** Все свойства с префиксом `spring.ai.oci.genai.cohere.chat.options` могут быть переопределены во время выполнения, добавив специфичные для запроса <<chat-options>> в вызов `Prompt`.
 
-## Опции времени выполнения [[chat-options]]
 
 [OCICohereChatOptions.java](https://github.com/spring-projects/spring-ai/blob/main/models/spring-ai-oci-genai/src/main/java/org/springframework/ai/oci/cohere/OCICohereChatOptions.java) предоставляет конфигурации модели, такие как используемая модель, температура, штраф за частоту и т. д.
 

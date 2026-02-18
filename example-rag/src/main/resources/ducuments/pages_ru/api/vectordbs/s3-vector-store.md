@@ -64,14 +64,12 @@ vectorStore.add(documents);
 List<Document> results = this.vectorStore.similaritySearch(SearchRequest.builder().query("Spring").topK(5).build());
 ```
 
-[[s3-properties]]
 ### Параметры конфигурации
 
 Чтобы подключиться к AWS S3 Vector Store и использовать `S3VectorStore`, вам необходимо создать `Bean` `S3VectorsClient`, который должен быть обеспечен правильными учетными данными и регионом.
 
 Свойства, начинающиеся с `spring.ai.vectorstore.s3.*`, используются для настройки `S3VectorStore`:
 
-[cols="2,5,1",stripes=even]
 | Свойство | Описание | Значение по умолчанию |
 | --- | --- | --- |
 | `spring.ai.vectorstore.s3.index-name` | Имя индекса для хранения векторов | `spring-ai-index` |

@@ -1,3 +1,1 @@
-[[appendix]]
-[[glossary]]
 # Глоссарий

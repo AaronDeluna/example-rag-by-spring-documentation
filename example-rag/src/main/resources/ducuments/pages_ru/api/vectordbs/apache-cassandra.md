@@ -81,7 +81,6 @@ b. Для управляемого предложения [Astra DB](https://ast
 
 Вы можете использовать следующие свойства в вашей конфигурации Spring Boot для настройки векторного хранилища Apache Cassandra.
 
-[cols="2,1",stripes=even]
 | Свойство | Значение по умолчанию |
 | --- | --- |
 | `spring.ai.vectorstore.cassandra.keyspace` | springframework |
