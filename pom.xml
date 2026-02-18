@@ -55,14 +55,6 @@
             </dependency>
 
             <dependency>
-                <groupId>org.junit</groupId>
-                <artifactId>junit-bom</artifactId>
-                <version>${junit.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <dependency>
                 <groupId>org.zalando</groupId>
                 <artifactId>logbook-spring-boot-start</artifactId>
                 <version>${spring.boot.version}</version>

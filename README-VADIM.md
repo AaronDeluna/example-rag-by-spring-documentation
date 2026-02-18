@@ -1,16 +1,15 @@
 # Примеры работы с Spring AI
 
-## 1. Различные примеры
-В модуле `mcp-test-apps` содержатся тестовые примеры для работы с локально поднятыми моделями через Ollama.
-
-## 2. Пример MCP-сервера с взаимодействием по STDIO
-
 ## Описание
-Реализация **MCP-клиента** и **MCP-сервера**, которые взаимодействуют через **STDIO** представлена в двух модулях:
-- `stdio-mcp-client`
-- `stdio-mcp-server`
+Реализации **MCP-клиента** и **MCP-сервера**:
+- взаимодействующие через транспорт **STDIO**:
+  - `stdio-mcp-client`
+  - `stdio-mcp-server`
+- взаимодействующие через транспорт **WebMVC**:
+    - `webmvc-mcp-client`
+    - `webmvc-mcp-server` (с возможностью запуска через транспорт **STDIO**)
 
-## Запуск
+## Запуск клиента и сервера с транспортом STDIO
 Для запуска можно использовать две реализации.
 
 ### Реализция: клиент-тест
@@ -20,7 +19,7 @@
 1. Скомпилировать исполняемый файл **MCP-сервера** (с пропуском тестов):
 > `mvn clean install -pl stdio-mcp-server -DskipTests`
 2. Выполнить запуск теста, имитирующего **MCP-клиент**:
-> `mvn test -pl stdio-mcp-server -Dtest=ru.mirent.stdio.ClientStdioTest`
+> `mvn test -pl stdio-mcp-server -Dtest=ru.mirent.stdio.StdioClientTest`
 
 ### Реализция: клиент-стороннее приложение
 В данной реализации клиент и сервер являются раздельными приложениями, расположенными в разных исполняемых файлах 
@@ -33,21 +32,24 @@
 2. Выполнить запуск приложения **MCP-клиента**:
 > `mvn spring-boot:run -pl stdio-mcp-client`
 
+## Запуск клиента и сервера с транспортом WebMVC
+
+1. Запуск MCP-сервера с конфигурацией по умолчанию - транспортом **WebMVC**:
+> `mvn spring-boot:run -pl webmvc-mcp-server`
+2. Выполнить запуск теста, имитирующего **MCP-клиент**:
+> `mvn test -pl stdio-mcp-server -Dtest=ru.mirent.stdio.StdioClientTest`
+
+(Опционально) Запуск с конфигурацией `stdio` с транспортом **STDIO**:
+> `mvn spring-boot:run -pl webmvc-mcp-server -Dspring-boot.run.profiles=stdio`
+
+TODO Добавить реализацию MCP-клиента и его запуск как для транспорта по умолчанию, так и для **STDIO**
+
 ## Дополнительные команды
 
-> Отбразить дерево зависимостей проекта:
+> Отобразить дерево зависимостей проекта:
 
 `mvn -Dverbose dependency:tree`
 
-> Отбразить зависимости плагинов:
+> Отобразить зависимости плагинов:
 
 `mvn dependency:resolve-plugins`
-
-# 3.
-
-> `mvn clean install -pl webmvc-mcp-server -DskipTests`
-
-> `mvn spring-boot:run -pl webmvc-mcp-server`
-
-Дано: Java, Spring AI, Ollama с локальной моделью.
-Требуется разработать ИИ агента, который будет из кода HTML страницы извлекать только полезную информацию, игнорируя разлиную рекламу и элементы интерфейса.

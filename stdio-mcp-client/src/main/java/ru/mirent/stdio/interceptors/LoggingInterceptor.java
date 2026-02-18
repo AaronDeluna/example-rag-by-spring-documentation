@@ -16,9 +16,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-/**
- * TODO В проекте используются два подобных класса
- */
 public class LoggingInterceptor implements ClientHttpRequestInterceptor {
     private static final Logger LOG = LoggerFactory.getLogger(LoggingInterceptor.class);
 

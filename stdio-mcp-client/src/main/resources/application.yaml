@@ -28,7 +28,7 @@ spring:
 logging:
   level:
 #    ROOT: DEBUG
-    ru.mirent.interceptors: DEBUG
+    ru.mirent.stdio.interceptors: DEBUG
 #    org.springframework.boot.autoconfigure: DEBUG
   # Требуется отключать вывод записей в консоль, т.к. их сервер будет пытаться распарсить как Json, предполагая,
   # что это запрос от клиента. TODO Проверить нужно ли это для клиента или нет
