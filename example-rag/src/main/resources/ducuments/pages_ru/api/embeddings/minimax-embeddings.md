@@ -80,7 +80,6 @@ dependencies {
 Префикс `spring.ai.retry` используется как префикс свойства, который позволяет вам настроить механизм повторной попытки для модели встраивания MiniMax.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.retry.max-attempts   | Максимальное количество попыток повторной попытки. |  10
@@ -90,19 +89,16 @@ dependencies {
 | spring.ai.retry.on-client-errors | Если false, выбросить NonTransientAiException и не пытаться повторить для кодов ошибок клиента `4xx` | false
 | spring.ai.retry.exclude-on-http-codes | Список кодов состояния HTTP, которые не должны вызывать повторную попытку (например, для выброса NonTransientAiException). | пусто
 | spring.ai.retry.on-http-codes | Список кодов состояния HTTP, которые должны вызывать повторную попытку (например, для выброса TransientAiException). | пусто
-|====
 
 #### Свойства подключения
 
 Префикс `spring.ai.minimax` используется как префикс свойства, который позволяет вам подключиться к MiniMax.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.minimax.base-url   | URL для подключения |  https://api.minimax.chat
 | spring.ai.minimax.api-key    | API ключ           |  -
-|====
 
 #### Свойства конфигурации
 
@@ -120,7 +116,6 @@ dependencies {
 Префикс `spring.ai.minimax.embedding` — это префикс свойства, который настраивает реализацию `EmbeddingModel` для MiniMax.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.minimax.embedding.enabled (Удалено и больше не действительно) | Включить модель встраивания MiniMax.  | true
@@ -128,7 +123,6 @@ dependencies {
 | spring.ai.minimax.embedding.base-url   | Необязательный переопределяет spring.ai.minimax.base-url для предоставления специфического для встраивания URL | -
 | spring.ai.minimax.embedding.api-key    | Необязательный переопределяет spring.ai.minimax.api-key для предоставления специфического для встраивания api-key  | -
 | spring.ai.minimax.embedding.options.model      | Модель для использования      | embo-01
-|====
 
 > **Примечание:** Вы можете переопределить общие `spring.ai.minimax.base-url` и `spring.ai.minimax.api-key` для реализаций `ChatModel` и `EmbeddingModel`.
 Свойства `spring.ai.minimax.embedding.base-url` и `spring.ai.minimax.embedding.api-key`, если установлены, имеют приоритет над общими свойствами.

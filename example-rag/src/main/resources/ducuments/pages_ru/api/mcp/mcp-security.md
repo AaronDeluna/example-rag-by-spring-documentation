@@ -602,7 +602,7 @@ SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 > **Примечание:** При использовании [MCP Inspector](https://modelcontextprotocol.io/docs/tools/inspector) вам может потребоваться отключить защиту CSRF и CORS.
 
 ## Дополнительные ресурсы
-```- [Спецификация авторизации MCP](https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization#communication-security)
+- [Спецификация авторизации MCP](https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization#communication-security)
 - [Репозиторий MCP Security на GitHub](https://github.com/spring-ai-community/mcp-security)
 - [Пример приложений](https://github.com/spring-ai-community/mcp-security/tree/main/samples)
 - [Спецификация авторизации MCP](https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization)

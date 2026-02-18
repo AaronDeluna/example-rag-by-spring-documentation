@@ -62,22 +62,18 @@ dependencies {
 Префикс `spring.ai.ollama` — это префикс свойств для настройки подключения к Ollama.
 
 [cols="3,6,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 | spring.ai.ollama.base-url | Базовый URL, по которому работает сервер API Ollama. | `+http://localhost:11434+`
-|====
 
 Вот свойства для инициализации интеграции Ollama и xref:auto-pulling-models[автоматической загрузки моделей].
 
 [cols="3,6,1"]
-|====
 | Свойство | Описание | По умолчанию
 | spring.ai.ollama.init.pull-model-strategy | Нужно ли загружать модели при запуске и как. | `never`
 | spring.ai.ollama.init.timeout | Как долго ждать загрузки модели. | `5m`
 | spring.ai.ollama.init.max-retries | Максимальное количество попыток для операции загрузки модели. | `0`
 | spring.ai.ollama.init.chat.include | Включить этот тип моделей в задачу инициализации. | `true`
 | spring.ai.ollama.init.chat.additional-models | Дополнительные модели для инициализации помимо тех, которые настроены через свойства по умолчанию. | `[]`
-|====
 
 ### Свойства чата[NOTE]
 ====
@@ -96,19 +92,16 @@ dependencies {
 Вот расширенные параметры запроса для модели чата Ollama:
 
 [cols="3,6,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 | spring.ai.ollama.chat.enabled (Удалено и больше не актуально)     | Включить модель чата Ollama. | true
 | spring.ai.model.chat      | Включить модель чата Ollama. | ollama
 | spring.ai.ollama.chat.options.model  | Имя https://github.com/ollama/ollama?tab=readme-ov-file#model-library[поддерживаемой модели], которую следует использовать. | mistral
 | spring.ai.ollama.chat.options.format  | Формат, в котором будет возвращен ответ. Принимает либо `"json"` (любая структура JSON), либо объект JSON Schema (обязательная структура). См. <<Структурированные выходные данные>> для подробностей. | -
 | spring.ai.ollama.chat.options.keep_alive  | Управляет тем, как долго модель будет оставаться загруженной в памяти после запроса | 5m
-|====
 
 Оставшиеся свойства `options` основаны на [Допустимых параметрах и значениях Ollama](https://github.com/ollama/ollama/blob/main/docs/modelfile.md#valid-parameters-and-values) и [Типах Ollama](https://github.com/ollama/ollama/blob/main/api/types.go). Значения по умолчанию основаны на [Типах по умолчанию Ollama](https://github.com/ollama/ollama/blob/b538dc3858014f94b099730a592751a5454cab0a/api/types.go#L364).
 
 [cols="3,6,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 | spring.ai.ollama.chat.options.numa              | Использовать ли NUMA.                                           | false
 | spring.ai.ollama.chat.options.num-ctx           | Устанавливает размер контекстного окна, используемого для генерации следующего токена. | 2048
@@ -143,7 +136,6 @@ dependencies {
 | spring.ai.ollama.chat.options.tool-names         | Список инструментов, идентифицированных по их именам, которые следует включить для вызова функций в одном запросе. Инструменты с этими именами должны существовать в реестре ToolCallback. | -
 | spring.ai.ollama.chat.options.tool-callbacks     | Обратные вызовы инструментов для регистрации с ChatModel. | -
 | spring.ai.ollama.chat.options.internal-tool-execution-enabled | Если false, Spring AI не будет обрабатывать вызовы инструментов внутренне, а будет проксировать их клиенту. Тогда ответственность за обработку вызовов инструментов, их распределение на соответствующие функции и возврат результатов ложится на клиента. Если true (по умолчанию), Spring AI будет обрабатывать вызовы функций внутренне. Применимо только для моделей чата с поддержкой вызова функций | true
-|====
 
 > **Совет:** Все свойства с префиксом `spring.ai.ollama.chat.options` могут быть переопределены во время выполнения, добавляя специфические для запроса <<chat-options>> в вызов `Prompt`.## Runtime Options [[chat-options]]
 
@@ -543,7 +535,6 @@ MathReasoning mathReasoning = this.outputConverter.convert(this.content);
 Spring AI предоставляет два метода для настройки структурированного вывода:
 
 [cols="2,3,3", options="header"]
-|====
 | Метод | Случай использования | Пример
 
 | `.format("json")`
@@ -557,7 +548,6 @@ Spring AI предоставляет два метода для настройк
 | `.format(mapObject)`
 | Режим JSON Schema - альтернативный API
 | `.format(new ObjectMapper().readValue(schema, Map.class))`
-|====
 
 > **Совет:** Для большинства случаев используйте `.outputSchema(jsonSchemaString)` для валидации JSON Schema или `.format("json")` для простого JSON-вывода. Подход `.format(Map)` также поддерживается, но требует ручного парсинга JSON.
 

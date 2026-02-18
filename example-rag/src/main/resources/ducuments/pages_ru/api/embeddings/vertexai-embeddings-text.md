@@ -50,14 +50,12 @@ dependencies {
 ### Свойства встраиванияThe prefix `spring.ai.vertex.ai.embedding` используется в качестве префикса свойств, который позволяет вам подключиться к VertexAI Embedding API.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.vertex.ai.embedding.project-id   | Идентификатор проекта Google Cloud Platform |  -
 | spring.ai.vertex.ai.embedding.location   | Регион |  -
 | spring.ai.vertex.ai.embedding.apiEndpoint   | Конечная точка Vertex AI Embedding API. |  -
 
-|====
 
 [NOTE]
 ====
@@ -73,7 +71,6 @@ dependencies {
 Префикс `spring.ai.vertex.ai.embedding.text` — это префикс свойств, который позволяет вам настроить реализацию модели встраивания для VertexAI Text Embedding.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.vertex.ai.embedding.text.enabled (Удалено и больше не актуально) | Включить модель Vertex AI Embedding API. | true
@@ -83,7 +80,6 @@ dependencies {
 | spring.ai.vertex.ai.embedding.text.options.title | Необязательный заголовок, действителен только при task_type=RETRIEVAL_DOCUMENT.  | -
 | spring.ai.vertex.ai.embedding.text.options.dimensions | Количество измерений, которые должны иметь полученные встраивания. Поддерживается для версии модели 004 и выше. Вы можете использовать этот параметр для уменьшения размера встраивания, например, для оптимизации хранения.  | -
 | spring.ai.vertex.ai.embedding.text.options.auto-truncate | Если установлено в true, входной текст будет обрезан. Если установлено в false, будет возвращена ошибка, если входной текст длиннее максимальной длины, поддерживаемой моделью.  | true
-|====
 
 ## Пример контроллера
 

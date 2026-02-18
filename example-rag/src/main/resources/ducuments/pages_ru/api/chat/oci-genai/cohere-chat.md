@@ -49,7 +49,6 @@ dependencies {
 Префикс `spring.ai.oci.genai` — это префикс свойств для настройки подключения к OCI GenAI.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.oci.genai.authenticationType |  Тип аутентификации, используемый при аутентификации в OCI. Может быть `file`, `instance-principal`, `workload-identity` или `simple`.  | file
@@ -63,7 +62,6 @@ dependencies {
 | spring.ai.oci.genai.profile | Имя профиля OCI. Используется при аутентификации с помощью `file` auth. | DEFAULT
 | spring.ai.oci.genai.endpoint | Необязательный конечный пункт OCI GenAI. | -
 
-|====
 
 
 #### Свойства конфигурации
@@ -79,7 +77,6 @@ dependencies {
 Префикс `spring.ai.oci.genai.cohere.chat` — это префикс свойств, который настраивает реализацию `ChatModel` для OCI GenAI Cohere Chat.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.model.chat | Включить модель чата OCI GenAI Cohere.  | oci-genai
@@ -95,7 +92,6 @@ dependencies {
 | spring.ai.oci.genai.cohere.chat.options.presencePenalty | Более высокие значения способствуют генерации выводов с токенами, которые не использовались. | -
 | spring.ai.oci.genai.cohere.chat.options.stop | Список текстовых последовательностей, которые завершат генерацию завершений. | -
 | spring.ai.oci.genai.cohere.chat.options.documents | Список документов, используемых в контексте чата. | -
-|====
 
 > **Совет:** Все свойства с префиксом `spring.ai.oci.genai.cohere.chat.options` могут быть переопределены во время выполнения, добавив специфичные для запроса <<chat-options>> в вызов `Prompt`.
 

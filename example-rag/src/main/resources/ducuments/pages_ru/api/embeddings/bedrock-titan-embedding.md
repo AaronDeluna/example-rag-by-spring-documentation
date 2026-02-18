@@ -84,7 +84,6 @@ java -Dspring.ai.model.embedding=bedrock-titan -jar your-application.jar
 Префикс `spring.ai.bedrock.aws` — это префикс свойств для настройки соединения с AWS Bedrock.
 
 [cols="3,4,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.bedrock.aws.region     | Регион AWS для использования. | us-east-1
@@ -93,7 +92,6 @@ java -Dspring.ai.model.embedding=bedrock-titan -jar your-application.jar
 | spring.ai.bedrock.aws.profile.name | Имя профиля AWS.  | -
 | spring.ai.bedrock.aws.profile.credentials-path | Путь к файлу учетных данных AWS.  | -
 | spring.ai.bedrock.aws.profile.configuration-path | Путь к файлу конфигурации AWS.  | -
-|====
 
 [NOTE]
 ====
@@ -109,12 +107,10 @@ java -Dspring.ai.model.embedding=bedrock-titan -jar your-application.jar
 Префикс `spring.ai.bedrock.titan.embedding` (определенный в `BedrockTitanEmbeddingProperties`) — это префикс свойств, который настраивает реализацию модели встраивания для Titan.
 
 [cols="3,4,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 | spring.ai.bedrock.titan.embedding.enabled (Удалено и больше не актуально)             | Включить или отключить поддержку встраивания Titan | false
 | spring.ai.model.embedding              | Включить или отключить поддержку встраивания Titan | bedrock-titan
 | spring.ai.bedrock.titan.embedding.model                | Идентификатор модели для использования. См. `TitanEmbeddingModel` для поддерживаемых моделей.  | amazon.titan-embed-image-v1
-|====
 
 Поддерживаемые значения: `amazon.titan-embed-image-v1`, `amazon.titan-embed-text-v1` и `amazon.titan-embed-text-v2:0`.
 Идентификаторы моделей также можно найти в https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids-arns.html[документации AWS Bedrock по базовым идентификаторам моделей].

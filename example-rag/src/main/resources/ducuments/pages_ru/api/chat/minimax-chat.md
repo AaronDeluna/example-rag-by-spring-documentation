@@ -80,7 +80,6 @@ dependencies {
 Префикс `spring.ai.retry` используется как префикс свойства, который позволяет вам настроить механизм повторной попытки для модели чата MiniMax.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.retry.max-attempts   | Максимальное количество попыток повторной попытки. |  10
@@ -90,19 +89,16 @@ dependencies {
 | spring.ai.retry.on-client-errors | Если false, выбросить NonTransientAiException и не пытаться повторить для кодов ошибок клиента `4xx` | false
 | spring.ai.retry.exclude-on-http-codes | Список кодов состояния HTTP, которые не должны вызывать повторную попытку (например, для выброса NonTransientAiException). | пусто
 | spring.ai.retry.on-http-codes | Список кодов состояния HTTP, которые должны вызывать повторную попытку (например, для выброса TransientAiException). | пусто
-|====
 
 #### Свойства подключения
 
 Префикс `spring.ai.minimax` используется как префикс свойства, который позволяет вам подключиться к MiniMax.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.minimax.base-url   | URL для подключения |  https://api.minimax.chat
 | spring.ai.minimax.api-key    | API ключ           |  -
-|====
 
 #### Свойства конфигурации
 
@@ -120,7 +116,6 @@ dependencies {
 Префикс `spring.ai.minimax.chat` — это префикс свойства, который позволяет вам настроить реализацию модели чата для MiniMax.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.minimax.chat.enabled (Удалено и больше не действительно) | Включить модель чата MiniMax.  | true
@@ -138,7 +133,6 @@ dependencies {
 | spring.ai.minimax.chat.options.tool-names | Список инструментов, идентифицированных по их именам, которые следует включить для вызова функций в одном запросе. Инструменты с этими именами должны существовать в реестре ToolCallback. | -
 | spring.ai.minimax.chat.options.tool-callbacks | Обратные вызовы инструментов для регистрации с ChatModel. | -
 | spring.ai.minimax.chat.options.internal-tool-execution-enabled | Если false, Spring AI не будет обрабатывать вызовы инструментов внутренне, а будет проксировать их клиенту. Тогда ответственность за обработку вызовов инструментов, их распределение на соответствующую функцию и возврат результатов лежит на клиенте. Если true (по умолчанию), Spring AI будет обрабатывать вызовы функций внутренне. Применимо только для моделей чата с поддержкой вызова функций | true
-|====
 
 > **Примечание:** Вы можете переопределить общие `spring.ai.minimax.base-url` и `spring.ai.minimax.api-key` для реализаций `ChatModel`.
 Свойства `spring.ai.minimax.chat.base-url` и `spring.ai.minimax.chat.api-key`, если установлены, имеют приоритет над общими свойствами.

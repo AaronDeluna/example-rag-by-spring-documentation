@@ -1163,11 +1163,9 @@ public interface ToolExecutionExceptionProcessor {
 Вы можете использовать свойство ``spring.ai.tools.throw-exception-on-error` для управления поведением бина `DefaultToolExecutionExceptionProcessor`:
 
 [cols="6,3,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | `spring.ai.tools.throw-exception-on-error` | Если `true`, ошибки вызова инструмента выбрасываются как исключения для обработки вызывающей стороной. Если `false`, ошибки преобразуются в сообщения и отправляются обратно в модель ИИ, позволяя ей обрабатывать и реагировать на ошибку.| `false`
-|====
 
 
 ```java

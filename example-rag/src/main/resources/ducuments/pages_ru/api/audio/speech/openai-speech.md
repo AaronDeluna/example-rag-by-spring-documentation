@@ -48,13 +48,11 @@ dependencies {
 Префикс `spring.ai.openai` используется в качестве префикса свойств, который позволяет вам подключаться к OpenAI.
 
 [cols="3,5,1"]
-|====
 | Свойство | Описание | По умолчанию
 | spring.ai.openai.base-url   | URL для подключения |  https://api.openai.com
 | spring.ai.openai.api-key    | API-ключ           |  -
 | spring.ai.openai.organization-id | Опционально вы можете указать, какая организация используется для API-запроса. |  -
 | spring.ai.openai.project-id      | Опционально вы можете указать, какой проект используется для API-запроса. |  -
-|====
 
 > **Совет:** Для пользователей, которые принадлежат нескольким организациям (или получают доступ к своим проектам через свой устаревший API-ключ пользователя), вы можете опционально указать, какая организация и проект используются для API-запроса.
 Использование этих API-запросов будет учитываться как использование для указанной организации и проекта.
@@ -75,7 +73,6 @@ dependencies {
 Префикс `spring.ai.openai.audio.speech` используется в качестве префикса свойств, который позволяет вам настраивать клиент OpenAI Text-to-Speech.
 
 [cols="3,5,2"]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.model.audio.speech   | Включить модель аудиоречи |  openai
@@ -88,7 +85,6 @@ dependencies {
 | spring.ai.openai.audio.speech.options.voice | Голос, используемый для синтеза. Для API TTS от OpenAI один из доступных голосов для выбранной модели: alloy, echo, fable, onyx, nova и shimmer. | alloy
 | spring.ai.openai.audio.speech.options.response-format | Формат аудиовыхода. Поддерживаемые форматы: mp3, opus, aac, flac, wav и pcm. | mp3
 | spring.ai.openai.audio.speech.options.speed | Скорость синтеза голоса. Допустимый диапазон от 0.25 (самый медленный) до 4.0 (самый быстрый). | 1.0
-|====
 
 > **Примечание:** Вы можете переопределить общие свойства `spring.ai.openai.base-url`, `spring.ai.openai.api-key`, `spring.ai.openai.organization-id` и `spring.ai.openai.project-id`.
 Свойства `spring.ai.openai.audio.speech.base-url`, `spring.ai.openai.audio.speech.api-key`, `spring.ai.openai.audio.speech.organization-id` и `spring.ai.openai.audio.speech.project-id`, если они установлены, имеют приоритет над общими свойствами.
@@ -221,7 +217,6 @@ Flux<byte[]> audioByteStream = openAiAudioSpeechModel.stream("Hello, world!");
 ### Справочник по сопоставлению классов
 
 [cols="1,1"]
-|====
 | Устаревший (удаленный) | Новый интерфейс
 
 | `SpeechModel`
@@ -241,7 +236,6 @@ Flux<byte[]> audioByteStream = openAiAudioSpeechModel.stream("Hello, world!");
 
 | `Speech` (в `org.springframework.ai.openai.audio.speech`)
 | `Speech` (в `org.springframework.ai.audio.tts`)
-|====
 
 ### Пошаговые инструкции по миграции
 

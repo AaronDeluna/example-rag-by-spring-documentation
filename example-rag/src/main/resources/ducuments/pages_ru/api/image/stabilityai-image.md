@@ -68,12 +68,10 @@ dependencies {
 ### Свойства генерации изображенийThe prefix `spring.ai.stabilityai` используется как префикс свойств, который позволяет вам подключиться к Stability AI.
 
 [cols="3,5,1"]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.stabilityai.base-url   | URL для подключения |  https://api.stability.ai/v1
 | spring.ai.stabilityai.api-key    | API-ключ           |  -
-|====
 
 [NOTE]
 ====
@@ -89,7 +87,6 @@ dependencies {
 Префикс `spring.ai.stabilityai.image` — это префикс свойств, который позволяет вам настроить реализацию `ImageModel` для Stability AI.
 
 [cols="2,5,1"]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.stabilityai.image.enabled (Удалено и больше не актуально) | Включить модель изображения Stability AI.  | true
@@ -107,7 +104,6 @@ dependencies {
 | spring.ai.stabilityai.image.option.seed                  | Случайное семя шума (опустите этот параметр или используйте 0 для случайного семени). Допустимый диапазон: от 0 до 4294967295.                             | 0
 | spring.ai.stabilityai.image.option.steps                 | Количество шагов диффузии для выполнения. Допустимый диапазон: от 10 до 50.                                                                   | 30
 | spring.ai.stabilityai.image.option.style_preset          | Передайте стильный пресет, чтобы направить модель изображения к определенному стилю. Этот список стильных пресетов может изменяться. | -
-|====
 
 
 ## Runtime Options [[image-options]]Документ [StabilityAiImageOptions.java](https://github.com/spring-projects/spring-ai/blob/main/models/spring-ai-stabilityai/src/main/java/org/springframework/ai/stabilityai/api/StabilityAiImageOptions.java) предоставляет конфигурации модели, такие как используемая модель, стиль, размер и т.д.

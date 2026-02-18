@@ -39,13 +39,11 @@ dependencies {
 Префикс `spring.ai.openai` используется в качестве префикса свойства, который позволяет вам подключаться к OpenAI.
 
 [cols="3,5,1"]
-|====
 | Property | Description | Default
 | spring.ai.openai.base-url   | URL для подключения |  https://api.openai.com
 | spring.ai.openai.api-key    | API-ключ           |  -
 | spring.ai.openai.organization-id | Опционально вы можете указать, какая организация используется для API-запроса. |  -
 | spring.ai.openai.project-id      | Опционально вы можете указать, какой проект используется для API-запроса. |  -
-|====
 
 > **Совет:** Для пользователей, которые принадлежат нескольким организациям (или получают доступ к своим проектам через свой устаревший пользовательский API-ключ), вы можете опционально указать, какая организация и проект используются для API-запроса. Использование этих API-запросов будет учитываться как использование для указанной организации и проекта.
 
@@ -65,7 +63,6 @@ dependencies {
 Префикс `spring.ai.openai.audio.transcription` используется в качестве префикса свойства, который позволяет вам настраивать механизм повторных попыток для модели транскрипции OpenAI.
 
 [cols="3,5,2"]
-|====
 | Property | Description | Default
 
 | spring.ai.model.audio.transcription   | Включить модель транскрипции аудио OpenAI |  openai
@@ -80,7 +77,6 @@ dependencies {
 | spring.ai.openai.audio.transcription.options.language | Язык входного аудио. Указание входного языка в формате ISO-639-1 улучшит точность и задержку. |
 | spring.ai.openai.audio.transcription.options.temperature | Температура выборки, от 0 до 1. Более высокие значения, такие как 0.8, сделают вывод более случайным, в то время как более низкие значения, такие как 0.2, сделают его более сосредоточенным и детерминированным. Если установить 0, модель будет использовать логарифмическую вероятность для автоматического увеличения температуры до достижения определенных порогов. | 0
 | spring.ai.openai.audio.transcription.options.timestamp_granularities | Гранулярности временных меток, которые необходимо заполнить для этой транскрипции. response_format должен быть установлен в verbose_json, чтобы использовать гранулярности временных меток. Поддерживаются одна или обе из этих опций: word или segment. Примечание: дополнительной задержки для временных меток сегментов нет, но генерация временных меток слов требует дополнительной задержки. | segment
-|====
 
 > **Примечание:** Вы можете переопределить общие свойства `spring.ai.openai.base-url`, `spring.ai.openai.api-key`, `spring.ai.openai.organization-id` и `spring.ai.openai.project-id`. Свойства `spring.ai.openai.audio.transcription.base-url`, `spring.ai.openai.audio.transcription.api-key`, `spring.ai.openai.audio.transcription.organization-id` и `spring.ai.openai.audio.transcription.project-id`, если они установлены, имеют приоритет над общими свойствами. Это полезно, если вы хотите использовать разные учетные записи OpenAI для разных моделей и разных конечных точек моделей.
 

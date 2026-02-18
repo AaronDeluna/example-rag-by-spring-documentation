@@ -58,14 +58,12 @@ dependencies {
 ### Свойства встраиванияThe prefix `spring.ai.vertex.ai.embedding` используется как префикс свойств, который позволяет вам подключаться к VertexAI Embedding API.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.vertex.ai.embedding.project-id   | Идентификатор проекта Google Cloud Platform |  -
 | spring.ai.vertex.ai.embedding.location   | Регион |  -
 | spring.ai.vertex.ai.embedding.apiEndpoint   | Конечная точка Vertex AI Embedding API. |  -
 
-|====
 
 [NOTE]
 ====
@@ -81,7 +79,6 @@ dependencies {
 Префикс `spring.ai.vertex.ai.embedding.multimodal` — это префикс свойств, который позволяет вам настраивать реализацию модели встраивания для VertexAI Multimodal Embedding.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.vertex.ai.embedding.multimodal.enabled (Удалено и больше не актуально) | Включить модель Vertex AI Embedding API. | true
@@ -91,7 +88,6 @@ dependencies {
 | spring.ai.vertex.ai.embedding.multimodal.options.video-start-offset-sec | Начальное смещение сегмента видео в секундах. Если не указано, оно рассчитывается как max(0, endOffsetSec - 120).  | -
 | spring.ai.vertex.ai.embedding.multimodal.options.video-end-offset-sec | Конечное смещение сегмента видео в секундах. Если не указано, оно рассчитывается как min(video length, startOffSec + 120). Если указаны и startOffSec, и endOffSec, endOffsetSec корректируется до min(startOffsetSec+120, endOffsetSec).  | -
 | spring.ai.vertex.ai.embedding.multimodal.options.video-interval-sec | Интервал видео, для которого будет сгенерировано встраивание. Минимальное значение для interval_sec — 4. Если интервал меньше 4, возвращается InvalidArgumentError. Ограничений на максимальное значение интервала нет. Однако, если интервал больше min(video length, 120s), это влияет на качество сгенерированных встраиваний. Значение по умолчанию: 16.  | -
-|====
 
 ## Ручная конфигурацияДокумент [VertexAiMultimodalEmbeddingModel](https://github.com/spring-projects/spring-ai/blob/main/models/spring-ai-vertex-ai-embedding/src/main/java/org/springframework/ai/vertexai/embedding/VertexAiMultimodalEmbeddingModel.java) реализует интерфейс `DocumentEmbeddingModel`.
 

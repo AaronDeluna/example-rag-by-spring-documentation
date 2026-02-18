@@ -117,7 +117,6 @@ dependencies {
 Префикс `spring.ai.openai.image` — это префикс свойства, который позволяет вам настраивать реализацию `ImageModel` для OpenAI.
 
 [cols="3,5,1"]
-|====
 | Свойство | Описание | По умолчанию
 | spring.ai.azure.openai.image.enabled (Удалено и больше не актуально) | Включить модель изображения OpenAI.  | true
 | spring.ai.model.image | Включить модель изображения OpenAI.  | azure-openai
@@ -130,18 +129,15 @@ dependencies {
 | `spring.ai.openai.image.options.size_height`| Высота генерируемых изображений. Должна быть одной из 256, 512 или 1024 для dall-e-2. | -
 | `spring.ai.openai.image.options.style`      | Стиль генерируемых изображений. Должен быть одним из vivid или natural. Vivid заставляет модель склоняться к созданию гиперреалистичных и драматических изображений. Natural заставляет модель создавать более естественные, менее гиперреалистичные изображения. Этот параметр поддерживается только для dall-e-3. | -
 | `spring.ai.openai.image.options.user`       | Уникальный идентификатор, представляющий вашего конечного пользователя, который может помочь Azure OpenAI отслеживать и обнаруживать злоупотребления. | -
-|====
 
 #### Свойства подключения
 
 Префикс `spring.ai.openai` используется как префикс свойства, который позволяет вам подключаться к Azure OpenAI.
 
 [cols="3,5,1"]
-|====
 | Свойство | Описание | По умолчанию
 | spring.ai.azure.openai.endpoint   | URL для подключения |  https://my-dalle3.openai.azure.com/
 | spring.ai.azure.openai.apiKey    | API-ключ           |  -
-|====
 
 ## Параметры выполнения [[image-options]]Документ [OpenAiImageOptions.java](https://github.com/spring-projects/spring-ai/blob/main/models/spring-ai-openai/src/main/java/org/springframework/ai/openai/OpenAiImageOptions.java) предоставляет конфигурации модели, такие как используемая модель, качество, размер и т.д.
 

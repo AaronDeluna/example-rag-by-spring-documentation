@@ -70,7 +70,6 @@ dependencies {
 Префикс `spring.ai.vertex.ai.gemini` используется в качестве префикса свойств, который позволяет вам подключаться к VertexAI.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.model.chat   | Включить клиент модели чата |  vertexai
@@ -80,12 +79,10 @@ dependencies {
 | spring.ai.vertex.ai.gemini.api-endpoint | Конечная точка API Vertex AI Gemini. |  -
 | spring.ai.vertex.ai.gemini.scopes |  |  -
 | spring.ai.vertex.ai.gemini.transport | Транспорт API. GRPC или REST. |  GRPC
-|====
 
 Префикс `spring.ai.vertex.ai.gemini.chat` — это префикс свойств, который позволяет вам настраивать реализацию модели чата для VertexAI Gemini Chat.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.vertex.ai.gemini.chat.options.model | Поддерживаемые [модели чата Vertex AI Gemini](https://cloud.google.com/vertex-ai/generative-ai/docs/models#gemini-models) для использования включают `gemini-2.0-flash`, `gemini-2.0-flash-lite` и новые модели `gemini-2.5-pro-preview-03-25`, `gemini-2.5-flash-preview-04-17`. | gemini-2.0-flash
@@ -102,7 +99,6 @@ dependencies {
 | spring.ai.vertex.ai.gemini.chat.options.internal-tool-execution-enabled | Если true, выполнение инструмента должно быть выполнено, в противном случае ответ от модели возвращается пользователю. По умолчанию null, но если это null, будет учитываться `ToolCallingChatOptions.DEFAULT_TOOL_EXECUTION_ENABLED`, который равен true | -
 | spring.ai.vertex.ai.gemini.chat.options.safety-settings | Список настроек безопасности для управления фильтрами безопасности, как определено в [Фильтры безопасности Vertex AI](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/configure-safety-filters). Каждая настройка безопасности может иметь метод, порог и категорию. | -
 
-|====
 
 > **Совет:** Все свойства с префиксом `spring.ai.vertex.ai.gemini.chat.options` могут быть переопределены во время выполнения, добавив специфичные для запроса <<chat-options>> в вызов `Prompt`.
 

@@ -129,7 +129,6 @@ dependencies {
 Префикс `spring.ai.openai-sdk` используется в качестве префикса свойств, который позволяет вам настраивать клиент OpenAI SDK.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.openai-sdk.base-url        | URL для подключения. Автоопределяется из переменной окружения `OPENAI_BASE_URL`, если не установлено. |  https://api.openai.com/v1
@@ -139,21 +138,18 @@ dependencies {
 | spring.ai.openai-sdk.max-retries     | Максимальное количество попыток повторного запроса для неудачных запросов. |  -
 | spring.ai.openai-sdk.proxy           | Настройки прокси для клиента OpenAI (объект Java `Proxy`). |  -
 | spring.ai.openai-sdk.custom-headers  | Пользовательские HTTP-заголовки, которые следует включить в запросы. Карта имени заголовка к значению заголовка. |  -
-|====
 
 #### Свойства Microsoft Foundry (Azure OpenAI)
 
 Реализация OpenAI SDK предоставляет нативную поддержку для Microsoft Foundry (Azure OpenAI) с автоматической конфигурацией:
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.openai-sdk.microsoft-foundry           | Включить режим Microsoft Foundry. Автоопределяется, если базовый URL содержит `openai.azure.com`, `cognitiveservices.azure.com` или `.openai.microsoftFoundry.com`. |  false
 | spring.ai.openai-sdk.microsoft-deployment-name | Имя развертывания Microsoft Foundry. Если не указано, будет использоваться имя модели. Также доступно через псевдоним `deployment-name`. |  -
 | spring.ai.openai-sdk.microsoft-foundry-service-version | Версия API-сервиса Microsoft Foundry. |  -
 | spring.ai.openai-sdk.credential      | Объект учетных данных для аутентификации без пароля (требуется зависимость `com.azure:azure-identity`). |  -
-|====
 
 > **Совет:** Microsoft Foundry поддерживает аутентификацию без пароля. Добавьте зависимость `com.azure:azure-identity`, и реализация автоматически попытается использовать учетные данные Azure из окружения, когда API-ключ не предоставлен.
 
@@ -162,11 +158,9 @@ dependencies {
 Доступна нативная поддержка моделей GitHub:
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.openai-sdk.github-models   | Включить режим моделей GitHub. Автоопределяется, если базовый URL содержит `models.github.ai` или `models.inference.ai.azure.com`. |  false
-|====
 
 > **Совет:** Модели GitHub требуют токен доступа с областью `models:read`. Установите его через переменную окружения `OPENAI_API_KEY` или свойство `spring.ai.openai-sdk.api-key`.
 
@@ -175,7 +169,6 @@ dependencies {
 Префикс `spring.ai.openai-sdk.chat` является префиксом свойств для настройки реализации модели чата:
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.openai-sdk.chat.options.model | Имя модели чата OpenAI, которую следует использовать. Вы можете выбрать между моделями, такими как: `gpt-5-mini`, `gpt-4o`, `gpt-4o-mini`, `gpt-4-turbo`, `o1`, `o3-mini` и другими. Смотрите страницу https://platform.openai.com/docs/models[модели] для получения дополнительной информации. | `gpt-5-mini`
@@ -206,7 +199,6 @@ dependencies {
 | spring.ai.openai-sdk.chat.options.stream-options.include-obfuscation | Указывает, следует ли включать обфускацию в потоковых ответах. | false
 | spring.ai.openai-sdk.chat.options.tool-choice | Контролирует, какая (если есть) функция вызывается моделью. | -
 | spring.ai.openai-sdk.chat.options.internal-tool-execution-enabled | Если false, Spring AI будет проксировать вызовы инструментов клиенту для ручной обработки. Если true (по умолчанию), Spring AI обрабатывает вызовы функций внутренне. | true
-|====
 
 [NOTE]
 ====
@@ -223,12 +215,10 @@ dependencies {
 OpenAI предоставляет два взаимно исключающих параметра для контроля ограничений на генерацию токенов:
 
 [cols="2,3,3", stripes=even]
-|====
 | Параметр | Случай использования | Совместимые модели
 
 | `maxTokens` | Модели без рассуждений | gpt-4o, gpt-4o-mini, gpt-4-turbo, gpt-3.5-turbo
 | `maxCompletionTokens` | Модели рассуждений | o1, o1-mini, o1-preview, o3, o4-mini серии
-|====
 
 > **Важно:** Эти параметры **взаимно исключают друг друга**. Установка обоих приведет к ошибке API от OpenAI.
 
@@ -599,7 +589,6 @@ var chatModel = OpenAiSdkChatModel.builder()
 Эта реализация отличается от xref:api/chat/openai-chat.adoc[реализации Spring AI OpenAI] несколькими способами:
 
 [cols="2,3,3", stripes=even]
-|====
 | Аспект | Официальный OpenAI SDK | Существующий OpenAI
 
 | **HTTP-клиент** | OkHttp (через официальный SDK) | Spring RestClient/WebClient
@@ -609,7 +598,6 @@ var chatModel = OpenAiSdkChatModel.builder()
 | **Аудио/Модерация** | Пока не поддерживается | Полностью поддерживается
 | **Логика повторных попыток** | Управляется SDK (экспоненциальный откат) | Spring Retry (настраиваемый)
 | **Зависимости** | Официальный OpenAI SDK | Spring WebFlux
-|====
 
 **Когда использовать OpenAI SDK:**
 

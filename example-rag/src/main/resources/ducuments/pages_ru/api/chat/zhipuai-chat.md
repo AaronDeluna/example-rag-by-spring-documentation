@@ -82,7 +82,6 @@ dependencies {
 Префикс `spring.ai.retry` используется как префикс свойства, который позволяет вам настроить механизм повторной попытки для модели чата ZhiPu AI.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.retry.max-attempts   | Максимальное количество попыток повторной попытки. |  10
@@ -92,20 +91,17 @@ dependencies {
 | spring.ai.retry.on-client-errors | Если false, выбросить NonTransientAiException и не пытаться повторить для кодов ошибок клиента `4xx` | false
 | spring.ai.retry.exclude-on-http-codes | Список кодов состояния HTTP, которые не должны вызывать повторную попытку (например, для выброса NonTransientAiException). | пусто
 | spring.ai.retry.on-http-codes | Список кодов состояния HTTP, которые должны вызывать повторную попытку (например, для выброса TransientAiException). | пусто
-|====
 
 #### Свойства подключения
 
 Префикс `spring.ai.zhipuai` используется как префикс свойства, который позволяет вам подключиться к ZhiPuAI.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.zhipuai.base-url   | URL для подключения к API ZhiPuAI. +
 Если вы используете платформу Z.ai, вам нужно установить его на `https://api.z.ai/api/paas[https://api.z.ai/api/paas]`. |  `https://open.bigmodel.cn/api/paas[https://open.bigmodel.cn/api/paas]`
 | spring.ai.zhipuai.api-key    | API ключ           |  -
-|====
 
 #### Свойства конфигурации
 
@@ -123,13 +119,11 @@ dependencies {
 Префикс `spring.ai.zhipuai.chat` — это префикс свойства, который позволяет вам настроить реализацию модели чата для ZhiPuAI.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.zhipuai.chat.enabled (Удалено и больше не действительно) | Включить модель чата ZhiPuAI.  | true
 | spring.ai.model.chat | Включить модель чата ZhiPuAI.  | zhipuai
-| spring.ai.zhipuai.chat.base-url | Необязательный переопределяет spring.ai.zhipuai.base-url для предоставления специфического URL для чата. +
-Если вы используете платформу Z.ai, вам нужно установить его на `https://api.z.ai/api/paas[https://api.z.ai/api/paas]`. |  `https://open.bigmodel.cn/api/paas[https://open.bigmodel.cn/api/paas]`
+| spring.ai.zhipuai.chat.base-url | Необязательный переопределяет spring.ai.zhipuai.base-url для предоставления специфического URL для чата. Если вы используете платформу Z.ai, вам нужно установить его на `https://api.z.ai/api/paas[https://api.z.ai/api/paas]`. | `https://open.bigmodel.cn/api/paas[https://open.bigmodel.cn/api/paas]`
 | spring.ai.zhipuai.chat.api-key | Необязательный переопределяет spring.ai.zhipuai.api-key для предоставления специфического для чата api-key. |  -
 | spring.ai.zhipuai.chat.options.model | Это модель чата ZhiPuAI, которую следует использовать. Вы можете выбрать между моделями, такими как: `glm-4.6`, `glm-4.5`, `glm-4-air` и другими. | `glm-4-air`
 | spring.ai.zhipuai.chat.options.maxTokens | Максимальное количество токенов, которые нужно сгенерировать в завершении чата. Общая длина входных токенов и сгенерированных токенов ограничена длиной контекста модели. | -
@@ -144,7 +138,6 @@ dependencies {
 | spring.ai.zhipuai.chat.options.tool-names | Список инструментов, идентифицированных по их именам, которые следует включить для вызова функций в одном запросе. Инструменты с этими именами должны существовать в реестре ToolCallback. | -
 | spring.ai.zhipuai.chat.options.tool-callbacks | Обратные вызовы инструментов для регистрации с ChatModel. | -
 | spring.ai.zhipuai.chat.options.internal-tool-execution-enabled | Если false, Spring AI не будет обрабатывать вызовы инструментов внутренне, а будет проксировать их клиенту. Тогда клиент несет ответственность за обработку вызовов инструментов, их распределение на соответствующую функцию и возврат результатов. Если true (по умолчанию), Spring AI будет обрабатывать вызовы функций внутренне. Применимо только для моделей чата с поддержкой вызова функций | true
-|====
 
 > **Примечание:** Вы можете переопределить общие `spring.ai.zhipuai.base-url` и `spring.ai.zhipuai.api-key` для реализаций `ChatModel`.
 Свойства `spring.ai.zhipuai.chat.base-url` и `spring.ai.zhipuai.chat.api-key`, если установлены, имеют приоритет над общими свойствами.

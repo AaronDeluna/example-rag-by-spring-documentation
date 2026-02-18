@@ -46,7 +46,6 @@ dependencies {
 Префикс `spring.ai.oci.genai` — это префикс свойств для настройки соединения с OCI GenAI.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.oci.genai.authenticationType | Тип аутентификации, используемый при аутентификации в OCI. Может быть `file`, `instance-principal`, `workload-identity` или `simple`. | file
@@ -60,7 +59,6 @@ dependencies {
 | spring.ai.oci.genai.profile | Имя профиля OCI. Используется при аутентификации с `file` auth. | DEFAULT
 | spring.ai.oci.genai.endpoint | Необязательный конечный пункт OCI GenAI. | -
 
-|====
 
 [NOTE]
 ====
@@ -76,7 +74,6 @@ dependencies {
 Префикс `spring.ai.oci.genai.embedding` — это префикс свойств, который настраивает реализацию `EmbeddingModel` для OCI GenAI.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.oci.genai.embedding.enabled (Удалено и больше не актуально) | Включить модель встраивания OCI GenAI. | true
@@ -85,7 +82,6 @@ dependencies {
 | spring.ai.oci.genai.embedding.servingMode | Режим обслуживания модели, который будет использоваться. Может быть `on-demand` или `dedicated`. | on-demand
 | spring.ai.oci.genai.embedding.truncate | Как обрезать текст, если он превышает контекст встраивания. Может быть `START` или `END`. | END
 | spring.ai.oci.genai.embedding.model | Модель или конечная точка модели, используемая для встраиваний. | -
-|====
 
 > **Совет:** Все свойства с префиксом `spring.ai.oci.genai.embedding.options` могут быть переопределены во время выполнения, добавив специфичные для запроса <<embedding-options>> в вызов `EmbeddingRequest`.
 

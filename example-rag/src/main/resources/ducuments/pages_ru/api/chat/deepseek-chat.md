@@ -74,7 +74,6 @@ dependencies {
 Префикс `spring.ai.retry` используется как префикс свойства, который позволяет вам настроить механизм повторных попыток для модели DeepSeek Chat.
 
 [cols="3,5,1"]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.retry.max-attempts   | Максимальное количество попыток повторного запроса. |  10
@@ -84,26 +83,22 @@ dependencies {
 | spring.ai.retry.on-client-errors | Если false, выбрасывает NonTransientAiException и не пытается повторить запрос для кодов ошибок клиента `4xx` | false
 | spring.ai.retry.exclude-on-http-codes | Список кодов состояния HTTP, которые не должны вызывать повторный запрос (например, для выброса NonTransientAiException). | пусто
 | spring.ai.retry.on-http-codes | Список кодов состояния HTTP, которые должны вызывать повторный запрос (например, для выброса TransientAiException). | пусто
-|====
 
 #### Свойства подключения
 
 Префикс `spring.ai.deepseek` используется как префикс свойства, который позволяет вам подключиться к DeepSeek.
 
 [cols="3,5,1"]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.deepseek.base-url   | URL для подключения |  `+https://api.deepseek.com+`
 | spring.ai.deepseek.api-key    | API-ключ           |  -
-|====
 
 #### Свойства конфигурации
 
 Префикс `spring.ai.deepseek.chat` — это префикс свойства, который позволяет вам настроить реализацию модели чата для DeepSeek.
 
 [cols="3,5,1"]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.deepseek.chat.enabled | Включает модель чата DeepSeek.  | true
@@ -123,7 +118,6 @@ dependencies {
 | spring.ai.deepseek.chat.options.tool-names | Список инструментов, идентифицированных по их именам, которые следует включить для вызова функций в одном запросе. Инструменты с этими именами должны существовать в реестре ToolCallback. | -
 | spring.ai.deepseek.chat.options.tool-callbacks | Обратные вызовы инструментов для регистрации с ChatModel. | -
 | spring.ai.deepseek.chat.options.internal-tool-execution-enabled | Если false, Spring AI не будет обрабатывать вызовы инструментов внутренне, а будет проксировать их клиенту. Тогда клиент несет ответственность за обработку вызовов инструментов, их распределение на соответствующую функцию и возврат результатов. Если true (по умолчанию), Spring AI будет обрабатывать вызовы функций внутренне. Применимо только для моделей чата с поддержкой вызова функций | true
-|====
 
 > **Примечание:** Вы можете переопределить общие `spring.ai.deepseek.base-url` и `spring.ai.deepseek.api-key` для реализаций `ChatModel`.
 Свойства `spring.ai.deepseek.chat.base-url` и `spring.ai.deepseek.chat.api-key`, если установлены, имеют приоритет над общими свойствами.

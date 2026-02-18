@@ -62,7 +62,6 @@ dependencies {
 Префикс `spring.ai.postgresml.embedding` — это префикс свойств, который настраивает реализацию `EmbeddingModel` для эмбеддингов PostgresML.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 | spring.ai.postgresml.embedding.enabled (Удалено и больше не актуально) | Включить модель эмбеддингов PostgresML.  | true
 | spring.ai.model.embedding | Включить модель эмбеддингов PostgresML.  | postgresml
@@ -71,7 +70,6 @@ dependencies {
 | spring.ai.postgresml.embedding.options.kwargs   | Дополнительные параметры, специфичные для трансформера.  | пустая карта
 | spring.ai.postgresml.embedding.options.vectorType   | Тип вектора PostgresML, используемый для эмбеддинга. Поддерживаются два варианта: `PG_ARRAY` и `PG_VECTOR`. | PG_ARRAY
 | spring.ai.postgresml.embedding.options.metadataMode   | Режим агрегации метаданных документа  | EMBED
-|====
 
 > **Совет:** Все свойства с префиксом `spring.ai.postgresml.embedding.options` могут быть переопределены во время выполнения, добавив специфичные для запроса <<embedding-options>> в вызов `EmbeddingRequest`.## Runtime Options [[embedding-options]]
 

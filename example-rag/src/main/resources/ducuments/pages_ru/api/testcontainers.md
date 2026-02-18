@@ -25,7 +25,6 @@ dependencies {
 В модуле `spring-ai-spring-boot-testcontainers` предоставляются следующие фабрики соединений с сервисами:
 
 [cols="|,|"]
-|====
 | Подробности соединения	 | Соответствует
 
 | `AwsOpenSearchConnectionDetails`
@@ -54,6 +53,5 @@ dependencies {
 
 | `WeaviateConnectionDetails`
 | Контейнеры типа `WeaviateContainer`
-|====
 
 Дополнительные соединения с сервисами предоставляются модулем spring boot `spring-boot-testcontainers`. Обратитесь к странице документации https://docs.spring.io/spring-boot/reference/testing/testcontainers.html#testing.testcontainers.service-connections[Соединения сервисов Testcontainers] для получения полного списка.

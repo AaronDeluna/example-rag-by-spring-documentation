@@ -79,7 +79,6 @@ dependencies {
 Префикс `spring.ai.retry` используется как префикс свойства, который позволяет вам настроить механизм повторных попыток для модели чата Mistral AI.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.retry.max-attempts   | Максимальное количество попыток повторного запроса. |  10
@@ -89,19 +88,16 @@ dependencies {
 | spring.ai.retry.on-client-errors | Если false, выбросить NonTransientAiException и не пытаться повторить запрос для кодов ошибок клиента `4xx` | false
 | spring.ai.retry.exclude-on-http-codes | Список кодов состояния HTTP, которые не должны вызывать повторный запрос (например, для выброса NonTransientAiException). | пусто
 | spring.ai.retry.on-http-codes | Список кодов состояния HTTP, которые должны вызывать повторный запрос (например, для выброса TransientAiException). | пусто
-|====
 
 #### Свойства подключения
 
 Префикс `spring.ai.mistralai` используется как префикс свойства, который позволяет вам подключаться к OpenAI.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.mistralai.base-url   | URL для подключения |  https://api.mistral.ai
 | spring.ai.mistralai.api-key    | API-ключ           |  -
-|====
 
 #### Свойства конфигурации
 
@@ -119,7 +115,6 @@ dependencies {
 Префикс `spring.ai.mistralai.chat` — это префикс свойства, который позволяет вам настроить реализацию модели чата для Mistral AI.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.mistralai.chat.enabled (Удалено и больше не актуально) | Включить модель чата Mistral AI.  | true
@@ -139,7 +134,6 @@ dependencies {
 | spring.ai.mistralai.chat.options.tool-names | Список инструментов, идентифицированных по их именам, для включения вызова функций в одном запросе. Инструменты с этими именами должны существовать в реестре ToolCallback. | -
 | spring.ai.mistralai.chat.options.tool-callbacks | Обратные вызовы инструментов для регистрации с ChatModel. | -
 | spring.ai.mistralai.chat.options.internal-tool-execution-enabled | Если false, Spring AI не будет обрабатывать вызовы инструментов внутренне, а будет проксировать их клиенту. Тогда ответственность за обработку вызовов инструментов, их распределение на соответствующую функцию и возврат результатов ложится на клиента. Если true (по умолчанию), Spring AI будет обрабатывать вызовы функций внутренне. Применимо только для моделей чата с поддержкой вызова функций | true
-|====
 
 > **Примечание:** Вы можете переопределить общие `spring.ai.mistralai.base-url` и `spring.ai.mistralai.api-key` для реализаций `ChatModel` и `EmbeddingModel`. Свойства `spring.ai.mistralai.chat.base-url` и `spring.ai.mistralai.chat.api-key`, если установлены, имеют приоритет над общими свойствами. Это полезно, если вы хотите использовать разные учетные записи Mistral AI для разных моделей и разных конечных точек моделей.
 

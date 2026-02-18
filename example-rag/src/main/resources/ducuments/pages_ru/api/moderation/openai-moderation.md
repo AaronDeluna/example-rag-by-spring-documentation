@@ -40,13 +40,11 @@ dependencies {
 ### Свойства подключения
 Префикс spring.ai.openai используется в качестве префикса свойств, который позволяет вам подключаться к OpenAI.
 [cols="3,5,1"]
-|====
 | Свойство | Описание | По умолчанию
 | spring.ai.openai.base-url   | URL для подключения |  https://api.openai.com
 | spring.ai.openai.api-key    | API-ключ           |  -
 | spring.ai.openai.organization-id | При желании вы можете указать, какая организация используется для API-запроса. |  -
 | spring.ai.openai.project-id      | При желании вы можете указать, какой проект используется для API-запроса. |  -
-|====
 
 > **Совет:** Для пользователей, которые принадлежат нескольким организациям (или получают доступ к своим проектам через свой устаревший API-ключ пользователя), при желании вы можете указать, какая организация и проект используются для API-запроса. Использование этих API-запросов будет учитываться как использование для указанной организации и проекта.
 
@@ -63,7 +61,6 @@ dependencies {
 
 Префикс spring.ai.openai.moderation используется в качестве префикса свойства для настройки модели модерации OpenAI.
 [cols="3,5,2"]
-|====
 | Свойство | Описание | По умолчанию
 | spring.ai.model.moderation   | Включить модель модерации |  openai
 | spring.ai.openai.moderation.base-url   | URL для подключения |  https://api.openai.com
@@ -72,7 +69,6 @@ dependencies {
 | spring.ai.openai.moderation.project-id      | Опционально вы можете указать, какой проект используется для API-запроса. |  -
 | spring.ai.openai.moderation.moderation-path | Путь к конечной точке API для запросов модерации. Полезно для совместимых с OpenAI API с различными структурами конечных точек. | /v1/moderations
 | spring.ai.openai.moderation.options.model  | ID модели, используемой для модерации. | omni-moderation-latest
-|====
 
 > **Примечание:** Вы можете переопределить общие свойства `spring.ai.openai.base-url`, `spring.ai.openai.api-key`, `spring.ai.openai.organization-id` и `spring.ai.openai.project-id`.
 Свойства `spring.ai.openai.moderation.base-url`, `spring.ai.openai.moderation.api-key`, `spring.ai.openai.moderation.organization-id` и `spring.ai.openai.moderation.project-id`, если они установлены, имеют приоритет над общими свойствами.

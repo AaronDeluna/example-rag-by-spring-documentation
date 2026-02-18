@@ -81,7 +81,6 @@ dependencies {
 Префикс `spring.ai.google.genai` используется в качестве префикса свойств, который позволяет вам подключаться к Google GenAI.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.model.chat   | Включить клиент модели чата |  google-genai
@@ -89,14 +88,12 @@ dependencies {
 | spring.ai.google.genai.project-id   | Идентификатор проекта Google Cloud Platform (обязателен для режима Vertex AI) |  -
 | spring.ai.google.genai.location    | Регион Google Cloud (обязателен для режима Vertex AI) |  -
 | spring.ai.google.genai.credentials-uri    | URI для учетных данных Google Cloud. Если он предоставлен, он используется для создания экземпляра `GoogleCredentials` для аутентификации. |  -
-|====
 
 #### Свойства модели чата
 
 Префикс `spring.ai.google.genai.chat` — это префикс свойств, который позволяет вам настраивать реализацию модели чата для Google GenAI Chat.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.google.genai.chat.options.model | Поддерживаемые https://ai.google.dev/gemini-api/docs/models[модели Google GenAI Chat], которые можно использовать, включают `gemini-2.0-flash`, `gemini-2.0-flash-lite`, `gemini-pro` и `gemini-1.5-flash`. | gemini-2.0-flash
@@ -122,7 +119,6 @@ dependencies {
 | spring.ai.google.genai.chat.options.auto-cache-ttl | Время жизни (Duration) для автоматически кэшированного контента в формате ISO-8601 (например, `PT1H` для 1 часа). Используется, когда авто-кэширование включено. | PT1H
 | spring.ai.google.genai.chat.enable-cached-content | Включить бин `GoogleGenAiCachedContentService` для управления кэшированным контентом. | true
 
-|====
 
 > **Совет:** Все свойства с префиксом `spring.ai.google.genai.chat.options` могут быть переопределены во время выполнения, добавив специфичные для запроса <<chat-options>> к вызову `Prompt`.
 
@@ -195,13 +191,11 @@ String response = ChatClient.create(this.chatModel)
 Параметр `thinkingLevel` управляет глубиной токенов размышлений, которые генерирует модель. Это доступно для моделей, которые поддерживают размышления (например, Gemini 3 Pro Preview).
 
 [cols="1,3", stripes=even]
-|====
 | Значение | Описание
 
 | `LOW` | Минимальные размышления. Используйте для простых запросов, где скорость предпочтительнее глубокого анализа.
 | `HIGH` | Обширные размышления. Используйте для сложных задач, требующих глубокого анализа и пошагового рассуждения.
 | `THINKING_LEVEL_UNSPECIFIED` | Модель использует свое поведение по умолчанию.
-|====
 
 #### Конфигурация через свойства
 
@@ -285,7 +279,6 @@ ChatResponse response = chatModel.call(
 Опции конфигурации размышлений специфичны для модели:
 
 [cols="2,1,1,2", stripes=even]
-|====
 | Модель | thinkingLevel | thinkingBudget | Примечания
 
 | Gemini 3 Pro (Preview)
@@ -312,7 +305,6 @@ ChatResponse response = chatModel.call(
 | ❌ Не поддерживается
 | ❌ Не поддерживается
 | Размышления недоступны.
-|====
 
 [ВАЖНО]
 ====

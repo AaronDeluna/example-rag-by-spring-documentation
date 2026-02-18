@@ -69,22 +69,18 @@ dependencies {
 Префикс `spring.ai.ollama` — это префикс свойств для настройки подключения к Ollama.
 
 [cols="3,6,1"]
-|====
 | Свойство | Описание | По умолчанию
 | spring.ai.ollama.base-url | Базовый URL, по которому работает сервер API Ollama. | `+http://localhost:11434+`
-|====
 
 Вот свойства для инициализации интеграции Ollama и xref:auto-pulling-models[автоматической загрузки моделей].
 
 [cols="3,6,1"]
-|====
 | Свойство | Описание | По умолчанию
 | spring.ai.ollama.init.pull-model-strategy | Нужно ли загружать модели при запуске и как. | `never`
 | spring.ai.ollama.init.timeout | Как долго ждать загрузки модели. | `5m`
 | spring.ai.ollama.init.max-retries | Максимальное количество попыток для операции загрузки модели. | `0`
 | spring.ai.ollama.init.embedding.include | Включить этот тип моделей в задачу инициализации. | `true`
 | spring.ai.ollama.init.embedding.additional-models | Дополнительные модели для инициализации помимо тех, которые настроены через свойства по умолчанию. | `[]`
-|====
 
 ### Свойства векторного представления[NOTE]
 ====
@@ -102,20 +98,16 @@ dependencies {
 Вот расширенные параметры запроса для модели встраивания Ollama:
 
 [cols="4,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 | spring.ai.ollama.embedding.enabled (Удалено и больше не актуально)     | Включает автоматическую конфигурацию модели встраивания Ollama. | true
 | spring.ai.model.embedding      | Включает автоматическую конфигурацию модели встраивания Ollama. | ollama
-| spring.ai.ollama.embedding.options.model  | Имя https://github.com/ollama/ollama?tab=readme-ov-file#model-library[поддерживаемой модели], которую следует использовать.
-Вы можете использовать специализированные https://ollama.com/search?c=embedding[типы моделей встраивания] | mxbai-embed-large
+| spring.ai.ollama.embedding.options.model  | Имя https://github.com/ollama/ollama?tab=readme-ov-file#model-library[поддерживаемой модели], которую следует использовать. Вы можете использовать специализированные https://ollama.com/search?c=embedding[типы моделей встраивания] | mxbai-embed-large
 | spring.ai.ollama.embedding.options.keep_alive  | Управляет тем, как долго модель будет оставаться загруженной в памяти после запроса | 5m
 | spring.ai.ollama.embedding.options.truncate  | Укорачивает конец каждого ввода, чтобы вписаться в длину контекста. Возвращает ошибку, если false и превышена длина контекста.  | true
-|====
 
 Оставшиеся свойства `options` основаны на [Допустимых параметрах и значениях Ollama](https://github.com/ollama/ollama/blob/main/docs/modelfile.md#valid-parameters-and-values) и [Типах Ollama](https://github.com/ollama/ollama/blob/main/api/types.go). Значения по умолчанию основаны на: [Типах по умолчанию Ollama](https://github.com/ollama/ollama/blob/b538dc3858014f94b099730a592751a5454cab0a/api/types.go#L364).
 
 [cols="4,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 | spring.ai.ollama.embedding.options.numa              | Использовать ли NUMA.                                           | false
 | spring.ai.ollama.embedding.options.num-ctx           | Устанавливает размер окна контекста, используемого для генерации следующего токена. | 2048
@@ -148,7 +140,6 @@ dependencies {
 | spring.ai.ollama.embedding.options.penalize-newline  | -                                                             | true
 | spring.ai.ollama.embedding.options.stop              | Устанавливает последовательности остановки для использования. Когда этот шаблон встречается, LLM прекратит генерировать текст и вернется. Можно установить несколько последовательностей остановки, указав несколько отдельных параметров остановки в файле модели. | -
 | spring.ai.ollama.embedding.options.functions         | Список функций, идентифицированных по их именам, которые следует включить для вызова функций в одном запросе. Функции с этими именами должны существовать в реестре functionCallbacks. | -
-|====
 
 > **Совет:** Все свойства с префиксом `spring.ai.ollama.embedding.options` могут быть переопределены во время выполнения, добавив специфичные для запроса <<embedding-options>> в вызов `EmbeddingRequest`.## Параметры выполнения [[embedding-options]]
 

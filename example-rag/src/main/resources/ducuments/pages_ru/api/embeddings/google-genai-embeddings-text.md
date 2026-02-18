@@ -78,7 +78,6 @@ dependencies {
 ====
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.google.genai.embedding.api-key   | API-ключ для Gemini Developer API. Если он предоставлен, клиент использует Gemini Developer API вместо Vertex AI. |  -
@@ -86,7 +85,6 @@ dependencies {
 | spring.ai.google.genai.embedding.location   | Регион Google Cloud (обязателен для режима Vertex AI) |  -
 | spring.ai.google.genai.embedding.credentials-uri   | URI для учетных данных Google Cloud. Если он предоставлен, используется для создания экземпляра `GoogleCredentials` для аутентификации. |  -
 
-|====
 
 [NOTE]
 ====
@@ -104,7 +102,6 @@ dependencies {
 Префикс `spring.ai.google.genai.embedding.text` — это префикс свойств, который позволяет вам настраивать реализацию модели эмбеддингов для Google GenAI Text Embedding.
 
 [cols="3,5,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.model.embedding.text | Включить модель Google GenAI Embedding API. | google-genai
@@ -113,7 +110,6 @@ dependencies {
 | spring.ai.google.genai.embedding.text.options.title | Необязательный заголовок, действителен только при task_type=RETRIEVAL_DOCUMENT.  | -
 | spring.ai.google.genai.embedding.text.options.dimensions | Количество измерений, которые должны иметь результирующие выходные эмбеддинги. Поддерживается для версии модели 004 и выше. Вы можете использовать этот параметр для уменьшения размера эмбеддинга, например, для оптимизации хранения.  | -
 | spring.ai.google.genai.embedding.text.options.auto-truncate | Если установлено в true, входной текст будет обрезан. Если установлено в false, будет возвращена ошибка, если входной текст длиннее максимальной длины, поддерживаемой моделью.  | true
-|====
 
 ## Пример контроллера
 

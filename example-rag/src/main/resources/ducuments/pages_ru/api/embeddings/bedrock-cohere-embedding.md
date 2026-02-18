@@ -74,7 +74,6 @@ java -Dspring.ai.model.embedding=bedrock-cohere -jar your-application.jar
 Префикс `spring.ai.bedrock.aws` — это префикс свойств для настройки подключения к AWS Bedrock.
 
 [cols="3,4,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 
 | spring.ai.bedrock.aws.region     | Регион AWS для использования. | us-east-1
@@ -83,7 +82,6 @@ java -Dspring.ai.model.embedding=bedrock-cohere -jar your-application.jar
 | spring.ai.bedrock.aws.profile.name | Имя профиля AWS.  | -
 | spring.ai.bedrock.aws.profile.credentials-path | Путь к файлу учетных данных AWS.  | -
 | spring.ai.bedrock.aws.profile.configuration-path | Путь к файлу конфигурации AWS.  | -
-|====
 
 [ПРИМЕЧАНИЕ]
 ====
@@ -99,14 +97,12 @@ java -Dspring.ai.model.embedding=bedrock-cohere -jar your-application.jar
 Префикс `spring.ai.bedrock.cohere.embedding` (определенный в `BedrockCohereEmbeddingProperties`) — это префикс свойств, который настраивает реализацию модели встраивания для Cohere.
 
 [cols="3,4,1", stripes=even]
-|====
 | Свойство | Описание | По умолчанию
 | spring.ai.model.embedding           | Включить или отключить поддержку для Cohere  | bedrock-cohere
 | spring.ai.bedrock.cohere.embedding.enabled (Удалено и больше не актуально)             | Включить или отключить поддержку для Cohere  | false
 | spring.ai.bedrock.cohere.embedding.model                | Идентификатор модели для использования. См. [CohereEmbeddingModel](https://github.com/spring-projects/spring-ai/blob/056b95a00efa5b014a1f488329fbd07a46c02378/models/spring-ai-bedrock/src/main/java/org/springframework/ai/bedrock/cohere/api/CohereEmbeddingBedrockApi.java#L150) для поддерживаемых моделей.  | cohere.embed-multilingual-v3
 | spring.ai.bedrock.cohere.embedding.options.input-type  | Добавляет специальные токены для различения каждого типа друг от друга. Вы не должны смешивать разные типы вместе, за исключением случаев, когда смешиваете типы для поиска и извлечения. В этом случае встраивайте ваш корпус с типом search_document и встроенные запросы с типом search_query.  | SEARCH_DOCUMENT
 | spring.ai.bedrock.cohere.embedding.options.truncate  | Указывает, как API обрабатывает входные данные, превышающие максимальную длину токена. Если вы укажете LEFT или RIGHT, модель отбросит входные данные до тех пор, пока оставшиеся данные не станут точно максимальной длиной токена для модели.  | NONE
-|====
 
 > **Примечание:** При доступе к Cohere через Amazon Bedrock функция обрезки недоступна. Это проблема с Amazon Bedrock. Класс Spring AI `BedrockCohereEmbeddingModel` будет обрезать до 2048 символов, что является максимальным, поддерживаемым моделью.
 
