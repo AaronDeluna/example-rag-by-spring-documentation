@@ -11,12 +11,12 @@
 
     <modules>
         <module>example-rag</module>
-        <module>stdio-mcp-server</module>
-        <module>stdio-mcp-client</module>
-        <module>webmvc-mcp-server</module>
-        <module>webmvc-mcp-client</module>
-        <module>webflux-mcp-server</module>
-        <module>webflux-mcp-client</module>
+        <module>stdio-sync-mcp-server</module>
+        <module>stdio-sync-mcp-client</module>
+        <module>webmvc-sync-mcp-server</module>
+        <module>webmvc-sync-mcp-client</module>
+        <module>webflux-async-mcp-server</module>
+        <module>webflux-async-mcp-client</module>
     </modules>
 
     <properties>

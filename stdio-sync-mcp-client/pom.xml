@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>webmvc-mcp-server</artifactId>
+    <artifactId>stdio-sync-mcp-client</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>webmvc-mcp-server</name>
-    <description>DEMO-WEBMVC-MCP-SERVER</description>
+    <name>stdio-mcp-client</name>
+    <description>DEMO-MCP-CLIENT</description>
 
     <parent>
         <groupId>org.mirent</groupId>
@@ -21,17 +21,12 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-starter-mcp-server-webmvc</artifactId>
+            <artifactId>spring-ai-starter-mcp-client</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.zalando</groupId>
-            <artifactId>logbook-spring-boot-starter</artifactId>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-model-ollama</artifactId>
         </dependency>
     </dependencies>
 

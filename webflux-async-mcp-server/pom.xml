@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>stdio-mcp-server</artifactId>
+    <artifactId>webflux-async-mcp-server</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>stdio-mcp-server</name>
-    <description>DEMO-MCP-SERVER</description>
+    <name>webflux-mcp-server</name>
+    <description>DEMO-WEBFLUX-MCP-SERVER</description>
 
     <parent>
         <groupId>org.mirent</groupId>
@@ -21,18 +21,17 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-starter-mcp-server</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <scope>test</scope>
+            <artifactId>spring-ai-starter-mcp-server-webflux</artifactId>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.zalando</groupId>
+            <artifactId>logbook-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
 
