@@ -37,7 +37,7 @@
 1. Запуск MCP-сервера с конфигурацией по умолчанию - транспортом **WebMVC**:
 > `mvn spring-boot:run -pl webmvc-mcp-server`
 2. Выполнить запуск теста, имитирующего **MCP-клиент**:
-> `mvn test -pl stdio-mcp-server -Dtest=ru.mirent.stdio.StdioClientTest`
+> `mvn test -pl stdio-mcp-server -Dtest=ru.mirent.webmvc.WebMvcClientTest`
 
 (Опционально) Запуск с конфигурацией `stdio` с транспортом **STDIO**:
 > `mvn spring-boot:run -pl webmvc-mcp-server -Dspring-boot.run.profiles=stdio`
@@ -53,3 +53,11 @@ TODO Добавить реализацию MCP-клиента и его запу
 > Отобразить зависимости плагинов:
 
 `mvn dependency:resolve-plugins`
+
+## Сравнительная таблицы для разных реализаций Spring WebFlux и Spring WebMVC
+| Критерий       | WebMVC                               | WebFlux                                       |
+|----------------|--------------------------------------|-----------------------------------------------|
+| Контейнер      | Работает на любом Servlet-контейнере | Реактивный сервер                             |
+| Основана на    | Servlet API и блокирующих потоках    | Reactive Streams и неблокирующей модели       |
+| Тип выполнения | Синхронная (блокирующая)             | Асинхронная (неблокирующая)                   |
+| Подход         | Один поток — один запрос             | Немного потоков — много запросов (event-loop) |

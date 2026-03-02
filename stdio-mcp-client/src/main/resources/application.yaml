@@ -27,8 +27,9 @@ spring:
 
 logging:
   level:
-#    ROOT: DEBUG
+    ROOT: DEBUG
     ru.mirent.stdio.interceptors: DEBUG
+    org.zalando.logbook: DEBUG
 #    org.springframework.boot.autoconfigure: DEBUG
   # Требуется отключать вывод записей в консоль, т.к. их сервер будет пытаться распарсить как Json, предполагая,
   # что это запрос от клиента. TODO Проверить нужно ли это для клиента или нет
@@ -36,4 +37,4 @@ logging:
 #      console:
   # Но в файл вывод оставить.
   file:
-    name: ../logs/stdio-mcp-client.log
+    name: ./logs/stdio-mcp-client.log

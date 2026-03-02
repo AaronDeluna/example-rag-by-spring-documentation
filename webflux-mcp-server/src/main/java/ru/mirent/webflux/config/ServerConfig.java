@@ -1,14 +1,14 @@
-package org.mirent.webmvc.config;
+package ru.mirent.webflux.config;
 
-import org.mirent.webmvc.tools.DateTimeTool;
-import org.mirent.webmvc.tools.DocCreator;
-import org.mirent.webmvc.tools.FileOpenTool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.ai.tool.method.MethodToolCallbackProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import ru.mirent.webflux.tools.DateTimeTool;
+import ru.mirent.webflux.tools.DocCreator;
+import ru.mirent.webflux.tools.FileOpenTool;
 
 @Configuration
 public class ServerConfig {

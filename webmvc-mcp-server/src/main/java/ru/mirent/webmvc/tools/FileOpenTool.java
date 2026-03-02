@@ -1,6 +1,6 @@
-package org.mirent.webmvc.tools;
+package ru.mirent.webmvc.tools;
 
-import org.mirent.webmvc.service.FileService;
+import ru.mirent.webmvc.service.FileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.tool.annotation.Tool;

@@ -1,4 +1,4 @@
-package org.mirent.webmvc.service;
+package ru.mirent.webmvc.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

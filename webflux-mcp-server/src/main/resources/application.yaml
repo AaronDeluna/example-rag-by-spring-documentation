@@ -17,4 +17,4 @@ logging:
     ROOT: DEBUG
     org.zalando.logbook: DEBUG
   file:
-    name: ./logs/webmvc-mcp-server.log
+    name: ./logs/webflux-mcp-server.log
