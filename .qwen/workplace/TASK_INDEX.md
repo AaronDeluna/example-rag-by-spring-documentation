@@ -22,6 +22,16 @@
 | 016 | common                  | Настройка Qwen Code для работы со всем проектом       | ✅      | 2026-03-26    | 2026-03-26      | TASK-016_qwen_code_project_setup.md        |
 | 017 | common                  | Оптимизация документации проекта                      | ✅      | 2026-03-26    | 2026-03-26      | TASK-017_documentation_optimization.md     |
 | 018 | common                  | Добавить распределение задач по модулям               | ✅      | 2026-03-26    | 2026-03-26      | TASK-018_common_add_module_distribution.md |
+| 019 | rag                     | Тесты RAG: сравнение векторов на разных эмбеддерах    | 📋      | 2026-03-26    |                 | TASK-019_rag_compare_embedding_vectors.md |
+| 020 | rag                     | Тесты RAG: влияние параметров эмбеддера на ответ      | 📋      | 2026-03-26    |                 | TASK-020_rag_embedding_params_influence.md |
+| 021 | webmvc                  | Тестовый эмулятор MCP-клиента (обычные вызовы)        | 📋      | 2026-03-26    |                 | TASK-021_webmvc_mcp_client_emulator.md |
+| 022 | webmvc                  | Логирование входящих запросов MCP-сервера             | 📋      | 2026-03-26    |                 | TASK-022_webmvc_incoming_request_logging.md |
+| 023 | rag                     | Оценка библиотеки RAGAS для тестирования              | 📋      | 2026-03-26    |                 | TASK-023_rag_evaluate_ragas_library.md |
+| 024 | webflux                 | Многопоточный тестовый эмулятор MCP-клиента           | 📋      | 2026-03-26    |                 | TASK-024_webflux_multithread_mcp_emulator.md |
+| 025 | common                  | OpenTelemetry observability для MCP-сервера           | 📋      | 2026-03-26    |                 | TASK-025_common_opentelemetry_observability.md |
+| 026 | common                  | Structurizr — диаграммы архитектуры                   | 📋      | 2026-03-26    |                 | TASK-026_common_structurizr_diagrams.md |
+| 027 | common                  | ApplicationEventPublisher для проекта                 | 📋      | 2026-03-26    |                 | TASK-027_common_application_event_publisher.md |
+| 028 | common                  | GigaCode — логирование через WireMock                 | 📋      | 2026-03-26    |                 | TASK-028_common_gigacode_wiremock_logging.md |
 
 ## 📁 Легенда
 
