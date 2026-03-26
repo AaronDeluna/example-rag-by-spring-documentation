@@ -27,28 +27,36 @@ MCP-сервер для поиска, анализа и декомпиляции
 - Maven 3.6+
 - Файл `cfr-0.152.jar` в корне проекта
 
-### Сборка
+### Сборка из исходников
 
 ```bash
+# Перейти в директорию модуля
+cd mcp-server-jar-unpacker
+
+# Собрать JAR-файл
 mvn clean package
+
+# JAR-файл будет создан в директории target/
+ls -la target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar
 ```
 
-### Запуск
+### Запуск сервера
 
 ```bash
+# Запуск из директории проекта
 java -jar target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar
+
+# Запуск с параметром (отключить логирование)
+java -jar target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar --no-usage-statistics
 ```
 
-**Параметры запуска:**
+**Важно:** Файл `cfr-0.152.jar` должен находиться в той же директории, что и запускаемый JAR, либо в корне проекта.
+
+### Параметры запуска
 
 | Параметр | Описание |
 |----------|----------|
 | `--no-usage-statistics` | Отключить логирование вызовов инструментов |
-
-**Пример:**
-```bash
-java -jar target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar --no-usage-statistics
-```
 
 ## 🔌 Подключение
 

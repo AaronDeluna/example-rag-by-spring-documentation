@@ -72,16 +72,51 @@ src/main/java/ru/mirent/
 ### Сборка проекта
 
 ```bash
+# Перейти в директорию модуля
+cd mcp-server-jar-unpacker
+
+# Собрать JAR-файл
 mvn clean package
+
+# Проверить результат
+ls -la target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar
+```
+
+**Структура выходных файлов:**
+```
+target/
+├── classes/                    # Скомпилированные классы
+├── mcp-server-jar-unpacker-1.0-SNAPSHOT.jar  # Исполняемый JAR
+├── maven-archiver/             # Информация о сборке
+└── maven-status/               # Статус сборки Maven
 ```
 
 ### Запуск сервера
 
 ```bash
+# Запуск из директории модуля
 java -jar target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar
+
+# Запуск с параметром (отключить логирование)
+java -jar target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar --no-usage-statistics
 ```
 
-**Параметры запуска:**
+**Важно:** Файл `cfr-0.152.jar` должен находиться в той же директории, что и запускаемый JAR, либо в корне проекта.
+
+### Запуск из родительского проекта
+
+```bash
+# Из корня проекта example-rag-by-spring-documentation
+cd /path/to/example-rag-by-spring-documentation
+
+# Сборка модуля
+mvn clean package -pl mcp-server-jar-unpacker
+
+# Запуск
+java -jar mcp-server-jar-unpacker/target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar
+```
+
+### Параметры запуска
 
 | Параметр | Описание |
 |----------|----------|
@@ -91,8 +126,6 @@ java -jar target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar
 ```bash
 java -jar target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar --no-usage-statistics
 ```
-
-**Важно:** Файл `cfr-0.152.jar` должен находиться в той же директории, что и запускаемый JAR, либо в корне проекта.
 
 ### Запуск тестов
 
