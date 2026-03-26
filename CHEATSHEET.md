@@ -129,13 +129,13 @@ grep -r "public.*initialize" --include="*.java" .
 
 ## 📚 Документация
 
-| Файл | Описание |
-|------|----------|
-| [README.md](./README.md) | Обзор проекта, модули, архитектура |
-| [QWEN.md](./QWEN.md) | Настройка Qwen Code, рабочий процесс |
-| [PROJECT_RULES.md](./.qwen/workplace/PROJECT_RULES.md) | Правила проекта (XP, TDD) |
-| [TASK_INDEX.md](./.qwen/workplace/TASK_INDEX.md) | Индекс всех задач |
-| [mcp-server-jar-unpacker/QWEN.md](./mcp-server-jar-unpacker/QWEN.md) | Утилита декомпиляции JAR |
+| Файл                                                                 | Описание                             |
+|----------------------------------------------------------------------|--------------------------------------|
+| [README.md](./README.md)                                             | Обзор проекта, модули, архитектура   |
+| [QWEN.md](./QWEN.md)                                                 | Настройка Qwen Code, рабочий процесс |
+| [PROJECT_RULES.md](./.qwen/workplace/PROJECT_RULES.md)               | Правила проекта (XP, TDD)            |
+| [TASK_INDEX.md](./.qwen/workplace/TASK_INDEX.md)                     | Индекс всех задач                    |
+| [mcp-server-jar-unpacker/QWEN.md](./mcp-server-jar-unpacker/QWEN.md) | Утилита декомпиляции JAR             |
 
 ---
 

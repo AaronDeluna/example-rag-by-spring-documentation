@@ -36,14 +36,14 @@
 
 ### Коды модулей
 
-| Код | Модуль | Путь |
-|-----|--------|------|
-| `common` | Общепроектные задачи | корень проекта |
-| `jar` | mcp-server-jar-unpacker | `mcp-server-jar-unpacker/` |
-| `webmvc` | webmvc-sync-mcp-server/client | `webmvc-sync-mcp-server/`, `webmvc-sync-mcp-client/` |
+| Код       | Модуль                          | Путь                                                     |
+|-----------|---------------------------------|----------------------------------------------------------|
+| `common`  | Общепроектные задачи            | корень проекта                                           |
+| `jar`     | mcp-server-jar-unpacker         | `mcp-server-jar-unpacker/`                               |
+| `webmvc`  | webmvc-sync-mcp-server/client   | `webmvc-sync-mcp-server/`, `webmvc-sync-mcp-client/`     |
 | `webflux` | webflux-async-mcp-server/client | `webflux-async-mcp-server/`, `webflux-async-mcp-client/` |
-| `stdio` | stdio-sync-mcp-server/client | `stdio-sync-mcp-server/`, `stdio-sync-mcp-client/` |
-| `rag` | example-rag | `example-rag/` |
+| `stdio`   | stdio-sync-mcp-server/client    | `stdio-sync-mcp-server/`, `stdio-sync-mcp-client/`       |
+| `rag`     | example-rag                     | `example-rag/`                                           |
 
 **Примеры использования:**
 - `TASK-001_jar_...` — задача по модулю mcp-server-jar-unpacker
@@ -141,10 +141,10 @@ Legacy Code → Characterization Test → Refactor (если нужно) → TDD
 
 **Формат:** `TASK-<ID>_<модуль>_<краткое_описание>.md`
 
-| Часть | Описание | Пример |
-|-------|----------|--------|
-| `<ID>` | Трёхзначный номер задачи | `001`, `018` |
-| `<модуль>` | Код модуля | `jar`, `webmvc`, `common` |
+| Часть                | Описание                           | Пример                             |
+|----------------------|------------------------------------|------------------------------------|
+| `<ID>`               | Трёхзначный номер задачи           | `001`, `018`                       |
+| `<модуль>`           | Код модуля                         | `jar`, `webmvc`, `common`          |
 | `<краткое_описание>` | Описание на английском, snake_case | `tests_for_server`, `add_new_tool` |
 
 **Примеры:**
