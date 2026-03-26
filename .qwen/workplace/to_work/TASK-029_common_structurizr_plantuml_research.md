@@ -35,6 +35,7 @@
 - [ ] Создан тест с генерацией PlantUML
 - [ ] Диаграммы экспортированы в формате PlantUML (.puml)
 - [ ] Реализована генерация PNG из PlantUML
+- [ ] Реализована генерация SVG из PlantUML
 - [ ] Созданы 3 уровня диаграмм (SystemContext, Container, Component)
 - [ ] Подготовлена документация по использованию
 
@@ -54,6 +55,7 @@
 - [ ] Созданы представления (SystemContextView, ContainerView, ComponentView)
 - [ ] Реализован экспорт через StructurizrPlantUMLExporter
 - [ ] Реализована генерация PNG через net.sourceforge.plantuml
+- [ ] Реализована генерация SVG через net.sourceforge.plantuml
 - [ ] Все тесты проходят
 
 ### 🔵 REFACTOR — Рефакторинг
@@ -74,6 +76,7 @@
 - [ ] Сборка успешна
 - [ ] .puml файлы сохранены в `docs/architecture/`
 - [ ] .png файлы сохранены в `docs/architecture/`
+- [ ] .svg файлы сохранены в `docs/architecture/`
 - [ ] Код соответствует стандартам проекта
 - [ ] Изменения закоммичены
 
@@ -147,13 +150,44 @@ try (FileOutputStream fos = new FileOutputStream(pngFile)) {
 }
 ```
 
+### Пример генерации SVG из PlantUML
+
+```java
+import net.sourceforge.plantuml.FileFormat;
+import net.sourceforge.plantuml.FileFormatOption;
+import net.sourceforge.plantuml.SourceStringReader;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.charset.StandardCharsets;
+
+String plantUmlSource = diagram.getDefinition();
+
+SourceStringReader reader = new SourceStringReader(plantUmlSource);
+ByteArrayOutputStream os = new ByteArrayOutputStream();
+
+// Генерация SVG
+reader.outputImage(os, new FileFormatOption(FileFormat.SVG));
+
+// Сохранение в файл
+File svgFile = new File("docs/architecture/diagram.svg");
+try (FileOutputStream fos = new FileOutputStream(svgFile)) {
+    fos.write(os.toByteArray());
+}
+
+// Альтернативно: получение SVG как строки
+String svgContent = os.toString(StandardCharsets.UTF_8.name());
+```
+
 ### Полный процесс генерации
 
 1. **Создание модели** через Structurizr Core API
 2. **Создание представлений** (SystemContextView, ContainerView, ComponentView)
 3. **Экспорт в PlantUML** через `StructurizrPlantUMLExporter`
 4. **Генерация PNG** через `net.sourceforge.plantuml.SourceStringReader`
-5. **Сохранение файлов** (.puml и .png)
+5. **Генерация SVG** через `net.sourceforge.plantuml.SourceStringReader`
+6. **Сохранение файлов** (.puml, .png и .svg)
 
 ### Ссылки
 
@@ -170,6 +204,6 @@ try (FileOutputStream fos = new FileOutputStream(pngFile)) {
 |----------|----------------|---------------------|
 | Формат | DSL файлы (.dsl) | Java код |
 | Генерация | Docker (structurizr-site-generatr) | Java (StructurizrPlantUMLExporter + PlantUML) |
-| Вывод | Статический сайт (HTML+PNG+SVG) | PlantUML (.puml) + PNG |
+| Вывод | Статический сайт (HTML+PNG+SVG) | PlantUML (.puml) + PNG + SVG |
 | Интеграция | Maven Exec Plugin | Maven тесты |
 | Зависимости | Нет (Docker) | structurizr-core + plantuml |
