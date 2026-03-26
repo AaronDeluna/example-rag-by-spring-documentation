@@ -32,6 +32,7 @@
 | 026 | common                  | Structurizr — диаграммы архитектуры                   | ✅      | 2026-03-26    | 2026-03-26      | TASK-026_common_structurizr_diagrams.md |
 | 027 | common                  | ApplicationEventPublisher для проекта                 | 📋      | 2026-03-26    |                 | TASK-027_common_application_event_publisher.md |
 | 028 | common                  | GigaCode — логирование через WireMock                 | 📋      | 2026-03-26    |                 | TASK-028_common_gigacode_wiremock_logging.md |
+| 029 | common                  | Structurizr с PlantUML (structurizr-core)             | 📋      | 2026-03-26    |                 | TASK-029_common_structurizr_plantuml_research.md |
 
 ## 📁 Легенда
 
