@@ -4,9 +4,9 @@
       "command": "java",
       "args": [
         "-jar",
-        "mcp-server-jar-unpacker/target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar"
+        "${workspaceFolder}/mcp-server-jar-unpacker/target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar"
       ],
-      "cwd": "/home/vadim/IdeaProjects/java/my-projects/ai/example-rag-by-spring-documentation/mcp-server-jar-unpacker"
+      "cwd": "${workspaceFolder}/mcp-server-jar-unpacker"
     }
   },
   "$version": 3,
