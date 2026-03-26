@@ -31,8 +31,10 @@
 ## Критерии приёмки (Acceptance Criteria)
 
 - [ ] Добавлена зависимость `com.structurizr:structurizr-core`
+- [ ] Добавлена зависимость `net.sourceforge.plantuml:plantuml`
 - [ ] Создан тест с генерацией PlantUML
 - [ ] Диаграммы экспортированы в формате PlantUML (.puml)
+- [ ] Реализована генерация PNG из PlantUML
 - [ ] Созданы 3 уровня диаграмм (SystemContext, Container, Component)
 - [ ] Подготовлена документация по использованию
 
@@ -47,9 +49,11 @@
 ### 🟢 GREEN — Реализация
 
 - [ ] Добавлена зависимость structurizr-core в pom.xml
+- [ ] Добавлена зависимость plantuml в pom.xml
 - [ ] Создана модель проекта (Person, SoftwareSystem, Container, Component)
 - [ ] Созданы представления (SystemContextView, ContainerView, ComponentView)
 - [ ] Реализован экспорт через StructurizrPlantUMLExporter
+- [ ] Реализована генерация PNG через net.sourceforge.plantuml
 - [ ] Все тесты проходят
 
 ### 🔵 REFACTOR — Рефакторинг
@@ -69,6 +73,7 @@
 - [ ] Все тесты зелёные
 - [ ] Сборка успешна
 - [ ] .puml файлы сохранены в `docs/architecture/`
+- [ ] .png файлы сохранены в `docs/architecture/`
 - [ ] Код соответствует стандартам проекта
 - [ ] Изменения закоммичены
 
@@ -87,14 +92,22 @@
 ### Зависимости
 
 ```xml
+<!-- Structurizr Core API -->
 <dependency>
     <groupId>com.structurizr</groupId>
     <artifactId>structurizr-core</artifactId>
-    <version>1.x.x</version>
+    <version>1.30.4</version>
+</dependency>
+
+<!-- PlantUML для генерации PNG -->
+<dependency>
+    <groupId>net.sourceforge.plantuml</groupId>
+    <artifactId>plantuml</artifactId>
+    <version>1.2024.5</version>
 </dependency>
 ```
 
-### Пример экспорта
+### Пример экспорта в PlantUML
 
 ```java
 import com.structurizr.Workspace;
@@ -108,11 +121,47 @@ Diagram diagram = new StructurizrPlantUMLExporter().export(view);
 System.out.println(diagram.getDefinition());
 ```
 
+### Пример генерации PNG из PlantUML
+
+```java
+import net.sourceforge.plantuml.FileFormat;
+import net.sourceforge.plantuml.FileFormatOption;
+import net.sourceforge.plantuml.SourceStringReader;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+
+String plantUmlSource = diagram.getDefinition();
+
+SourceStringReader reader = new SourceStringReader(plantUmlSource);
+ByteArrayOutputStream os = new ByteArrayOutputStream();
+
+// Генерация PNG
+reader.outputImage(os, new FileFormatOption(FileFormat.PNG));
+
+// Сохранение в файл
+File pngFile = new File("docs/architecture/diagram.png");
+try (FileOutputStream fos = new FileOutputStream(pngFile)) {
+    fos.write(os.toByteArray());
+}
+```
+
+### Полный процесс генерации
+
+1. **Создание модели** через Structurizr Core API
+2. **Создание представлений** (SystemContextView, ContainerView, ComponentView)
+3. **Экспорт в PlantUML** через `StructurizrPlantUMLExporter`
+4. **Генерация PNG** через `net.sourceforge.plantuml.SourceStringReader`
+5. **Сохранение файлов** (.puml и .png)
+
 ### Ссылки
 
 - [Пример теста](../../webmvc-sync-mcp-server/src/test/java/ru/mirent/webmvc/StructurizrTest.java)
 - [TASK-026 (DSL подход)](../../.qwen/workplace/archive/TASK-026_common_structurizr_diagrams.md)
 - [Structurizr Core API](https://github.com/structurizr/java/blob/master/docs/api.md)
+- [PlantUML](https://plantuml.com/ru/)
+- [PlantUML Maven](https://mvnrepository.com/artifact/net.sourceforge.plantuml/plantuml)
 - [Глобальный план](../../docs/global-plans.md)
 
 ### Отличия от TASK-026
@@ -120,6 +169,7 @@ System.out.println(diagram.getDefinition());
 | Параметр | TASK-026 (DSL) | TASK-029 (Core API) |
 |----------|----------------|---------------------|
 | Формат | DSL файлы (.dsl) | Java код |
-| Генерация | Docker (structurizr-site-generatr) | Java (StructurizrPlantUMLExporter) |
-| Вывод | Статический сайт (HTML+PNG+SVG) | PlantUML файлы (.puml) |
+| Генерация | Docker (structurizr-site-generatr) | Java (StructurizrPlantUMLExporter + PlantUML) |
+| Вывод | Статический сайт (HTML+PNG+SVG) | PlantUML (.puml) + PNG |
 | Интеграция | Maven Exec Plugin | Maven тесты |
+| Зависимости | Нет (Docker) | structurizr-core + plantuml |
