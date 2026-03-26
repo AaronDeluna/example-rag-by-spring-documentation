@@ -29,7 +29,7 @@
 | 023 | rag                     | Оценка библиотеки RAGAS для тестирования              | 📋      | 2026-03-26    |                 | TASK-023_rag_evaluate_ragas_library.md |
 | 024 | webflux                 | Многопоточный тестовый эмулятор MCP-клиента           | 📋      | 2026-03-26    |                 | TASK-024_webflux_multithread_mcp_emulator.md |
 | 025 | common                  | OpenTelemetry observability для MCP-сервера           | 📋      | 2026-03-26    |                 | TASK-025_common_opentelemetry_observability.md |
-| 026 | common                  | Structurizr — диаграммы архитектуры                   | 🔧      | 2026-03-26    |                 | TASK-026_common_structurizr_diagrams.md |
+| 026 | common                  | Structurizr — диаграммы архитектуры                   | ✅      | 2026-03-26    | 2026-03-26      | TASK-026_common_structurizr_diagrams.md |
 | 027 | common                  | ApplicationEventPublisher для проекта                 | 📋      | 2026-03-26    |                 | TASK-027_common_application_event_publisher.md |
 | 028 | common                  | GigaCode — логирование через WireMock                 | 📋      | 2026-03-26    |                 | TASK-028_common_gigacode_wiremock_logging.md |
 
