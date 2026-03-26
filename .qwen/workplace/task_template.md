@@ -1,7 +1,25 @@
-# Название задачи
+# TASK-<ID>: Название задачи
 
 > **⚠️ Важно:** Этот файл должен быть создан **до начала** любой работы над задачей.
 > Отмечайте чек-боксы `[x]` **сразу после выполнения** каждого шага для возможности продолжения с места прерывания.
+
+## Информация о задаче
+
+| Поле | Значение |
+|------|----------|
+| **Модуль:** | `common` / `jar` / `webmvc` / `webflux` / `stdio` / `rag` |
+| **ID:** | `<ID>` (например, 018) |
+| **Файл:** | `TASK-<ID>_<модуль>_<краткое_описание>.md` |
+
+**Коды модулей:**
+- `common` — общепроектные задачи
+- `jar` — mcp-server-jar-unpacker
+- `webmvc` — webmvc-sync-mcp-server / webmvc-sync-mcp-client
+- `webflux` — webflux-async-mcp-server / webflux-async-mcp-client
+- `stdio` — stdio-sync-mcp-server / stdio-sync-mcp-client
+- `rag` — example-rag
+
+---
 
 ## Описание
 
@@ -58,6 +76,7 @@
 
 | Поле | Значение |
 |------|----------|
+| **Модуль:** | `common` / `jar` / `webmvc` / `webflux` / `stdio` / `rag` |
 | Дата создания: | YYYY-MM-DD |
 | Дата начала: | YYYY-MM-DD |
 | Дата завершения: | YYYY-MM-DD |

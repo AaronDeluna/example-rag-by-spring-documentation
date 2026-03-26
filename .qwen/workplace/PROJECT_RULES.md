@@ -22,11 +22,33 @@
 **Важно:** Файл задачи должен быть создан **до начала** любой работы над задачей. Это позволяет продолжить работу с места прерывания в случае сбоя или остановки.
 
 1. Скопируйте `task_template.md` в папку `to_work/`
-2. Назовите файл по формату: `TASK-<номер>_<краткое-имя>.md`
-   - Пример: `TASK_001_add_new_feature.md`
+2. Назовите файл по формату: `TASK-<ID>_<модуль>_<краткое-имя>.md`
+   - `<ID>` — трёхзначный номер задачи (001, 002, ...)
+   - `<модуль>` — код модуля (см. ниже)
+   - `<краткое-имя>` — описание на английском в snake_case
+   - Примеры:
+     - `TASK-001_jar_tests_for_server.md`
+     - `TASK-018_webmvc_add_new_tool.md`
+     - `TASK-019_common_update_docs.md`
 3. Заполните описание и список действий
 4. Добавьте запись в `TASK_INDEX.md`
 5. **Перед началом работы** установите статус задачи в `🔧 In Progress` в `TASK_INDEX.md`
+
+### Коды модулей
+
+| Код | Модуль | Путь |
+|-----|--------|------|
+| `common` | Общепроектные задачи | корень проекта |
+| `jar` | mcp-server-jar-unpacker | `mcp-server-jar-unpacker/` |
+| `webmvc` | webmvc-sync-mcp-server/client | `webmvc-sync-mcp-server/`, `webmvc-sync-mcp-client/` |
+| `webflux` | webflux-async-mcp-server/client | `webflux-async-mcp-server/`, `webflux-async-mcp-client/` |
+| `stdio` | stdio-sync-mcp-server/client | `stdio-sync-mcp-server/`, `stdio-sync-mcp-client/` |
+| `rag` | example-rag | `example-rag/` |
+
+**Примеры использования:**
+- `TASK-001_jar_...` — задача по модулю mcp-server-jar-unpacker
+- `TASK-018_webmvc_...` — задача по модулю webmvc-sync-mcp-server/client
+- `TASK-019_common_...` — общепроектная задача (документация, настройка)
 
 ### Работа над задачей — TDD цикл
 
@@ -117,10 +139,20 @@ Legacy Code → Characterization Test → Refactor (если нужно) → TDD
 
 ### Именование файлов задач
 
-- Префикс: `TASK-XXX_` где XXX — порядковый номер (001, 002, ...)
-- Разделитель слов: дефис `-`
-- Расширение: `.md`
-- Пример: `TASK-001_fix_bug_in_parser.md`
+**Формат:** `TASK-<ID>_<модуль>_<краткое_описание>.md`
+
+| Часть | Описание | Пример |
+|-------|----------|--------|
+| `<ID>` | Трёхзначный номер задачи | `001`, `018` |
+| `<модуль>` | Код модуля | `jar`, `webmvc`, `common` |
+| `<краткое_описание>` | Описание на английском, snake_case | `tests_for_server`, `add_new_tool` |
+
+**Примеры:**
+- `TASK-001_jar_tests_for_server.md`
+- `TASK-018_webmvc_add_new_tool.md`
+- `TASK-019_common_update_docs.md`
+
+**Подробнее:** [Коды модулей](#коды-модулей)
 
 ### Именование тестов
 
