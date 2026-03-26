@@ -269,6 +269,24 @@ mcp-server-jar-unpacker/
 - TASK-014: Новый инструмент: search_classes_by_pattern
 - TASK-015: Параметр --no-usage-statistics для отключения логов
 
+### Бэклог задач
+
+| № | Задача | Приоритет | Оценка |
+|---|--------|-----------|--------|
+| TASK-030 | Fuzzy-search в find_class_in_m2 | P1 | 3ч |
+| TASK-031 | Maven-координаты при отсутствии класса | P1 | 2ч |
+| TASK-032 | Параметр limit в list_classes_in_jar | P1 | 1ч |
+| TASK-033 | Флаг --debug для логирования | P2 | 2ч |
+| TASK-034 | Логирование cache hit/miss | P2 | 1ч |
+| TASK-035 | Переменная окружения CFR_PATH | P2 | 1ч |
+| TASK-036 | Переменная окружения CACHE_TTL_SECONDS | P2 | 1ч |
+| TASK-037 | Автозагрузка CFR | P3 | 4ч |
+| TASK-038 | Пагинация результатов | P3 | 2ч |
+| TASK-039 | Команда invalidate_cache | P3 | 1ч |
+| TASK-040 | Поддержка JMOD/JIMAGE | P3 | 8ч |
+
+**Подробнее:** [../../.qwen/workplace/TASK_INDEX.md](../../.qwen/workplace/TASK_INDEX.md)
+
 ## 📦 Зависимости
 
 | Зависимость | Версия | Описание |

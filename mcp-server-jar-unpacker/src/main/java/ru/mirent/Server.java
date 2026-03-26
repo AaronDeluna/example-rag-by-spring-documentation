@@ -383,7 +383,22 @@ public class Server {
             if (obj instanceof Number || obj instanceof Boolean) return obj.toString();
             if (obj instanceof Map) return toJsonMap((Map<?, ?>) obj);
             if (obj instanceof List) return toJsonList((List<?>) obj);
+            if (obj instanceof JsonMessage) return toJsonJsonMessage((JsonMessage) obj);
             return "null";
+        }
+
+        private String toJsonJsonMessage(JsonMessage msg) {
+            StringBuilder sb = new StringBuilder("{");
+            boolean first = true;
+            sb.append("\"id\":").append(toJson(msg.id));
+            if (msg.result != null) {
+                sb.append(",\"result\":").append(toJson(msg.result));
+            }
+            if (msg.error != null) {
+                sb.append(",\"error\":").append(toJson(msg.error));
+            }
+            sb.append("}");
+            return sb.toString();
         }
 
         private String toJsonMap(Map<?, ?> map) {

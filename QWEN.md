@@ -198,13 +198,36 @@ ls -la .qwen/workplace/to_work/
 # Просмотр выполненных задач
 ls -la .qwen/workplace/archive/
 
-# Индекс задач
+# Индекс задач (общий)
 cat .qwen/workplace/TASK_INDEX.md
+
+# Индекс задач модуля mcp-server-jar-unpacker
+cat mcp-server-jar-unpacker/.qwen/workplace/TASK_INDEX.md
 ```
 
 **Статусы задач:** 📋 Pending → 🔧 In Progress → 🧪 Testing → ✅ Done
 
 **Подробнее:** [.qwen/workplace/PROJECT_RULES.md](./.qwen/workplace/PROJECT_RULES.md)
+
+### Бэклог задач mcp-server-jar-unpacker
+
+| № | Задача | Приоритет | Оценка | Файл |
+|---|--------|-----------|--------|------|
+| TASK-030 | Fuzzy-search в find_class_in_m2 | P1 | 3ч | TASK-030_mcp_fuzzy_search.md |
+| TASK-031 | Maven-координаты при отсутствии класса | P1 | 2ч | TASK-031_mcp_maven_coordinates.md |
+| TASK-032 | Параметр limit в list_classes_in_jar | P1 | 1ч | TASK-032_mcp_list_classes_limit.md |
+| TASK-033 | Флаг --debug для логирования | P2 | 2ч | TASK-033_mcp_debug_flag.md |
+| TASK-034 | Логирование cache hit/miss | P2 | 1ч | TASK-034_mcp_cache_logging.md |
+| TASK-035 | Переменная окружения CFR_PATH | P2 | 1ч | TASK-035_mcp_cfr_path_env.md |
+| TASK-036 | Переменная окружения CACHE_TTL_SECONDS | P2 | 1ч | TASK-036_mcp_cache_ttl_env.md |
+| TASK-037 | Автозагрузка CFR | P3 | 4ч | TASK-037_mcp_cfr_autodownload.md |
+| TASK-038 | Пагинация результатов | P3 | 2ч | TASK-038_mcp_pagination.md |
+| TASK-039 | Команда invalidate_cache | P3 | 1ч | TASK-039_mcp_invalidate_cache.md |
+| TASK-040 | Поддержка JMOD/JIMAGE | P3 | 8ч | TASK-040_mcp_jmod_support.md |
+
+**Всего в бэклоге:** 11 задач, ~21 час
+
+**Файлы задач:** `.qwen/workplace/to_work/`
 
 ---
 
