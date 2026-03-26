@@ -1,0 +1,28 @@
+{
+  "mcpServers": {
+    "jar-unpacker": {
+      "command": "java",
+      "args": [
+        "-jar",
+        "target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar"
+      ],
+      "cwd": "."
+    }
+  },
+  "$version": 3,
+  "mcp": {
+    "allowed": [
+      "jar-unpacker"
+    ],
+    "excluded": []
+  },
+  "permissions": {
+    "allow": [
+      "Bash(mvn *)",
+      "Bash(java *)",
+      "Bash(mv *)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
+    ]
+  }
+}
