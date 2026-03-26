@@ -4,9 +4,9 @@
       "command": "java",
       "args": [
         "-jar",
-        "target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar"
+        "mcp-server-jar-unpacker/target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar"
       ],
-      "cwd": "."
+      "cwd": "/home/vadim/IdeaProjects/java/my-projects/ai/example-rag-by-spring-documentation/mcp-server-jar-unpacker"
     }
   },
   "$version": 3,
@@ -22,7 +22,13 @@
       "Bash(java *)",
       "Bash(mv *)",
       "Bash(git add *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(ls *)",
+      "Bash(find *)",
+      "Bash(python3 *)"
     ]
   }
 }
