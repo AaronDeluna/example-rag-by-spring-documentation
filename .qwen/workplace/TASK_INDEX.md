@@ -21,6 +21,7 @@
 | 015 | mcp-server-jar-unpacker | Параметр --no-usage-statistics для отключения логов   | ✅      | 2026-03-26    | 2026-03-26      | TASK-015_no_usage_statistics.md    |
 | 016 | common                  | Настройка Qwen Code для работы со всем проектом       | ✅      | 2026-03-26    | 2026-03-26      | TASK-016_qwen_code_project_setup.md    |
 | 017 | common                  | Оптимизация документации проекта                      | ✅      | 2026-03-26    | 2026-03-26      | TASK-017_documentation_optimization.md |
+| 018 | common                  | Добавить распределение задач по модулям               | ✅      | 2026-03-26    | 2026-03-26      | TASK-018_common_add_module_distribution.md |
 
 ## 📁 Легенда
 
