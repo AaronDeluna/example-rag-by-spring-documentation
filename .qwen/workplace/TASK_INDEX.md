@@ -19,7 +19,8 @@
 | 013 | Новый инструмент: list_classes_in_jar                 | ✅      | 2026-03-26    | 2026-03-26      | TASK-013_list_classes_tool.md      |
 | 014 | Новый инструмент: search_classes_by_pattern           | ✅      | 2026-03-26    | 2026-03-26      | TASK-014_search_pattern_tool.md    |
 | 015 | Параметр --no-usage-statistics для отключения логов   | ✅      | 2026-03-26    | 2026-03-26      | TASK-015_no_usage_statistics.md    |
-| 016 | Настройка Qwen Code для работы со всем проектом       | ✅      | 2026-03-26    | 2026-03-26      | TASK-016_qwen_code_project_setup.md |
+| 016 | Настройка Qwen Code для работы со всем проектом       | ✅      | 2026-03-26    | 2026-03-26      | TASK-016_qwen_code_project_setup.md    |
+| 017 | Оптимизация документации проекта                      | ✅      | 2026-03-26    | 2026-03-26      | TASK-017_documentation_optimization.md |
 
 ## 📁 Легенда
 
