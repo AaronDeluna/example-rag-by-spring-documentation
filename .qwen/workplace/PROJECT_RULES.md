@@ -2,31 +2,18 @@
 
 ## 📁 Структура рабочего пространства
 
-**Единое рабочее пространство для всех модулей:**
-
 ```
 .qwen/workplace/
-├── PROJECT_RULES.md      # Этот файл — правила проекта (общие для всех модулей)
+├── PROJECT_RULES.md      # Этот файл — правила проекта
 ├── TASK_INDEX.md         # Индекс всех задач с таблицей статусов
 ├── task_template.md      # Шаблон для создания новых задач
 ├── to_work/              # Активные задачи (в работе)
 └── archive/              # Выполненные задачи
 ```
 
-## 📦 Модули проекта
+**📋 Обзор проекта:** [README.md](../../README.md) — модули, архитектура, технологии
 
-Правила применяются ко всем модулям:
-
-| Модуль | Описание | Документация |
-|--------|----------|--------------|
-| `example-rag` | RAG-приложение на Spring AI | `README-VADIM.md` |
-| `stdio-sync-mcp-server` | MCP-сервер (STDIO, синхронный) | `README-VADIM.md` |
-| `stdio-sync-mcp-client` | MCP-клиент (STDIO, синхронный) | `README-VADIM.md` |
-| `webmvc-sync-mcp-server` | MCP-сервер (WebMVC, SSE, синхронный) | `README-VADIM.md` |
-| `webmvc-sync-mcp-client` | MCP-клиент (WebMVC, SSE, синхронный) | `README-VADIM.md` |
-| `webflux-async-mcp-server` | MCP-сервер (WebFlux, SSE, асинхронный) | `README-VADIM.md` |
-| `webflux-async-mcp-client` | MCP-клиент (WebFlux, SSE, асинхронный) | `README-VADIM.md` |
-| `mcp-server-jar-unpacker` | Утилита декомпиляции JAR | `mcp-server-jar-unpacker/QWEN.md` |
+---
 
 ## 🔄 Рабочий процесс (Extreme Programming + TDD)
 
@@ -181,7 +168,11 @@ void testMethod() {
 | **Refactoring**            | Постоянное улучшение кода без изменения поведения      |
 | **Collective Ownership**   | Любой может изменить любой код при необходимости       |
 
-## 🚀 Команды для работы с модулями
+---
+
+## 🚀 Команды
+
+**Полная шпаргалка:** [CHEATSHEET.md](../../CHEATSHEET.md)
 
 ### Сборка и тестирование
 
@@ -189,14 +180,8 @@ void testMethod() {
 # Сборка всего проекта
 mvn clean package
 
-# Сборка конкретного модуля
-mvn clean package -pl <module-name>
-
 # Тесты всего проекта
 mvn test
-
-# Тесты конкретного модуля
-mvn test -pl <module-name>
 
 # Сборка с пропуском тестов
 mvn clean install -pl <module-name> -DskipTests
@@ -208,13 +193,8 @@ mvn clean install -pl <module-name> -DskipTests
 # example-rag
 mvn spring-boot:run -pl example-rag
 
-# stdio-sync-mcp-client
-mvn spring-boot:run -pl stdio-sync-mcp-client
-
-# webmvc-sync-mcp-server (с профилем stdio)
+# MCP-серверы с STDIO-профилем
 mvn spring-boot:run -pl webmvc-sync-mcp-server -Dspring-boot.run.profiles=stdio
-
-# webflux-async-mcp-server (с профилем stdio)
 mvn spring-boot:run -pl webflux-async-mcp-server -Dspring-boot.run.profiles=stdio
 
 # mcp-server-jar-unpacker

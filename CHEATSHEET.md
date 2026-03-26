@@ -1,18 +1,10 @@
 # Шпаргалка по проекту example-rag-by-spring-documentation
 
-## 📦 Модули
+> **📋 Обзор проекта:** [README.md](./README.md) — модули, архитектура, сравнение WebMVC/WebFlux  
+> **⚙️ Настройка Qwen Code:** [QWEN.md](./QWEN.md) — рабочий процесс, задачи  
+> **📜 Правила проекта:** [.qwen/workplace/PROJECT_RULES.md](./.qwen/workplace/PROJECT_RULES.md) — TDD, XP, конвенции
 
-```
-example-rag-by-spring-documentation/
-├── example-rag                    # RAG-приложение (Spring AI + PostgreSQL + Ollama)
-├── stdio-sync-mcp-server          # MCP-сервер (STDIO, синхронный)
-├── stdio-sync-mcp-client          # MCP-клиент (STDIO, синхронный)
-├── webmvc-sync-mcp-server         # MCP-сервер (WebMVC, SSE)
-├── webmvc-sync-mcp-client         # MCP-клиент (WebMVC, SSE)
-├── webflux-async-mcp-server       # MCP-сервер (WebFlux, SSE, асинхронный)
-├── webflux-async-mcp-client       # MCP-клиент (WebFlux, SSE)
-└── mcp-server-jar-unpacker        # Утилита декомпиляции JAR
-```
+---
 
 ## 🚀 Быстрый старт
 
@@ -23,7 +15,10 @@ example-rag-by-spring-documentation/
 mvn clean package
 
 # Конкретный модуль
-mvn clean package -pl mcp-server-jar-unpacker
+mvn clean package -pl <module-name>
+
+# Без тестов
+mvn clean install -pl <module-name> -DskipTests
 ```
 
 ### Тесты
@@ -36,6 +31,9 @@ mvn test
 mvn test -pl stdio-sync-mcp-server
 mvn test -pl webmvc-sync-mcp-server -Dtest=WebMvcClientTest
 mvn test -pl mcp-server-jar-unpacker
+
+# Конкретный тест
+mvn test -pl mcp-server-jar-unpacker -Dtest=JsonUtilsTest
 ```
 
 ### Запуск
@@ -55,49 +53,41 @@ mvn spring-boot:run -pl webflux-async-mcp-server -Dspring-boot.run.profiles=stdi
 java -jar mcp-server-jar-unpacker/target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar
 ```
 
+---
+
 ## 📝 Работа с задачами
 
 ### Создать новую задачу
 
 ```bash
 # Копирование шаблона
-cp .qwen/workplace/task_template.md .qwen/workplace/to_work/TASK-017_описание.md
+cp .qwen/workplace/task_template.md .qwen/workplace/to_work/TASK-XXX_описание.md
 
 # Редактирование
-vim .qwen/workplace/to_work/TASK-017_описание.md
+vim .qwen/workplace/to_work/TASK-XXX_описание.md
 ```
 
 ### Обновить TASK_INDEX.md
 
 Добавить строку в таблицу:
 ```markdown
-| 017 | Описание задачи | 📋 | 2026-03-26 | | TASK-017_описание.md |
+| XXX | Описание задачи | 📋 | 2026-03-26 | | TASK-XXX_описание.md |
 ```
 
 ### Завершить задачу
 
-1. Отметить все чек-боксы в файле задачи
-2. Переместить в archive:
 ```bash
+# Переместить в archive
 mv .qwen/workplace/to_work/TASK-XXX_описание.md .qwen/workplace/archive/
 ```
-3. Обновить статус в TASK_INDEX.md на ✅
+
+**Подробнее:** [QWEN.md](./QWEN.md), [PROJECT_RULES.md](./.qwen/workplace/PROJECT_RULES.md)
+
+---
 
 ## 🎯 TDD Цикл
 
-```
-┌─────────────┐
-│     RED     │ → Тест падает
-└──────┬──────┘
-       ▼
-┌─────────────┐
-│    GREEN    │ → Минимальный код
-└──────┬──────┘
-       ▼
-┌─────────────┐
-│  REFACTOR   │ → Улучшение кода
-└─────────────┘
-```
+**Подробнее:** [PROJECT_RULES.md](./.qwen/workplace/PROJECT_RULES.md)
 
 ### Именование тестов
 
@@ -110,6 +100,8 @@ void givenValidRequestWhenInitializeThenReturnsCapabilities() {
     // Assert
 }
 ```
+
+---
 
 ## 🔍 Навигация
 
@@ -133,15 +125,19 @@ grep -r "@RestController" --include="*.java" .
 grep -r "public.*initialize" --include="*.java" .
 ```
 
+---
+
 ## 📚 Документация
 
 | Файл | Описание |
 |------|----------|
-| `QWEN.md` | Полная настройка Qwen Code для проекта |
-| `README-VADIM.md` | Общая информация о модулях |
-| `mcp-server-jar-unpacker/QWEN.md` | Документация по утилите декомпиляции |
-| `.qwen/workplace/PROJECT_RULES.md` | Правила проекта (XP, TDD) |
-| `.qwen/workplace/TASK_INDEX.md` | Индекс всех задач |
+| [README.md](./README.md) | Обзор проекта, модули, архитектура |
+| [QWEN.md](./QWEN.md) | Настройка Qwen Code, рабочий процесс |
+| [PROJECT_RULES.md](./.qwen/workplace/PROJECT_RULES.md) | Правила проекта (XP, TDD) |
+| [TASK_INDEX.md](./.qwen/workplace/TASK_INDEX.md) | Индекс всех задач |
+| [mcp-server-jar-unpacker/QWEN.md](./mcp-server-jar-unpacker/QWEN.md) | Утилита декомпиляции JAR |
+
+---
 
 ## 🛠️ Полезные команды
 
@@ -149,24 +145,14 @@ grep -r "public.*initialize" --include="*.java" .
 # Дерево зависимостей
 mvn dependency:tree -pl <module-name>
 
-# Сборка без тестов
-mvn clean install -pl <module-name> -DskipTests
-
-# Запуск конкретного теста
-mvn test -pl mcp-server-jar-unpacker -Dtest=JsonUtilsTest
+# Зависимости плагинов
+mvn dependency:resolve-plugins
 
 # Полное тестирование mcp-server-jar-unpacker
 cd mcp-server-jar-unpacker && python3 test_all_tools.py
 ```
 
-## 📊 Сравнение WebMVC vs WebFlux
-
-| Критерий | WebMVC | WebFlux |
-|----------|--------|---------|
-| Тип | Синхронный (блокирующий) | Асинхронный (неблокирующий) |
-| Потоки | Один поток — один запрос | Event-loop, мало потоков |
-| Сервер | Servlet-контейнер | Реактивный сервер |
-| Транспорт | SSE | SSE/STDIO |
+---
 
 ## 🔗 Ссылки
 
