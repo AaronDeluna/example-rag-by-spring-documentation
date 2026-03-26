@@ -36,6 +36,7 @@
 - [ ] Реализованы слушатели событий
 - [ ] Реализован сбор событий для построения Sequence Diagram
 - [ ] Реализована генерация Sequence Diagram на PlantUML
+- [ ] Реализована генерация SVG из PlantUML
 - [ ] Написаны тесты на события
 - [ ] Подготовлена документация
 
@@ -54,6 +55,7 @@
 - [ ] Созданы слушатели для логирования
 - [ ] Реализован EventListener для сбора событий
 - [ ] Реализована генерация Sequence Diagram на PlantUML
+- [ ] Реализована генерация SVG из PlantUML
 - [ ] Все тесты проходят
 
 ### 🔵 REFACTOR — Рефакторинг
@@ -71,7 +73,7 @@
 
 - [ ] Все тесты зелёные
 - [ ] Сборка успешна
-- [ ] Sequence Diagram сохранены в `docs/architecture/sequence/`
+- [ ] Sequence Diagram сохранены в `docs/architecture/sequence/` в формате .svg
 - [ ] Код соответствует стандартам проекта
 - [ ] Изменения закоммичены
 
@@ -135,7 +137,33 @@ Client --> User: Результат
 ### Архитектура решения
 
 ```
-Приложение → ApplicationEventPublisher → EventListener → EventStore → PlantUML Generator → .puml файлы
+Приложение → ApplicationEventPublisher → EventListener → EventStore → PlantUML Generator → .puml → SVG Generator → .svg файлы
+```
+
+### Пример генерации SVG из PlantUML
+
+```java
+import net.sourceforge.plantuml.FileFormat;
+import net.sourceforge.plantuml.FileFormatOption;
+import net.sourceforge.plantuml.SourceStringReader;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+
+String plantUmlSource = loadSequenceDiagram(); // Получение PlantUML из событий
+
+SourceStringReader reader = new SourceStringReader(plantUmlSource);
+ByteArrayOutputStream os = new ByteArrayOutputStream();
+
+// Генерация SVG
+reader.outputImage(os, new FileFormatOption(FileFormat.SVG));
+
+// Сохранение в файл
+File svgFile = new File("docs/architecture/sequence/sequence-diagram.svg");
+try (FileOutputStream fos = new FileOutputStream(svgFile)) {
+    fos.write(os.toByteArray());
+}
 ```
 
 ### Ссылки
