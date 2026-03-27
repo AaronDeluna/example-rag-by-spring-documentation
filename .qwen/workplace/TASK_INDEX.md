@@ -2,7 +2,7 @@
 
 ## 📊 Таблица статусов
 
-**Всего задач:** 40 (26 выполнено, 14 в работе)
+**Всего задач:** 41 (27 выполнено, 14 в работе)
 
 | ID  | Модуль                  | Название                                            | Статус | Дата создания | Дата завершения | Файл                                             |
 |-----|-------------------------|-----------------------------------------------------|--------|---------------|-----------------|--------------------------------------------------|
@@ -38,7 +38,7 @@
 | 030 | mcp-server-jar-unpacker | Fuzzy-search в find_class_in_m2                     | 📋      | 2026-03-27    |                 | TASK-030_mcp_fuzzy_search.md                     |
 | 031 | mcp-server-jar-unpacker | Maven-координаты при отсутствии класса              | 📋      | 2026-03-27    |                 | TASK-031_mcp_maven_coordinates.md                |
 | 032 | mcp-server-jar-unpacker | Параметр limit в list_classes_in_jar                | 📋      | 2026-03-27    |                 | TASK-032_mcp_list_classes_limit.md               |
-| 033 | mcp-server-jar-unpacker | Флаг --debug для логирования                        | 📋      | 2026-03-27    |                 | TASK-033_mcp_debug_flag.md                       |
+| 033 | mcp-server-jar-unpacker | Флаг --debug для логирования                        | ✅      | 2026-03-27    | 2026-03-27      | TASK-033_mcp_debug_flag.md                       |
 | 034 | mcp-server-jar-unpacker | Логирование cache hit/miss                          | 📋      | 2026-03-27    |                 | TASK-034_mcp_cache_logging.md                    |
 | 035 | mcp-server-jar-unpacker | Переменная окружения CFR_PATH                       | 📋      | 2026-03-27    |                 | TASK-035_mcp_cfr_path_env.md                     |
 | 036 | mcp-server-jar-unpacker | Переменная окружения CACHE_TTL_SECONDS              | 📋      | 2026-03-27    |                 | TASK-036_mcp_cache_ttl_env.md                    |
@@ -46,6 +46,7 @@
 | 038 | mcp-server-jar-unpacker | Пагинация результатов (offset/limit)                | 📋      | 2026-03-27    |                 | TASK-038_mcp_pagination.md                       |
 | 039 | mcp-server-jar-unpacker | Команда invalidate_cache через JSON-RPC             | 📋      | 2026-03-27    |                 | TASK-039_mcp_invalidate_cache.md                 |
 | 040 | mcp-server-jar-unpacker | Поддержка JMOD/JIMAGE (Java 9+)                     | 📋      | 2026-03-27    |                 | TASK-040_mcp_jmod_support.md                     |
+| 041 | mcp-server-jar-unpacker | Бенчмаркинг производительности MCP-сервера          | 📋      | 2026-03-27    |                 | TASK-041_mcp_performance_benchmark.md            |
 
 ## 📁 Легенда
 
