@@ -57,6 +57,22 @@ java -jar target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar --no-usage-statistics
 | Параметр | Описание |
 |----------|----------|
 | `--no-usage-statistics` | Отключить логирование вызовов инструментов |
+| `--debug` | Включить DEBUG-режим с подробным логированием |
+
+**Примеры:**
+
+```bash
+# Запуск с DEBUG-режимом
+java -jar target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar --debug
+
+# Запуск без логирования
+java -jar target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar --no-usage-statistics
+
+# Оба параметра вместе
+java -jar target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar --debug --no-usage-statistics
+```
+
+**Важно:** Флаг `--no-usage-statistics` отключает ВСЁ логирование (включая DEBUG).
 
 ## 🔌 Подключение
 
@@ -220,6 +236,32 @@ python3 test_all_tools.py
 2026-03-26T10:15:32.789Z | get_method_source | ERROR: Method not found | 12ms | arguments={...}
 ```
 
+### DEBUG-режим
+
+Для включения подробного логирования используйте флаг `--debug`:
+
+```bash
+java -jar target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar --debug
+```
+
+**Пример DEBUG-лога:**
+
+```
+2026-03-27T01:00:00.000Z | DEBUG | Получен запрос: {"method":"tools/call","params":{"name":"get_class_outline",...}}
+2026-03-27T01:00:00.001Z | DEBUG | Вызов инструмента: get_class_outline
+2026-03-27T01:00:00.002Z | DEBUG | Проверка кэша: com.google.common.base.Preconditions
+2026-03-27T01:00:00.003Z | DEBUG | Кэш: hit, чтение из /tmp/cfr-decompiled/...
+2026-03-27T01:00:00.005Z | get_class_outline | SUCCESS | 5ms | arguments={...}
+2026-03-27T01:00:00.006Z | DEBUG | Инструмент get_class_outline выполнен за 5ms
+```
+
+**Что логируется в DEBUG-режиме:**
+- Этапы обработки запроса
+- Время выполнения каждого этапа
+- Детали кэширования (hit/miss)
+- Вывод CFR (при декомпиляции)
+- Сканирование Maven-репозитория
+
 ## 🛠️ Разработка
 
 ### Структура проекта
@@ -252,7 +294,7 @@ mcp-server-jar-unpacker/
 
 ### Выполненные задачи
 
-Все 15 задач выполнены и находятся в архиве:
+Все 16 задач выполнены и находятся в архиве:
 - TASK-001: Реализация тестов для Server.java с Mockito
 - TASK-002: Логирование вызовов инструментов MCP-сервера
 - TASK-003: Разделение Server.java на модули: JsonRpcHandler
@@ -268,6 +310,7 @@ mcp-server-jar-unpacker/
 - TASK-013: Новый инструмент: list_classes_in_jar
 - TASK-014: Новый инструмент: search_classes_by_pattern
 - TASK-015: Параметр --no-usage-statistics для отключения логов
+- TASK-033: Флаг --debug для логирования
 
 ### Бэклог задач
 
@@ -276,7 +319,6 @@ mcp-server-jar-unpacker/
 | TASK-030 | Fuzzy-search в find_class_in_m2 | P1 | 3ч |
 | TASK-031 | Maven-координаты при отсутствии класса | P1 | 2ч |
 | TASK-032 | Параметр limit в list_classes_in_jar | P1 | 1ч |
-| TASK-033 | Флаг --debug для логирования | P2 | 2ч |
 | TASK-034 | Логирование cache hit/miss | P2 | 1ч |
 | TASK-035 | Переменная окружения CFR_PATH | P2 | 1ч |
 | TASK-036 | Переменная окружения CACHE_TTL_SECONDS | P2 | 1ч |

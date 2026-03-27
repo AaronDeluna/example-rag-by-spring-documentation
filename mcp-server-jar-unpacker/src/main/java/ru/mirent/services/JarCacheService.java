@@ -1,5 +1,7 @@
 package ru.mirent.services;
 
+import ru.mirent.logging.ToolLogger;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -52,11 +54,17 @@ public class JarCacheService {
         if (isCacheExpired() || isRepoModified()) {
             synchronized (this) {
                 if (isCacheExpired() || isRepoModified()) {
+                    long startTime = System.currentTimeMillis();
+                    ToolLogger.logDebug("Начало сканирования Maven-репозитория");
                     cachedJars = scanMavenRepo();
                     cacheTime = System.currentTimeMillis();
                     repoMtime = getRepoMtime();
+                    long elapsed = System.currentTimeMillis() - startTime;
+                    ToolLogger.logDebug("Сканирование завершено за " + elapsed + "ms, найдено " + cachedJars.size() + " JAR");
                 }
             }
+        } else {
+            ToolLogger.logDebug("Кэш JAR: hit, осталось " + getCacheRemainingSeconds() + " сек");
         }
         return cachedJars;
     }

@@ -1,5 +1,6 @@
 package ru.mirent.services;
 
+import ru.mirent.logging.ToolLogger;
 import ru.mirent.security.ClassNameValidator;
 import ru.mirent.security.PathValidator;
 
@@ -153,15 +154,21 @@ public class DecompilationService {
     }
 
     private Path ensureDecompiled(String jarPath, String classFqn) throws IOException {
+        long startTime = System.currentTimeMillis();
+        
         // Валидация пути к JAR
         Path validatedJarPath = PathValidator.validateJarPath(jarPath);
 
         Path javaFile = OUTPUT_DIR.resolve(
             classFqn.replace('.', File.separatorChar) + ".java"
         );
+        
+        ToolLogger.logDebug("Проверка кэша: " + classFqn);
         if (Files.exists(javaFile)) {
+            ToolLogger.logDebug("Кэш: hit, чтение из " + javaFile);
             return javaFile;
         }
+        ToolLogger.logDebug("Кэш: miss");
 
         Path jar = validatedJarPath;
         if (!Files.exists(jar)) {
@@ -175,6 +182,7 @@ public class DecompilationService {
 
         Files.createDirectories(OUTPUT_DIR);
 
+        ToolLogger.logDebug("Запуск CFR: java -jar " + cfrJar + " " + jar + " " + classFqn);
         ProcessBuilder pb = new ProcessBuilder(
                 "java", "-jar", cfrJar.toString(), jar.toString(), classFqn,
                 "--outputdir", OUTPUT_DIR.toString(),
@@ -203,6 +211,7 @@ public class DecompilationService {
         }
 
         if (exitCode != 0 && !Files.exists(javaFile)) {
+            ToolLogger.logDebug("CFR вывод: " + output);
             throw new IOException(String.format(
                     "Декомпиляция не дала результата.\nstdout: %s", output));
         }
@@ -210,6 +219,9 @@ public class DecompilationService {
         if (!Files.exists(javaFile)) {
             throw new IOException("Декомпиляция не дала результата.");
         }
+
+        long elapsed = System.currentTimeMillis() - startTime;
+        ToolLogger.logDebug("Декомпиляция завершена за " + elapsed + "ms");
 
         return javaFile;
     }

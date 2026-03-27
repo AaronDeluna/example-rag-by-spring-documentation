@@ -62,5 +62,25 @@ class ServerArgsTest {
 
             assertTrue(result);
         }
+
+        @Test
+        @DisplayName("givenDebugArgWhenParseArgsThenReturnsTrue")
+        void givenDebugArgWhenParseArgsThenReturnsTrue() {
+            String[] args = {"--debug"};
+
+            boolean result = Server.parseArgs(args);
+
+            assertTrue(result);
+        }
+
+        @Test
+        @DisplayName("givenDebugAndNoUsageStatisticsArgsWhenParseArgsThenReturnsFalse")
+        void givenDebugAndNoUsageStatisticsArgsWhenParseArgsThenReturnsFalse() {
+            String[] args = {"--debug", "--no-usage-statistics"};
+
+            boolean result = Server.parseArgs(args);
+
+            assertFalse(result);
+        }
     }
 }

@@ -1,5 +1,7 @@
 package ru.mirent;
 
+import ru.mirent.logging.ToolLogger;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +23,10 @@ public class JsonRpcHandler {
      * Обработка входящего JSON-RPC сообщения
      */
     public JsonMessage handle(String json) throws IOException {
+        long startTime = System.currentTimeMillis();
+        
+        ToolLogger.logDebug("Получен запрос: " + json);
+        
         JsonMessage msg = parseJson(json);
 
         if ("initialize".equals(msg.method)) {
@@ -30,7 +36,7 @@ public class JsonRpcHandler {
         } else if ("tools/list".equals(msg.method)) {
             return handleListTools(msg);
         } else if ("tools/call".equals(msg.method)) {
-            return handleCallTool(msg);
+            return handleCallTool(msg, startTime);
         } else {
             return createError(msg.id, "Unknown method: " + msg.method);
         }
@@ -59,12 +65,19 @@ public class JsonRpcHandler {
         return createResponse(msg.id, result);
     }
 
-    private JsonMessage handleCallTool(JsonMessage msg) {
+    private JsonMessage handleCallTool(JsonMessage msg, long startTime) {
         Map<String, Object> params = (Map<String, Object>) msg.params;
         String name = (String) params.get("name");
         Map<String, Object> arguments = (Map<String, Object>) params.get("arguments");
 
+        ToolLogger.logDebug("Вызов инструмента: " + name);
+        ToolLogger.logDebug("Аргументы: " + arguments);
+
         Object result = toolRegistry.callTool(name, arguments);
+        
+        long elapsed = System.currentTimeMillis() - startTime;
+        ToolLogger.logDebug("Инструмент " + name + " выполнен за " + elapsed + "ms");
+
         return createResponse(msg.id, result);
     }
 

@@ -121,11 +121,22 @@ java -jar mcp-server-jar-unpacker/target/mcp-server-jar-unpacker-1.0-SNAPSHOT.ja
 | Параметр | Описание |
 |----------|----------|
 | `--no-usage-statistics` | Отключить логирование вызовов инструментов в `jar-unpacker.log` |
+| `--debug` | Включить DEBUG-режим с подробным логированием |
 
 **Пример:**
+
 ```bash
+# Запуск с DEBUG-режимом
+java -jar target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar --debug
+
+# Запуск без логирования
 java -jar target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar --no-usage-statistics
+
+# Оба параметра вместе
+java -jar target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar --debug --no-usage-statistics
 ```
+
+**Важно:** Флаг `--no-usage-statistics` отключает ВСЁ логирование (включая DEBUG).
 
 ### Запуск тестов
 
@@ -167,6 +178,31 @@ mvn test
 2026-03-26T10:15:31.456Z | get_class_outline | SUCCESS | 89ms | arguments={"jar_path":"...","class_fqn":"..."}
 2026-03-26T10:15:32.789Z | get_method_source | ERROR: Method not found | 12ms | arguments={"jar_path":"...","class_fqn":"...","method_name":"..."}
 ```
+
+### DEBUG-режим
+
+Для включения подробного логирования используйте флаг `--debug`:
+
+```bash
+java -jar target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar --debug
+```
+
+**Пример DEBUG-лога:**
+```
+2026-03-27T01:00:00.000Z | DEBUG | Получен запрос: {"method":"tools/call","params":{"name":"get_class_outline",...}}
+2026-03-27T01:00:00.001Z | DEBUG | Вызов инструмента: get_class_outline
+2026-03-27T01:00:00.002Z | DEBUG | Проверка кэша: com.google.common.base.Preconditions
+2026-03-27T01:00:00.003Z | DEBUG | Кэш: hit, чтение из /tmp/cfr-decompiled/...
+2026-03-27T01:00:00.005Z | get_class_outline | SUCCESS | 5ms | arguments={...}
+2026-03-27T01:00:00.006Z | DEBUG | Инструмент get_class_outline выполнен за 5ms
+```
+
+**Что логируется в DEBUG-режиме:**
+- Этапы обработки запроса
+- Время выполнения каждого этапа
+- Детали кэширования (hit/miss)
+- Вывод CFR (при декомпиляции)
+- Сканирование Maven-репозитория
 
 **Ротация логов:**
 - Максимальный размер файла: 10 МБ
@@ -496,7 +532,7 @@ mcp-server-jar-unpacker/
 
 ## Выполненные задачи
 
-Все 15 задач выполнены и заархивированы:
+Все 16 задач выполнены и заархивированы:
 
 | ID  | Название | Файл |
 |-----|----------|------|
@@ -515,6 +551,7 @@ mcp-server-jar-unpacker/
 | 013 | Новый инструмент: list_classes_in_jar | TASK-013_list_classes_tool.md |
 | 014 | Новый инструмент: search_classes_by_pattern | TASK-014_search_pattern_tool.md |
 | 015 | Параметр --no-usage-statistics для отключения логов | TASK-015_no_usage_statistics.md |
+| 033 | Флаг --debug для логирования | TASK-033_mcp_debug_flag.md |
 
 ## Qwen Added Memories
 - В проекте mcp-server-jar-unpacker автоматически применяю правила из .qwen/workplace/PROJECT_RULES.md: TDD (Red-Green-Refactor), именование тестов given-when-then CamelCase, AAA Pattern, практики Extreme Programming

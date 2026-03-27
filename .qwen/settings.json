@@ -20,15 +20,7 @@
     "allow": [
       "Bash(mvn *)",
       "Bash(java *)",
-      "Bash(mv *)",
-      "Bash(git add *)",
-      "Bash(git commit *)",
-      "Bash(git status)",
-      "Bash(git diff *)",
-      "Bash(git log *)",
-      "Bash(ls *)",
-      "Bash(find *)",
-      "Bash(python3 *)"
+      "Bash(sleep *)"
     ]
   }
 }

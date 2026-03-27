@@ -36,7 +36,7 @@ public class ToolLogger {
     }
 
     private static boolean isDebugMode() {
-        return Boolean.getBoolean("jarunpacker.debug");
+        return "true".equals(System.getProperty("jarunpacker.debug"));
     }
 
     /**

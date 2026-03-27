@@ -31,12 +31,15 @@ public class Server {
         if (args == null) {
             return true;
         }
+        boolean enableUsageStatistics = true;
         for (String arg : args) {
             if ("--no-usage-statistics".equals(arg)) {
-                return false;
+                enableUsageStatistics = false;
+            } else if ("--debug".equals(arg)) {
+                System.setProperty("jarunpacker.debug", "true");
             }
         }
-        return true; // по умолчанию включено
+        return enableUsageStatistics; // по умолчанию включено
     }
 
     private static void runMcpServer() throws IOException {

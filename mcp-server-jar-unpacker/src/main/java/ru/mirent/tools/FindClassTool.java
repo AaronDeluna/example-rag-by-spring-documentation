@@ -1,5 +1,6 @@
 package ru.mirent.tools;
 
+import ru.mirent.logging.ToolLogger;
 import ru.mirent.services.JarSearchService;
 
 import java.util.Arrays;
@@ -45,12 +46,22 @@ public class FindClassTool extends AbstractTool {
     @Override
     public Object execute(Map<String, Object> arguments) {
         String className = (String) arguments.get("class_name");
+        long startTime = System.currentTimeMillis();
+
+        ToolLogger.logDebug("Начало поиска класса: " + className);
 
         try {
-            return jarSearchService.findClass(className);
+            Object result = jarSearchService.findClass(className);
+            long elapsed = System.currentTimeMillis() - startTime;
+            ToolLogger.logDebug("Поиск класса завершён за " + elapsed + "ms");
+            return result;
         } catch (IllegalArgumentException e) {
+            long elapsed = System.currentTimeMillis() - startTime;
+            ToolLogger.logDebug("Поиск класса завершён с ошибкой за " + elapsed + "ms: " + e.getMessage());
             return "ОШИБКА ВАЛИДАЦИИ: " + e.getMessage();
         } catch (Exception e) {
+            long elapsed = System.currentTimeMillis() - startTime;
+            ToolLogger.logDebug("Поиск класса завершён с ошибкой за " + elapsed + "ms: " + e.getMessage());
             return "ОШИБКА: " + e.getMessage();
         }
     }
