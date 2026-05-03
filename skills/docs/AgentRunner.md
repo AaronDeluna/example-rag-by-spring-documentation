@@ -17,6 +17,27 @@ public interface AgentRunner {
 }
 ```
 
+## Структура модуля
+
+Основная логика находится в `src/main/java`:
+
+```text
+org.mirent.skills.CommandExecutor
+org.mirent.skills.runner.AgentRunner
+org.mirent.skills.runner.qwen.QwenAgentRunner
+org.mirent.skills.parser.AgentStreamJsonParser
+org.mirent.skills.dto.*
+```
+
+В `src/test/java` остаются только тесты и тестовые assertions:
+
+```text
+org.mirent.skills.tests.AgentRunnerTests
+org.mirent.skills.assertions.AgentResultAssertions
+```
+
+Так runner, parser и DTO можно использовать как обычный код модуля, а не только из тестов.
+
 ## Что тут изобретено
 
 Текущая реализация называется `QwenAgentRunner`.
@@ -280,3 +301,107 @@ TREE_ROOT_DONE
 ```
 
 По этим маркерам можно проверить не только финальный ответ, но и порядок переходов между скилами.
+
+## AgentResultAssertions
+
+`AgentResultAssertions` это test-helper для проверок `AgentResultDto`.
+
+Он ничего не возвращает. Все методы работают как JUnit assertions:
+
+- если проверка прошла — метод просто завершается;
+- если проверка не прошла — выбрасывается `AssertionError` с русским сообщением.
+
+В каждый метод первым аргументом передаётся:
+
+```java
+AgentResultDto result
+```
+
+Это результат выполнения агента, который возвращает:
+
+```java
+agentRunner.executeUserPrompt(...)
+agentRunner.executeSkillPrompt(...)
+```
+
+### Проверка одного вызова skill
+
+```java
+assertSingleSkillCall(result, "arithmetic");
+```
+
+Передаётся:
+
+- `result` — результат запуска агента;
+- `"arithmetic"` — ожидаемое имя единственного вызванного скила.
+
+Проверяет, что в `events` был ровно один `tool_use` с `name=skill`, и его `input.skill` равен `arithmetic`.
+
+### Проверка последовательности skill-вызовов
+
+```java
+assertSkillCallsInOrder(
+        result,
+        List.of("arithmetic-delegator", "chain-check")
+);
+```
+
+Передаётся:
+
+- `result` — результат запуска агента;
+- `List<String>` — ожидаемые имена скилов в нужном порядке.
+
+Проверяет, что указанные скилы встретились в trace именно в этом порядке.
+
+Между ожидаемыми скилами могут быть другие вызовы. Например фактическая цепочка:
+
+```text
+arithmetic-delegator -> arithmetic -> chain-check
+```
+
+пройдёт проверку:
+
+```java
+assertSkillCallsInOrder(
+        result,
+        List.of("arithmetic-delegator", "chain-check")
+);
+```
+
+### Проверка состава skill-вызовов без порядка
+
+```java
+assertSkillCallsIgnoringOrder(
+        result,
+        List.of("chain-check", "arithmetic-delegator")
+);
+```
+
+Передаётся:
+
+- `result` — результат запуска агента;
+- `List<String>` — ожидаемые имена скилов.
+
+Проверяет, что набор вызванных скилов совпадает с ожидаемым, но порядок вызовов не учитывается.
+
+### Откуда берутся skill-вызовы
+
+Проверки читают не `stdout` строкой, а нормализованные события:
+
+```java
+result.getEvents()
+```
+
+Из событий берутся только элементы такого вида:
+
+```json
+{
+  "type": "tool_use",
+  "name": "skill",
+  "input": {
+    "skill": "arithmetic"
+  }
+}
+```
+
+То есть проверяется реальный trace вызовов, а не текст финального ответа.

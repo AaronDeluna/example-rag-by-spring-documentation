@@ -1,36 +1,34 @@
 package org.mirent.skills.tests;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mirent.skills.CommandExecutor;
 import org.mirent.skills.dto.agent.AgentResultDto;
-import org.mirent.skills.dto.command.CommandRequestDto;
-import org.mirent.skills.dto.command.CommandResultDto;
 import org.mirent.skills.runner.AgentRunner;
 import org.mirent.skills.runner.qwen.QwenAgentRunner;
 
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
-import java.time.Duration;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mirent.skills.assertions.AgentResultAssertions.assertSingleSkillCall;
+import static org.mirent.skills.assertions.AgentResultAssertions.assertSkillCallsIgnoringOrder;
+import static org.mirent.skills.assertions.AgentResultAssertions.assertSuccessful;
 
+@DisplayName("AgentRunner")
 class AgentRunnerTests {
 
     @Test
-    void executeUserPromptReturnsAgentAnswer() throws Exception {
+    @DisplayName("Выполняет пользовательский prompt с явным вызовом arithmetic")
+    void executeUserPromptInvokesRequestedSkillsInOrder() throws Exception {
         AgentRunner agentRunner = new QwenAgentRunner();
 
-        AgentResultDto result = agentRunner.executeUserPrompt("Верни 1 ответ: сколько будет 2 + 2, можешь использовать скил arithmetic-delegator потмо вызови скил chain-check");
+        AgentResultDto result = agentRunner.executeUserPrompt("Верни 1 ответ: сколько будет 2 + 2 используй skills arithmetic");
 
-        assertFalse(result.isTimedOut());
-        assertEquals(0, result.getExitCode());
+        assertSuccessful(result);
+        assertSingleSkillCall(result, "arithmetic");
     }
 
     @Test
-    void executeSkillPromptReturnsAgentAnswer() throws Exception {
+    @DisplayName("Делегирует arithmetic-delegator во внутренний arithmetic")
+    void executeSkillPromptDelegatesToArithmeticSkill() throws Exception {
         AgentRunner agentRunner = new QwenAgentRunner();
 
         AgentResultDto result = agentRunner.executeSkillPrompt(
@@ -38,12 +36,13 @@ class AgentRunnerTests {
                 "как считать 2 + 2 * 2"
         );
 
-        assertFalse(result.isTimedOut());
-        assertEquals(0, result.getExitCode());
+        assertSuccessful(result);
+        assertSingleSkillCall(result, "arithmetic");
     }
 
     @Test
-    void executeSkillPromptFollowsSkillChain() throws Exception {
+    @DisplayName("Выполняет chain-check без дополнительных skill-вызовов")
+    void executeSkillPromptDoesNotInvokeAdditionalSkills() throws Exception {
         AgentRunner agentRunner = new QwenAgentRunner();
 
         AgentResultDto result = agentRunner.executeSkillPrompt(
@@ -51,11 +50,17 @@ class AgentRunnerTests {
                 "Проверь цепочку skill workflow и верни все обязательные маркеры."
         );
 
-        assertFalse(result.isTimedOut());
-        assertEquals(0, result.getExitCode());
-        assertTrue(result.getStdout().contains("CHAIN_STEP_1_READ_TASK"));
-        assertTrue(result.getStdout().contains("CHAIN_STEP_2_TRANSFORM_TASK"));
-        assertTrue(result.getStdout().contains("CHAIN_STEP_3_FINAL_ANSWER"));
-        assertTrue(result.getStdout().contains("CHAIN_SKILL_DONE"));
+        assertSuccessful(result);
+        assertSkillCallsIgnoringOrder(result, List.of());
+    }
+
+    @Test
+    @DisplayName("Выбирает arithmetic по арифметическому запросу пользователя")
+    void executeUserPromptSelectsSkillByUserIntent() throws Exception {
+        AgentRunner agentRunner = new QwenAgentRunner();
+
+        AgentResultDto result = agentRunner.executeUserPrompt("2 + 3");
+        assertSuccessful(result);
+        assertSingleSkillCall(result, "arithmetic");
     }
 }
