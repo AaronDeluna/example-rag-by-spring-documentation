@@ -1,13 +1,14 @@
-# AgentRunner
+# AgentRunnerService
 
-`AgentRunner` это интерфейс, который предоставляет возможность запускать CLI-агента из Java.
+`AgentRunnerService` это основная точка входа для запуска CLI-агента из Java.
 
-Идея простая: Java-код не должен знать детали конкретной CLI. Он просто говорит агенту:
+Идея простая: пользовательский код не должен создавать конкретные runner-реализации напрямую и не должен знать детали выбранной CLI.
+Он работает через общий контракт:
 
 - выполни обычный пользовательский prompt
 - выполни prompt через явно указанный skill
 
-Сейчас контракт такой:
+Контракт задает интерфейс `AgentRunner`:
 
 ```java
 public interface AgentRunner {
@@ -15,6 +16,12 @@ public interface AgentRunner {
 
     AgentResultDto executeSkillPrompt(String skillName, String prompt) throws Exception;
 }
+```
+
+Штатное создание:
+
+```java
+AgentRunner agentRunner = new AgentRunnerService();
 ```
 
 ## Структура модуля
@@ -25,22 +32,51 @@ public interface AgentRunner {
 org.mirent.skills.CommandExecutor
 org.mirent.skills.runner.AgentRunner
 org.mirent.skills.runner.qwen.QwenAgentRunner
+org.mirent.skills.service.AgentRunnerService
+org.mirent.skills.service.AgentRunnerFactory
+org.mirent.skills.service.AgentRunnerProperties
+org.mirent.skills.service.AgentCli
 org.mirent.skills.parser.AgentStreamJsonParser
+org.mirent.skills.matcher.AgentMatcher
+org.mirent.skills.util.AgentSkillCallExtractorUtils
 org.mirent.skills.dto.*
+org.mirent.skills.exeptions.*
 ```
 
-В `src/test/java` остаются только тесты и тестовые assertions:
+В `src/test/java` остаются тесты:
 
 ```text
-org.mirent.skills.tests.AgentRunnerTests
-org.mirent.skills.assertions.AgentResultAssertions
+org.mirent.skills.tests.AgentSkillWorkflowTests
+org.mirent.skills.tests.AgentRunnerServiceTests
 ```
 
-Так runner, parser и DTO можно использовать как обычный код модуля, а не только из тестов.
+`AgentMatcher` и `AgentSkillCallExtractorUtils` лежат в `main`, потому что результат агента и его tool-вызовы могут понадобиться не только тестам.
 
-## Что тут изобретено
+## Выбор CLI
 
-Текущая реализация называется `QwenAgentRunner`.
+CLI выбирается из `agent-runner.properties`.
+
+Обязательная property:
+
+```properties
+agent.cli=QWEN
+```
+
+Если property не передана, выбрасывается `MissingAgentCliException`.
+Если значение неизвестно, выбрасывается `UnsupportedAgentCliException`.
+
+`AgentRunnerService` не выбирает CLI сам. Он только делегирует вызовы выбранному runner.
+
+Разделение ответственности:
+
+- `AgentRunnerProperties` загружает `agent-runner.properties`
+- `AgentCli` парсит название CLI в enum
+- `AgentRunnerFactory` создает нужную реализацию runner и логирует `Запуск через CLI: QWEN`
+- `AgentRunnerService` делегирует выполнение в созданный runner
+
+## Qwen runner
+
+Текущая поддерживаемая реализация называется `QwenAgentRunner`.
 
 Она запускает `qwen` как внешний процесс и возвращает результат выполнения в `AgentResultDto`.
 
@@ -162,7 +198,7 @@ return executeUserPrompt("/" + skillName + " " + prompt);
 
 ## Тесты
 
-Сейчас есть три теста.
+Интеграционные проверки skill workflow находятся в `AgentSkillWorkflowTests`.
 
 Обычный prompt:
 
@@ -198,6 +234,10 @@ CHAIN_STEP_2_TRANSFORM_TASK
 CHAIN_STEP_3_FINAL_ANSWER
 CHAIN_SKILL_DONE
 ```
+
+Проверки результата вынесены в `AgentMatcher`.
+
+Извлечение вызовов skill-инструмента из JSON-событий делает `AgentSkillCallExtractorUtils`.
 
 ## Что уже понятно из логов
 
@@ -302,9 +342,9 @@ TREE_ROOT_DONE
 
 По этим маркерам можно проверить не только финальный ответ, но и порядок переходов между скилами.
 
-## AgentResultAssertions
+## AgentMatcher
 
-`AgentResultAssertions` это test-helper для проверок `AgentResultDto`.
+`AgentMatcher` это helper для проверок `AgentResultDto`.
 
 Он ничего не возвращает. Все методы работают как JUnit assertions:
 
@@ -384,9 +424,11 @@ assertSkillCallsIgnoringOrder(
 
 Проверяет, что набор вызванных скилов совпадает с ожидаемым, но порядок вызовов не учитывается.
 
-### Откуда берутся skill-вызовы
+## AgentSkillCallExtractorUtils
 
-Проверки читают не `stdout` строкой, а нормализованные события:
+`AgentSkillCallExtractorUtils` это утилитарный класс, который достает skill-вызовы из `AgentResultDto`.
+
+Matcher читает не `stdout` строкой, а нормализованные события:
 
 ```java
 result.getEvents()
