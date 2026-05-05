@@ -6,6 +6,7 @@ import org.mirent.skills.dto.agent.AgentLogDto;
 import org.mirent.skills.dto.agent.AgentResultDto;
 import org.mirent.skills.dto.command.CommandRequestDto;
 import org.mirent.skills.dto.command.CommandResultDto;
+import org.mirent.skills.exeptions.InvalidSkillNameException;
 import org.mirent.skills.parser.AgentStreamJsonParser;
 import org.mirent.skills.runner.AgentRunner;
 
@@ -17,7 +18,7 @@ import java.util.List;
 @Slf4j
 public class QwenAgentRunner implements AgentRunner {
 
-    private static final Duration DEFAULT_TIMEOUT = Duration.ofMinutes(3);
+    public static final Duration DEFAULT_TIMEOUT = Duration.ofMinutes(3);
 
     private final CommandExecutor commandExecutor;
     private final AgentStreamJsonParser agentStreamJsonParser;
@@ -78,7 +79,7 @@ public class QwenAgentRunner implements AgentRunner {
         return executeUserPrompt("/" + skillName + " " + prompt);
     }
 
-    private static Path resolveDefaultWorkingDirectory() {
+    public static Path resolveDefaultWorkingDirectory() {
         Path currentDirectory = Path.of("").toAbsolutePath();
         Path skillsDirectory = currentDirectory.resolve("skills");
         if (Files.isDirectory(skillsDirectory)) {
@@ -89,10 +90,10 @@ public class QwenAgentRunner implements AgentRunner {
 
     private static void validateSkillName(String skillName) {
         if (skillName == null || skillName.isBlank()) {
-            throw new IllegalArgumentException("Skill name must not be blank");
+            throw new InvalidSkillNameException("Skill name must not be blank");
         }
         if (skillName.contains("/") || skillName.contains("\\") || skillName.contains("..")) {
-            throw new IllegalArgumentException("Skill name must not contain path fragments: " + skillName);
+            throw new InvalidSkillNameException("Skill name must not contain path fragments: " + skillName);
         }
     }
 }
