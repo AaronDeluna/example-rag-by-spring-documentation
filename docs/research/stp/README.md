@@ -5,14 +5,23 @@
 > Проанализировать приложенные ссылки на предмет идей для решения задачи.
 > 
 > https://github.com/Mirents/avandy-news
+> 
 > https://github.com/unclecode/crawl4ai
+> 
 > https://habr.com/ru/articles/1033746/
+> 
 > https://habr.com/ru/articles/1033388/
+> 
 > https://habr.com/ru/articles/1033220/
+> 
 > https://habr.com/ru/articles/1032582/
+> 
 > https://habr.com/ru/articles/1030400/
+> 
 > https://github.com/paperclipai/paperclip
+> 
 > https://habr.com/ru/articles/1033388/
+> 
 > https://habr.com/ru/articles/1033746/
 
 

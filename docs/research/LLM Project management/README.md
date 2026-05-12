@@ -2,10 +2,12 @@
 > 
 > Подход 1 с использованием vibekanban:
 > https://habr.com/ru/articles/1030400/
+> 
 > https://github.com/BloopAI/vibe-kanban
 > 
 > Подход 2 с использованием gstack:
 > https://habr.com/ru/articles/1013064/
+> 
 > https://github.com/garrytan/gstack
 > 
 > Подход 3 с использованием paperclip:
