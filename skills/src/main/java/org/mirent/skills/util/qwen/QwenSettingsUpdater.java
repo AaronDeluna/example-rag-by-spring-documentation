@@ -3,8 +3,10 @@ package org.mirent.skills.util.qwen;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.slf4j.Slf4j;
+import org.mirent.skills.exeptions.NotFoundSaveModelNameException;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 
 import static org.mirent.skills.runner.qwen.QwenAgentRunner.resolveDefaultWorkingDirectory;
@@ -28,7 +30,7 @@ public class QwenSettingsUpdater {
         File settingsFile = settingsPath.toFile();
         if (!settingsFile.exists()) {
             log.error("Файл settings.json не найден по пути: {}", settingsPath);
-            throw new IllegalStateException("Файл settings.json не найден по пути: " + settingsPath);
+            throw new FileNotFoundException("Файл settings.json не найден по пути: " + settingsPath);
         }
 
         try {
@@ -54,13 +56,13 @@ public class QwenSettingsUpdater {
      * Восстанавливает исходное имя модели (которое было до последнего вызова updateModelNameAndSave).
      * Если предыдущее значение отсутствует (ни разу не вызывали update), то метод ничего не делает.
      *
-     * @throws IllegalStateException если предыдущее имя не сохранено
+     * @throws NotFoundSaveModelNameException если предыдущее имя не сохранено
      */
     public void restoreOriginalModelName() throws Exception {
         log.debug("Начало восстановления исходного имени модели");
         if (previousModelName == null) {
             log.warn("Попытка восстановления, но предыдущее имя модели не сохранено");
-            throw new IllegalStateException("Нет сохранённого предыдущего имени модели. Сначала вызовите updateModelNameAndSave.");
+            throw new NotFoundSaveModelNameException();
         }
 
         Path workDir = resolveDefaultWorkingDirectory();
@@ -68,7 +70,7 @@ public class QwenSettingsUpdater {
         File settingsFile = settingsPath.toFile();
         if (!settingsFile.exists()) {
             log.error("Файл settings.json не найден по пути: {}", settingsPath);
-            throw new IllegalStateException("Файл settings.json не найден по пути: " + settingsPath);
+            throw new FileNotFoundException("Файл settings.json не найден по пути: " + settingsPath);
         }
 
         try {

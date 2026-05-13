@@ -1,6 +1,6 @@
 {
   "model" : {
-    "name" : "qwen3.5:9b"
+    "name" : "gpt-5-nano"
   },
   "env" : {
     "OLLAMA_API_KEY" : "ollama",

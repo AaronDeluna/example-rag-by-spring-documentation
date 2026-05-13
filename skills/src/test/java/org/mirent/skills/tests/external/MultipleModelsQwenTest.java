@@ -19,6 +19,11 @@ import java.util.stream.Stream;
 import static org.mirent.skills.matcher.AgentMatcher.assertSingleSkillCall;
 import static org.mirent.skills.matcher.AgentMatcher.assertSuccessful;
 
+/**
+ * Выполнение тестирования нескольких моделей на одной задаче.
+ * Предполагается, что параметры моделей, указанные в классе-поставщике данных {@link ModelNamesProvider} содержатся в
+ * файле с настройками приложения Qwen по пути: /.qwen/settings.json
+ */
 @Slf4j
 class MultipleModelsQwenTest {
 
@@ -53,7 +58,6 @@ class MultipleModelsQwenTest {
         assertSingleSkillCall(result, "arithmetic");
     }
 
-    // Класс-провайдер (может быть размещён в этом же файле или отдельно)
     static class ModelNamesProvider implements ArgumentsProvider {
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext context) {

@@ -12,3 +12,7 @@
     ```
     mvn clean test -pl skills -Dtest=AgentSkillWorkflowTests
     ```
+
+## Дополнительно
+
+В проекте создан пример теста `MultipleModelsQwenTest` для тестирования одного запроса с разными моделями.
