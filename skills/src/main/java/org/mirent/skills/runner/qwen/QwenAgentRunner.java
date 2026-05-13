@@ -15,6 +15,8 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.List;
 
+import static org.mirent.skills.util.qwen.QwenPathFinder.findQwenPathByOs;
+
 @Slf4j
 public class QwenAgentRunner implements AgentRunner {
 
@@ -48,13 +50,29 @@ public class QwenAgentRunner implements AgentRunner {
     @Override
     public AgentResultDto executeUserPrompt(String prompt) throws Exception {
         log.info("[USER_QUERY]: {}", prompt);
+        List<String> command;
+        String osName = System.getProperty("os.name").toLowerCase();
+
+        if (osName.contains("win")) {
+            command = List.of(
+                    // C:\Users\<login>\.qwen\bin\qwen
+                    findQwenPathByOs().toString(),
+                    "--output-format", "stream-json",
+                    "--approval-mode", "yolo",
+                    prompt
+            );
+        } else {
+            command = List.of(
+                    // findPathToExecNodeForLinux().toString(), // "/usr/bin/node",
+                    findQwenPathByOs().toString(), // /home/vadim/.npm-global/lib/node_modules/@qwen-code/qwen-code/cli.js
+                    "--output-format", "stream-json",
+                    "--approval-mode", "yolo",
+                    prompt
+            );
+        }
+
         CommandResultDto result = commandExecutor.execute(new CommandRequestDto(
-                List.of(
-                        "qwen",
-                        "--output-format", "stream-json",
-                        "--approval-mode", "yolo",
-                        prompt
-                ),
+                command,
                 workingDirectory,
                 timeout
         ));
