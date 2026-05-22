@@ -36,16 +36,20 @@ public class QwenSettingsUpdater {
         try {
             ObjectNode root = (ObjectNode) OBJECT_MAPPER.readTree(settingsFile);
             String currentName = root.get("model").get("name").asText();
-            previousModelName = currentName;
-            log.info("Текущее имя модели '{}' сохранено как предыдущее", currentName);
+            if (currentName.equals(newModelName)) {
+                log.info("Имена сохраненной и новой моделей идентичны '{}', изменение модели не производится", currentName);
+            } else {
+                previousModelName = currentName;
+                log.info("Текущее имя модели '{}' сохранено как предыдущее", currentName);
 
-            ((ObjectNode) root.get("model")).put("name", newModelName);
+                ((ObjectNode) root.get("model")).put("name", newModelName);
 
-            String updatedJson = OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(root);
-            log.info("Обновленная конфигурация:\n{}", updatedJson);
+                String updatedJson = OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(root);
+                log.info("Обновленная конфигурация:\n{}", updatedJson);
 
-            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(settingsFile, root);
-            log.info("Имя модели успешно обновлено с '{}' на '{}'", currentName, newModelName);
+                OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(settingsFile, root);
+                log.info("Имя модели успешно обновлено с '{}' на '{}'", currentName, newModelName);
+            }
         } catch (Exception e) {
             log.error("Ошибка при обновлении имени модели: {}", e.getMessage(), e);
             throw e;
