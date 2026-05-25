@@ -15,8 +15,6 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.List;
 
-import static org.mirent.skills.util.qwen.QwenPathFinder.findQwenPathByOs;
-
 @Slf4j
 public class QwenAgentRunner implements AgentRunner {
 
@@ -52,19 +50,23 @@ public class QwenAgentRunner implements AgentRunner {
         log.info("[USER_QUERY]: {}", prompt);
         List<String> command;
         String osName = System.getProperty("os.name").toLowerCase();
+        String userHome = System.getProperty("user.home");
 
         if (osName.contains("win")) {
             command = List.of(
+                    // Для Windows требуется alias для запуска приложения
                     // C:\Users\<login>\.qwen\bin\qwen
-                    findQwenPathByOs().toString(),
+                    Path.of(userHome, ".qwen", "bin", "qwen").toString(),
                     "--output-format", "stream-json",
                     "--approval-mode", "yolo",
                     prompt
             );
         } else {
             command = List.of(
-                    // findPathToExecNodeForLinux().toString(), // "/usr/bin/node",
-                    findQwenPathByOs().toString(), // /home/vadim/.npm-global/lib/node_modules/@qwen-code/qwen-code/cli.js
+                    // Для Linux/MacOS требуется путь к исполняемому js файлу.
+                    // Файл запустится т.к. в нем имеется шебанг.
+                    // /home/<login>/.npm-global/lib/node_modules/@qwen-code/qwen-code/cli.js
+                    Path.of(userHome, ".npm-global", "lib", "node_modules", "@qwen-code", "qwen-code", "cli.js").toString(),
                     "--output-format", "stream-json",
                     "--approval-mode", "yolo",
                     prompt
