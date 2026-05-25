@@ -7,6 +7,7 @@ import org.apache.commons.exec.ExecuteWatchdog;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.mirent.skills.dto.command.CommandRequestDto;
 import org.mirent.skills.dto.command.CommandResultDto;
+import org.mirent.skills.exeptions.MissingCommandPartsException;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
@@ -18,7 +19,7 @@ public class CommandExecutor {
     public CommandResultDto execute(CommandRequestDto request) throws Exception {
         List<String> commandParts = request.getCommand();
         if (commandParts == null || commandParts.isEmpty()) {
-            throw new IllegalArgumentException("Command must not be empty");
+            throw new MissingCommandPartsException();
         }
 
         CommandLine command = new CommandLine(commandParts.get(0));

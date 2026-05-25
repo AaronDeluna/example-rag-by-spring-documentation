@@ -48,13 +48,33 @@ public class QwenAgentRunner implements AgentRunner {
     @Override
     public AgentResultDto executeUserPrompt(String prompt) throws Exception {
         log.info("[USER_QUERY]: {}", prompt);
+        List<String> command;
+        String osName = System.getProperty("os.name").toLowerCase();
+        String userHome = System.getProperty("user.home");
+
+        if (osName.contains("win")) {
+            command = List.of(
+                    // Для Windows требуется alias для запуска приложения
+                    // C:\Users\<login>\.qwen\bin\qwen
+                    Path.of(userHome, ".qwen", "bin", "qwen").toString(),
+                    "--output-format", "stream-json",
+                    "--approval-mode", "yolo",
+                    prompt
+            );
+        } else {
+            command = List.of(
+                    // Для Linux/MacOS требуется путь к исполняемому js файлу.
+                    // Файл запустится т.к. в нем имеется шебанг.
+                    // /home/<login>/.npm-global/lib/node_modules/@qwen-code/qwen-code/cli.js
+                    Path.of(userHome, ".npm-global", "lib", "node_modules", "@qwen-code", "qwen-code", "cli.js").toString(),
+                    "--output-format", "stream-json",
+                    "--approval-mode", "yolo",
+                    prompt
+            );
+        }
+
         CommandResultDto result = commandExecutor.execute(new CommandRequestDto(
-                List.of(
-                        "qwen",
-                        "--output-format", "stream-json",
-                        "--approval-mode", "yolo",
-                        prompt
-                ),
+                command,
                 workingDirectory,
                 timeout
         ));

@@ -1,4 +1,4 @@
-package org.mirent.skills.tests;
+package org.mirent.skills.tests.inner;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
