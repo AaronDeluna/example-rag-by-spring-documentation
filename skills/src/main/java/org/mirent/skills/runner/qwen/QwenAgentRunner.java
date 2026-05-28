@@ -6,14 +6,18 @@ import org.mirent.skills.dto.agent.AgentLogDto;
 import org.mirent.skills.dto.agent.AgentResultDto;
 import org.mirent.skills.dto.command.CommandRequestDto;
 import org.mirent.skills.dto.command.CommandResultDto;
+import org.mirent.skills.dto.log.AgentRunLogDto;
 import org.mirent.skills.exeptions.InvalidSkillNameException;
 import org.mirent.skills.parser.AgentStreamJsonParser;
 import org.mirent.skills.runner.AgentRunner;
+import org.mirent.skills.runner.RunnerLogWriter;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 public class QwenAgentRunner implements AgentRunner {
@@ -22,6 +26,7 @@ public class QwenAgentRunner implements AgentRunner {
 
     private final CommandExecutor commandExecutor;
     private final AgentStreamJsonParser agentStreamJsonParser;
+    private final RunnerLogWriter runnerLogWriter;
     private final Path workingDirectory;
     private final Duration timeout;
 
@@ -39,49 +44,56 @@ public class QwenAgentRunner implements AgentRunner {
             Path workingDirectory,
             Duration timeout
     ) {
+        this(commandExecutor, agentStreamJsonParser, new RunnerLogWriter(), workingDirectory, timeout);
+    }
+
+    public QwenAgentRunner(
+            CommandExecutor commandExecutor,
+            AgentStreamJsonParser agentStreamJsonParser,
+            RunnerLogWriter runnerLogWriter,
+            Path workingDirectory,
+            Duration timeout
+    ) {
         this.commandExecutor = commandExecutor;
         this.agentStreamJsonParser = agentStreamJsonParser;
+        this.runnerLogWriter = runnerLogWriter;
         this.workingDirectory = workingDirectory;
         this.timeout = timeout;
     }
 
     @Override
     public AgentResultDto executeUserPrompt(String prompt) throws Exception {
+        return execute(null, prompt);
+    }
+
+    @Override
+    public AgentResultDto executeSkillPrompt(String skillName, String prompt) throws Exception {
+        log.info("[SKILL_EXECUTION]: {}", skillName);
+        validateSkillName(skillName);
+        return execute(skillName, "/" + skillName + " " + prompt);
+    }
+
+    private AgentResultDto execute(String skillName, String prompt) throws Exception {
         log.info("[USER_QUERY]: {}", prompt);
-        List<String> command;
-        String osName = System.getProperty("os.name").toLowerCase();
-        String userHome = System.getProperty("user.home");
+        boolean isWindows = System.getProperty("os.name").toLowerCase().contains("win");
+        List<String> command = List.of(
+                isWindows ? "qwen.cmd" : "qwen",
+                "--output-format", "stream-json",
+                "--approval-mode", "yolo",
+                prompt
+        );
 
-        if (osName.contains("win")) {
-            command = List.of(
-                    // Для Windows требуется alias для запуска приложения
-                    // C:\Users\<login>\.qwen\bin\qwen
-                    Path.of(userHome, ".qwen", "bin", "qwen").toString(),
-                    "--output-format", "stream-json",
-                    "--approval-mode", "yolo",
-                    prompt
-            );
-        } else {
-            command = List.of(
-                    // Для Linux/MacOS требуется путь к исполняемому js файлу.
-                    // Файл запустится т.к. в нем имеется шебанг.
-                    // /home/<login>/.npm-global/lib/node_modules/@qwen-code/qwen-code/cli.js
-                    Path.of(userHome, ".npm-global", "lib", "node_modules", "@qwen-code", "qwen-code", "cli.js").toString(),
-                    "--output-format", "stream-json",
-                    "--approval-mode", "yolo",
-                    prompt
-            );
-        }
-
+        Instant startedAt = Instant.now();
         CommandResultDto result = commandExecutor.execute(new CommandRequestDto(
                 command,
                 workingDirectory,
                 timeout
         ));
+        Instant finishedAt = Instant.now();
 
         AgentLogDto agentLog = agentStreamJsonParser.parse(result.getStdout());
         log.info("[AGENT_RESPONSE]: \n{}", agentLog.getEventsJson());
-        return new AgentResultDto(
+        AgentResultDto agentResult = new AgentResultDto(
                 result.getStdout(),
                 result.getStderr(),
                 result.getExitCode(),
@@ -90,13 +102,18 @@ public class QwenAgentRunner implements AgentRunner {
                 agentLog.getEventsJson(),
                 agentLog.getFinalResult()
         );
-    }
 
-    @Override
-    public AgentResultDto executeSkillPrompt(String skillName, String prompt) throws Exception {
-        log.info("[SKILL_EXECUTION]: {}", skillName);
-        validateSkillName(skillName);
-        return executeUserPrompt("/" + skillName + " " + prompt);
+        AgentRunLogDto logEntry = AgentRunLogDto.builder()
+                .runId(UUID.randomUUID().toString())
+                .startedAt(startedAt.toString())
+                .finishedAt(finishedAt.toString())
+                .skillName(skillName)
+                .finalResult(agentResult.getFinalResult())
+                .events(agentResult.getEvents())
+                .build();
+        runnerLogWriter.write(workingDirectory, logEntry);
+
+        return agentResult;
     }
 
     public static Path resolveDefaultWorkingDirectory() {
