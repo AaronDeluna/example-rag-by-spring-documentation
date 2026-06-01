@@ -7,8 +7,8 @@ public class AgentRunnerService implements AgentRunner {
 
     private final AgentRunner agentRunner;
 
-    public AgentRunnerService() {
-        this(AgentRunnerFactory.defaultFactory().create(AgentRunnerProperties.loadDefault()));
+    public AgentRunnerService(String agentSetName) {
+        this(AgentRunnerFactory.defaultFactory(agentSetName).create(AgentRunnerProperties.loadDefault()));
     }
 
     AgentRunnerService(AgentRunner delegate) {

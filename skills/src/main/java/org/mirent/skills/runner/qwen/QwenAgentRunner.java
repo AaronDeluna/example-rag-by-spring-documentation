@@ -29,22 +29,16 @@ public class QwenAgentRunner implements AgentRunner {
     private final RunnerLogWriter runnerLogWriter;
     private final Path workingDirectory;
     private final Duration timeout;
-
-    public QwenAgentRunner() {
-        this(new CommandExecutor(), new AgentStreamJsonParser(), resolveDefaultWorkingDirectory(), DEFAULT_TIMEOUT);
-    }
-
-    public QwenAgentRunner(CommandExecutor commandExecutor, Path workingDirectory, Duration timeout) {
-        this(commandExecutor, new AgentStreamJsonParser(), workingDirectory, timeout);
-    }
+    private final String agentSetName;
 
     public QwenAgentRunner(
             CommandExecutor commandExecutor,
             AgentStreamJsonParser agentStreamJsonParser,
             Path workingDirectory,
-            Duration timeout
+            Duration timeout,
+            String agentSetName
     ) {
-        this(commandExecutor, agentStreamJsonParser, new RunnerLogWriter(), workingDirectory, timeout);
+        this(commandExecutor, agentStreamJsonParser, new RunnerLogWriter(), workingDirectory, timeout, agentSetName);
     }
 
     public QwenAgentRunner(
@@ -52,13 +46,15 @@ public class QwenAgentRunner implements AgentRunner {
             AgentStreamJsonParser agentStreamJsonParser,
             RunnerLogWriter runnerLogWriter,
             Path workingDirectory,
-            Duration timeout
+            Duration timeout,
+            String agentSetName
     ) {
         this.commandExecutor = commandExecutor;
         this.agentStreamJsonParser = agentStreamJsonParser;
         this.runnerLogWriter = runnerLogWriter;
         this.workingDirectory = workingDirectory;
         this.timeout = timeout;
+        this.agentSetName = agentSetName;
     }
 
     @Override
@@ -105,6 +101,7 @@ public class QwenAgentRunner implements AgentRunner {
 
         AgentRunLogDto logEntry = AgentRunLogDto.builder()
                 .runId(UUID.randomUUID().toString())
+                .agentSet(agentSetName)
                 .startedAt(startedAt.toString())
                 .finishedAt(finishedAt.toString())
                 .skillName(skillName)

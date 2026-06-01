@@ -17,7 +17,7 @@ class AgentSkillWorkflowTests {
     @Test
     @DisplayName("Выполняет пользовательский prompt с явным вызовом arithmetic")
     void executeUserPromptInvokesRequestedSkillsInOrder() throws Exception {
-        AgentRunner agentRunner = new AgentRunnerService();
+        AgentRunner agentRunner = new AgentRunnerService("default");
 
         AgentResultDto result = agentRunner.executeUserPrompt("Верни 1 ответ: сколько будет 2 + 2 используй skills arithmetic");
 
@@ -28,7 +28,7 @@ class AgentSkillWorkflowTests {
     @Test
     @DisplayName("Делегирует arithmetic-delegator во внутренний arithmetic")
     void executeSkillPromptDelegatesToArithmeticSkill() throws Exception {
-        AgentRunner agentRunner = new AgentRunnerService();
+        AgentRunner agentRunner = new AgentRunnerService("default");
 
         AgentResultDto result = agentRunner.executeSkillPrompt(
                 "arithmetic-delegator",
@@ -42,7 +42,7 @@ class AgentSkillWorkflowTests {
     @Test
     @DisplayName("Выполняет chain-check без дополнительных skill-вызовов")
     void executeSkillPromptDoesNotInvokeAdditionalSkills() throws Exception {
-        AgentRunner agentRunner = new AgentRunnerService();
+        AgentRunner agentRunner = new AgentRunnerService("default");
 
         AgentResultDto result = agentRunner.executeSkillPrompt(
                 "chain-check",
@@ -56,7 +56,7 @@ class AgentSkillWorkflowTests {
     @Test
     @DisplayName("Выбирает arithmetic по арифметическому запросу пользователя")
     void executeUserPromptSelectsSkillByUserIntent() throws Exception {
-        AgentRunner agentRunner = new AgentRunnerService();
+        AgentRunner agentRunner = new AgentRunnerService("default");
 
         AgentResultDto result = agentRunner.executeUserPrompt("2 + 3");
         assertSuccessful(result);
@@ -66,7 +66,7 @@ class AgentSkillWorkflowTests {
     @Test
     @DisplayName("Выполняет пользовательский prompt через AgentRunnerService")
     void executeUserPromptThroughAgentRunnerService() throws Exception {
-        AgentRunnerService agentRunnerService = new AgentRunnerService();
+        AgentRunnerService agentRunnerService = new AgentRunnerService("default");
 
         AgentResultDto result = agentRunnerService.executeUserPrompt("Верни 1 ответ: сколько будет 2 + 2 используй skills arithmetic");
         assertSuccessful(result);

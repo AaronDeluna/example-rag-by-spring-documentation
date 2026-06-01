@@ -16,9 +16,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class AgentRunnerServiceTests {
 
     @Test
-    @DisplayName("Создается из default properties")
+    @DisplayName("Создается из default properties и набора default")
     void createsFromDefaultProperties() {
-        assertDoesNotThrow(AgentRunnerService::new);
+        assertDoesNotThrow(() -> new AgentRunnerService("default"));
     }
 
     @Test
