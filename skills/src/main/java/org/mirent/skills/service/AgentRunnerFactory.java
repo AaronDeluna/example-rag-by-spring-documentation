@@ -22,7 +22,7 @@ class AgentRunnerFactory {
         return new AgentRunnerFactory(
                 new CommandExecutor(),
                 new AgentStreamJsonParser(),
-                QwenAgentRunner.resolveDefaultWorkingDirectory(),
+                new AgentWorkspacePreparer().prepare(),
                 QwenAgentRunner.DEFAULT_TIMEOUT
         );
     }
