@@ -23,7 +23,9 @@ import static org.mirent.skills.matcher.AgentMatcher.assertSuccessful;
  * Выполнение тестирования нескольких моделей на одной задаче.
  * Предполагается, что параметры моделей, указанные в классе-поставщике данных {@link ModelNamesProvider} содержатся в
  * файле с настройками приложения Qwen по пути: /.qwen/settings.json
+ * @deprecated Класс требует переработки в соответствии с реализацией работы с наборами.
  */
+@Deprecated(forRemoval = true)
 @Slf4j
 class MultipleModelsQwenTest {
 

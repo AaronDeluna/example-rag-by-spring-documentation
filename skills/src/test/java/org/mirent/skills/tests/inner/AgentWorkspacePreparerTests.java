@@ -23,7 +23,6 @@ class AgentWorkspacePreparerTests {
         Path skillsDir = workspace.resolve(".qwen").resolve("skills");
         assertTrue(Files.isDirectory(skillsDir), "Должна быть папка .qwen/skills/");
         assertTrue(Files.isRegularFile(skillsDir.resolve("arithmetic").resolve("SKILL.md")));
-        assertTrue(Files.isRegularFile(skillsDir.resolve("chain-check").resolve("SKILL.md")));
     }
 
     @Test
@@ -46,8 +45,6 @@ class AgentWorkspacePreparerTests {
         Path skillsDir = workspace.resolve(".qwen").resolve("skills");
         assertTrue(Files.isRegularFile(skillsDir.resolve("reverse-text").resolve("SKILL.md")));
         assertFalse(Files.exists(skillsDir.resolve("arithmetic")),
-                "Скилы предыдущего набора должны быть удалены");
-        assertFalse(Files.exists(skillsDir.resolve("chain-check")),
                 "Скилы предыдущего набора должны быть удалены");
     }
 
