@@ -14,10 +14,10 @@ class AgentSetsExecuteTests {
     @Test
     @DisplayName("Набор default: вызывает arithmetic из пользовательского prompt")
     void defaultSetInvokesArithmeticSkill() throws Exception {
-        AgentRunner agentRunner = new AgentRunnerService("");
+        AgentRunner agentRunner = new AgentRunnerService("default");
 
         AgentResultDto result = agentRunner.executeUserPrompt(
-                "Посчитай количество слов в фразе \"быстрая бурая лиса прыгает через ленивого пса\" используй skills word-count"
+                "Верни 1 ответ: сколько будет 2 + 2 используй skills arithmetic"
         );
 
         assertSuccessful(result);
