@@ -23,7 +23,7 @@ class AgentSkillWorkflowTests {
     }
 
     @Test
-    @DisplayName("Делегирует arithmetic-delegator во внутренний arithmetic")
+    @DisplayName("Явный вызов скилла arithmetic")
     void executeSkillPromptDelegatesToArithmeticSkill() throws Exception {
         AgentRunner agentRunner = new AgentRunnerService("default");
 
