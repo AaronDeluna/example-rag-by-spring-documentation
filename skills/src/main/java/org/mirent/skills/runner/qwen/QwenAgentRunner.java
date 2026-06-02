@@ -32,22 +32,16 @@ public class QwenAgentRunner implements AgentRunner {
     private final RunnerLogWriter runnerLogWriter;
     private final Path workingDirectory;
     private final Duration timeout;
-
-    public QwenAgentRunner() {
-        this(new CommandExecutor(), new AgentStreamJsonParser(), resolveDefaultWorkingDirectory(), DEFAULT_TIMEOUT);
-    }
-
-    public QwenAgentRunner(CommandExecutor commandExecutor, Path workingDirectory, Duration timeout) {
-        this(commandExecutor, new AgentStreamJsonParser(), workingDirectory, timeout);
-    }
+    private final String agentSetName;
 
     public QwenAgentRunner(
             CommandExecutor commandExecutor,
             AgentStreamJsonParser agentStreamJsonParser,
             Path workingDirectory,
-            Duration timeout
+            Duration timeout,
+            String agentSetName
     ) {
-        this(commandExecutor, agentStreamJsonParser, new RunnerLogWriter(), workingDirectory, timeout);
+        this(commandExecutor, agentStreamJsonParser, new RunnerLogWriter(), workingDirectory, timeout, agentSetName);
     }
 
     public QwenAgentRunner(
@@ -55,13 +49,15 @@ public class QwenAgentRunner implements AgentRunner {
             AgentStreamJsonParser agentStreamJsonParser,
             RunnerLogWriter runnerLogWriter,
             Path workingDirectory,
-            Duration timeout
+            Duration timeout,
+            String agentSetName
     ) {
         this.commandExecutor = commandExecutor;
         this.agentStreamJsonParser = agentStreamJsonParser;
         this.runnerLogWriter = runnerLogWriter;
         this.workingDirectory = workingDirectory;
         this.timeout = timeout;
+        this.agentSetName = agentSetName;
     }
 
     @Override
@@ -78,26 +74,23 @@ public class QwenAgentRunner implements AgentRunner {
 
     private AgentResultDto execute(String skillName, String prompt) throws Exception {
         log.info("[USER_QUERY]: {}", prompt);
-        List<String> command = new ArrayList<>();
+        List<String> command;
         String osName = System.getProperty("os.name").toLowerCase();
-        switch (osName) {
-            case "mac" :
-                command = List.of("qwen", prompt, "--output-format", "stream-json", "--approval-mode", "yolo");
-                break;
-            case "linux" : String userHome = System.getProperty("user.home");
-                Path path = Path.of(userHome, ".npm-global", "lib", "node_modules", "@qwen-code", "qwen-code", "cli.js");
-                command = List.of(
-                        // Для Linux/MacOS требуется путь к исполняемому js файлу.
-                        // Файл запустится т.к. в нем имеется шебанг.
-                        // /home/<login>/.npm-global/lib/node_modules/@qwen-code/qwen-code/cli.js
-                        path.toString(), "--output-format", "stream-json", "--approval-mode", "yolo", prompt
-                );
-                break;
-            case "windows" :
-                command = List.of("cmd.exe", "/c", "qwen", prompt, "--output-format", "stream-json", "--approval-mode", "yolo");
-                break;
-            default:
-                throw new RuntimeException(format("Неизвестная операционная система: %s", osName));
+        if (osName.contains("mac")) {
+            command = List.of("qwen", prompt, "--output-format", "stream-json", "--approval-mode", "yolo");
+        } else if (osName.contains("linux")) {
+            String userHome = System.getProperty("user.home");
+            Path path = Path.of(userHome, ".npm-global", "lib", "node_modules", "@qwen-code", "qwen-code", "cli.js");
+            command = List.of(
+                    // Для Linux требуется путь к исполняемому js файлу.
+                    // Файл запустится т.к. в нем имеется шебанг.
+                    // /home/<login>/.npm-global/lib/node_modules/@qwen-code/qwen-code/cli.js
+                    path.toString(), "--output-format", "stream-json", "--approval-mode", "yolo", prompt
+            );
+        } else if (osName.contains("win")) {
+            command = List.of("cmd.exe", "/c", "qwen", prompt, "--output-format", "stream-json", "--approval-mode", "yolo");
+        } else {
+            throw new RuntimeException(format("Неизвестная операционная система: %s", osName));
         }
 
         Instant startedAt = Instant.now();
@@ -122,6 +115,7 @@ public class QwenAgentRunner implements AgentRunner {
 
         AgentRunLogDto logEntry = AgentRunLogDto.builder()
                 .runId(UUID.randomUUID().toString())
+                .agentSet(agentSetName)
                 .startedAt(startedAt.toString())
                 .finishedAt(finishedAt.toString())
                 .skillName(skillName)

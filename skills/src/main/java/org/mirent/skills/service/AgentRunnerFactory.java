@@ -17,13 +17,15 @@ class AgentRunnerFactory {
     private final AgentStreamJsonParser agentStreamJsonParser;
     private final Path workingDirectory;
     private final Duration timeout;
+    private final String agentSetName;
 
-    static AgentRunnerFactory defaultFactory() {
+    static AgentRunnerFactory defaultFactory(String agentSetName) {
         return new AgentRunnerFactory(
                 new CommandExecutor(),
                 new AgentStreamJsonParser(),
-                new AgentWorkspacePreparer().prepare(),
-                QwenAgentRunner.DEFAULT_TIMEOUT
+                new AgentWorkspacePreparer(agentSetName).prepare(),
+                QwenAgentRunner.DEFAULT_TIMEOUT,
+                agentSetName
         );
     }
 
@@ -31,12 +33,14 @@ class AgentRunnerFactory {
             CommandExecutor commandExecutor,
             AgentStreamJsonParser agentStreamJsonParser,
             Path workingDirectory,
-            Duration timeout
+            Duration timeout,
+            String agentSetName
     ) {
         this.commandExecutor = commandExecutor;
         this.agentStreamJsonParser = agentStreamJsonParser;
         this.workingDirectory = workingDirectory;
         this.timeout = timeout;
+        this.agentSetName = agentSetName;
     }
 
     AgentRunner create(Properties properties) {
@@ -44,7 +48,7 @@ class AgentRunnerFactory {
         log.info("Запуск через CLI: {}", cli);
 
         return switch (cli) {
-            case QWEN -> new QwenAgentRunner(commandExecutor, agentStreamJsonParser, workingDirectory, timeout);
+            case QWEN -> new QwenAgentRunner(commandExecutor, agentStreamJsonParser, workingDirectory, timeout, agentSetName);
         };
     }
 }

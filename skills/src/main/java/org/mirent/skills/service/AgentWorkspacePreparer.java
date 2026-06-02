@@ -1,8 +1,12 @@
 package org.mirent.skills.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mirent.skills.dto.module.ModuleLayoutDto;
 import org.mirent.skills.exeptions.AgentRunnerConfigurationException;
+import org.mirent.skills.exeptions.AgentSetNotFoundException;
+import org.mirent.skills.exeptions.AgentSetsDirectoryNotFoundException;
+import org.mirent.skills.exeptions.MissingAgentSetNameException;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -17,27 +21,44 @@ import java.util.Comparator;
 import java.util.stream.Stream;
 
 @Slf4j
+@RequiredArgsConstructor
 public class AgentWorkspacePreparer {
 
+    private static final String AGENT_SETS_DIR = "src/test/resources/agent-sets";
     private static final String QWEN_DIR = ".qwen";
+    private static final String SKILLS_DIR = "skills";
     private static final String WORKSPACE_DIR_NAME = "agent-runner";
 
-    public Path prepare() {
-        ModuleLayoutDto layout = resolveModuleLayout();
-        Path projectRoot = resolveProjectRoot(layout.getBasedir());
-        Path source = projectRoot.resolve(QWEN_DIR);
-        Path workspace = layout.getBasedir().resolve(layout.getBuildDir()).resolve(WORKSPACE_DIR_NAME);
+    private final String agentSetName;
 
-        if (!Files.isDirectory(source)) {
-            throw new AgentRunnerConfigurationException(
-                    "Не найдена корневая папка .qwen для копирования: " + source
+    public Path prepare() {
+        if (agentSetName == null || agentSetName.isBlank()) {
+            throw new MissingAgentSetNameException();
+        }
+
+        ModuleLayoutDto layout = resolveModuleLayout();
+        Path agentSetsDir = layout.getBasedir().resolve(AGENT_SETS_DIR);
+        Path agentSet = agentSetsDir.resolve(agentSetName);
+
+        if (!Files.isDirectory(agentSetsDir)) {
+            throw new AgentSetsDirectoryNotFoundException(
+                    "Не найдена директория с наборами для агента: " + agentSetsDir
+                            + ". Создайте её и положите внутрь подпапки с наборами."
+            );
+        }
+        if (!Files.isDirectory(agentSet)) {
+            throw new AgentSetNotFoundException(
+                    "Не найден набор агента '" + agentSetName + "' по пути " + agentSet
             );
         }
 
-        cleanDirectory(workspace);
-        copyDirectory(source, workspace.resolve(QWEN_DIR));
+        Path workspace = layout.getBasedir().resolve(layout.getBuildDir()).resolve(WORKSPACE_DIR_NAME);
+        Path skillsTarget = workspace.resolve(QWEN_DIR).resolve(SKILLS_DIR);
 
-        log.info("Agent workspace подготовлен из {} -> {}", source, workspace);
+        cleanDirectory(workspace);
+        copyDirectory(agentSet, skillsTarget);
+
+        log.info("Agent workspace подготовлен из набора '{}': {} -> {}", agentSetName, agentSet, workspace);
         return workspace;
     }
 
@@ -71,19 +92,6 @@ public class AgentWorkspacePreparer {
         }
     }
 
-    private static Path resolveProjectRoot(Path start) {
-        Path current = start.toAbsolutePath();
-        while (current != null) {
-            if (Files.isDirectory(current.resolve(".git"))) {
-                return current;
-            }
-            current = current.getParent();
-        }
-        throw new AgentRunnerConfigurationException(
-                "Не удалось найти корень проекта (нет .git) начиная с " + start
-        );
-    }
-
     private static void cleanDirectory(Path dir) {
         if (!Files.exists(dir)) {
             return;
@@ -107,16 +115,16 @@ public class AgentWorkspacePreparer {
     private static void copyDirectory(Path source, Path target) {
         try {
             Files.createDirectories(target);
-            Files.walkFileTree(source, new SimpleFileVisitor<>() {
+            Files.walkFileTree(source, new SimpleFileVisitor<Path>() {
                 @Override
                 public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-                    Files.createDirectories(target.resolve(source.relativize(dir)));
+                    Files.createDirectories(target.resolve(source.relativize(dir).toString()));
                     return FileVisitResult.CONTINUE;
                 }
 
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                    Files.copy(file, target.resolve(source.relativize(file)), StandardCopyOption.REPLACE_EXISTING);
+                    Files.copy(file, target.resolve(source.relativize(file).toString()), StandardCopyOption.REPLACE_EXISTING);
                     return FileVisitResult.CONTINUE;
                 }
             });

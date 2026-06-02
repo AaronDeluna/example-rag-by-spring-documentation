@@ -49,7 +49,7 @@ class MultipleModelsQwenTest {
     void executeUserPromptInvokesRequestedSkillsInOrder(String modelName) throws Exception {
         settingsUpdater.updateModelNameAndSave(modelName);
         String prompt = "Верни 1 ответ: сколько будет 2 + 2 используй skills arithmetic";
-        AgentRunner agentRunner = new AgentRunnerService();
+        AgentRunner agentRunner = new AgentRunnerService("default");
 
         AgentResultDto result = agentRunner.executeUserPrompt(prompt);
         log.info("Тест с моделью {} -> идентификатор сессии: {}", modelName, result.getEvents().get(0).get("uuid"));

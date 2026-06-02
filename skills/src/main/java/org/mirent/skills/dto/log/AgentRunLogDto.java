@@ -13,6 +13,7 @@ import java.util.List;
 public class AgentRunLogDto {
 
     private final String runId;
+    private final String agentSet;
     private final String startedAt;
     private final String finishedAt;
     private final String skillName;
