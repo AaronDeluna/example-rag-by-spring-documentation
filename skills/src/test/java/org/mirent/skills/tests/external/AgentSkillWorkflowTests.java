@@ -5,9 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.mirent.skills.dto.agent.AgentResultDto;
 import org.mirent.skills.runner.AgentRunner;
 import org.mirent.skills.service.AgentRunnerService;
+import org.mirent.skills.util.AgentSkillCallExtractorUtils;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mirent.skills.matcher.AgentMatcher.assertSingleSkillCall;
 import static org.mirent.skills.matcher.AgentMatcher.assertSkillCallsIgnoringOrder;
 import static org.mirent.skills.matcher.AgentMatcher.assertSuccessful;
@@ -54,13 +56,13 @@ class AgentSkillWorkflowTests {
     }
 
     @Test
-    @DisplayName("Выбирает arithmetic по арифметическому запросу пользователя")
+    @DisplayName("Выполняет самостоятельный рассчет без вызова скилла arithmetic")
     void executeUserPromptSelectsSkillByUserIntent() throws Exception {
         AgentRunner agentRunner = new AgentRunnerService("default");
 
         AgentResultDto result = agentRunner.executeUserPrompt("2 + 3");
         assertSuccessful(result);
-        assertSingleSkillCall(result, "arithmetic");
+        assertEquals(0, AgentSkillCallExtractorUtils.extractSkillCalls(result).size());
     }
 
     @Test

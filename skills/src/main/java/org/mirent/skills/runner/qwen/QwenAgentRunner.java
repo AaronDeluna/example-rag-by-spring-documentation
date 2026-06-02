@@ -16,8 +16,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import static java.lang.String.format;
 
 @Slf4j
 public class QwenAgentRunner implements AgentRunner {
@@ -71,13 +74,27 @@ public class QwenAgentRunner implements AgentRunner {
 
     private AgentResultDto execute(String skillName, String prompt) throws Exception {
         log.info("[USER_QUERY]: {}", prompt);
-        boolean isWindows = System.getProperty("os.name").toLowerCase().contains("win");
-        List<String> command = List.of(
-                isWindows ? "qwen.cmd" : "qwen",
-                "--output-format", "stream-json",
-                "--approval-mode", "yolo",
-                prompt
-        );
+        List<String> command = new ArrayList<>();
+        String osName = System.getProperty("os.name").toLowerCase();
+        switch (osName) {
+            case "mac" :
+                command = List.of("qwen", prompt, "--output-format", "stream-json", "--approval-mode", "yolo");
+                break;
+            case "linux" : String userHome = System.getProperty("user.home");
+                Path path = Path.of(userHome, ".npm-global", "lib", "node_modules", "@qwen-code", "qwen-code", "cli.js");
+                command = List.of(
+                        // Для Linux/MacOS требуется путь к исполняемому js файлу.
+                        // Файл запустится т.к. в нем имеется шебанг.
+                        // /home/<login>/.npm-global/lib/node_modules/@qwen-code/qwen-code/cli.js
+                        path.toString(), "--output-format", "stream-json", "--approval-mode", "yolo", prompt
+                );
+                break;
+            case "windows" :
+                command = List.of("cmd.exe", "/c", "qwen", prompt, "--output-format", "stream-json", "--approval-mode", "yolo");
+                break;
+            default:
+                throw new RuntimeException(format("Неизвестная операционная система: %s", osName));
+        }
 
         Instant startedAt = Instant.now();
         CommandResultDto result = commandExecutor.execute(new CommandRequestDto(
