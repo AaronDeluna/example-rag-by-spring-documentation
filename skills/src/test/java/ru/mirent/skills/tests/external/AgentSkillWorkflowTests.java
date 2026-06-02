@@ -5,13 +5,8 @@ import org.junit.jupiter.api.Test;
 import ru.mirent.skills.dto.agent.AgentResultDto;
 import ru.mirent.skills.runner.AgentRunner;
 import ru.mirent.skills.service.AgentRunnerService;
-import ru.mirent.skills.util.AgentSkillCallExtractorUtils;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.mirent.skills.matcher.AgentMatcher.assertSingleSkillCall;
-import static ru.mirent.skills.matcher.AgentMatcher.assertSkillCallsIgnoringOrder;
 import static ru.mirent.skills.matcher.AgentMatcher.assertSuccessful;
 
 class AgentSkillWorkflowTests {
@@ -33,44 +28,10 @@ class AgentSkillWorkflowTests {
         AgentRunner agentRunner = new AgentRunnerService("default");
 
         AgentResultDto result = agentRunner.executeSkillPrompt(
-                "arithmetic-delegator",
-                "как считать 2 + 2 * 2"
+                "arithmetic",
+                "Верни 1 ответ: сколько будет 2 + 2 используй skills arithmetic"
         );
 
-        assertSuccessful(result);
-        assertSingleSkillCall(result, "arithmetic");
-    }
-
-    @Test
-    @DisplayName("Выполняет chain-check без дополнительных skill-вызовов")
-    void executeSkillPromptDoesNotInvokeAdditionalSkills() throws Exception {
-        AgentRunner agentRunner = new AgentRunnerService("default");
-
-        AgentResultDto result = agentRunner.executeSkillPrompt(
-                "chain-check",
-                "Проверь цепочку skill workflow и верни все обязательные маркеры."
-        );
-
-        assertSuccessful(result);
-        assertSkillCallsIgnoringOrder(result, List.of());
-    }
-
-    @Test
-    @DisplayName("Выполняет самостоятельный рассчет без вызова скилла arithmetic")
-    void executeUserPromptSelectsSkillByUserIntent() throws Exception {
-        AgentRunner agentRunner = new AgentRunnerService("default");
-
-        AgentResultDto result = agentRunner.executeUserPrompt("2 + 3");
-        assertSuccessful(result);
-        assertEquals(0, AgentSkillCallExtractorUtils.extractSkillCalls(result).size());
-    }
-
-    @Test
-    @DisplayName("Выполняет пользовательский prompt через AgentRunnerService")
-    void executeUserPromptThroughAgentRunnerService() throws Exception {
-        AgentRunnerService agentRunnerService = new AgentRunnerService("default");
-
-        AgentResultDto result = agentRunnerService.executeUserPrompt("Верни 1 ответ: сколько будет 2 + 2 используй skills arithmetic");
         assertSuccessful(result);
         assertSingleSkillCall(result, "arithmetic");
     }

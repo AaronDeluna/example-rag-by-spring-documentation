@@ -20,6 +20,8 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
+// TODO Добавить логгирование
+// TODO Вынести утилитные методы
 @Slf4j
 @RequiredArgsConstructor
 public class AgentWorkspacePreparer {
