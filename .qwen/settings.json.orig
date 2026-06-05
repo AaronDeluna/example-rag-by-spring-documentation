@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "jar-unpacker": {
+      "command": "java",
+      "args": [
+        "-jar",
+        "target/mcp-server-jar-unpacker-1.0-SNAPSHOT.jar"
+      ],
+      "cwd": "."
+    }
+  }
+}

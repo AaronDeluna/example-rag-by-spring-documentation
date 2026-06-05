@@ -38,3 +38,6 @@ build/
 
 ### MacOS
 .DS_Store
+
+### MCP Server Logs ###
+mcp-server-jar-unpacker/jar-unpacker.log
