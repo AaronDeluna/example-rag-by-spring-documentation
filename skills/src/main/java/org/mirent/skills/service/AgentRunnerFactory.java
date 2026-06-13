@@ -19,13 +19,14 @@ class AgentRunnerFactory {
     private final Duration timeout;
     private final String agentSetName;
 
-    static AgentRunnerFactory defaultFactory(String agentSetName) {
+    static AgentRunnerFactory defaultFactory(String agentSetName, String caseName) {
+        String logicalSet = (caseName == null) ? agentSetName : agentSetName + "/" + caseName;
         return new AgentRunnerFactory(
                 new CommandExecutor(),
                 new AgentStreamJsonParser(),
-                new AgentWorkspacePreparer(agentSetName).prepare(),
+                new AgentWorkspacePreparer(agentSetName, caseName).prepare(),
                 QwenAgentRunner.DEFAULT_TIMEOUT,
-                agentSetName
+                logicalSet
         );
     }
 
