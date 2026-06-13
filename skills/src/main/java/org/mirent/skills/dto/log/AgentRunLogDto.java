@@ -16,6 +16,7 @@ public class AgentRunLogDto {
     private final String agentSet;
     private final String startedAt;
     private final String finishedAt;
+    private final Long durationInSeconds;
     private final String skillName;
     private final String finalResult;
     private final List<JsonNode> events;

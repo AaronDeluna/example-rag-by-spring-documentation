@@ -100,6 +100,7 @@ public class QwenAgentRunner implements AgentRunner {
         ));
         Instant finishedAt = Instant.now();
 
+        long durationExecute = Duration.between(startedAt, finishedAt).toSeconds();
         AgentLogDto agentLog = agentStreamJsonParser.parse(result.getStdout());
         log.info("[AGENT_RESPONSE]: \n{}", agentLog.getEventsJson());
         AgentResultDto agentResult = new AgentResultDto(
@@ -117,6 +118,7 @@ public class QwenAgentRunner implements AgentRunner {
                 .agentSet(agentSetName)
                 .startedAt(startedAt.toString())
                 .finishedAt(finishedAt.toString())
+                .durationInSeconds(durationExecute)
                 .skillName(skillName)
                 .finalResult(agentResult.getFinalResult())
                 .events(agentResult.getEvents())
