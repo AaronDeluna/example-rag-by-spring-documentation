@@ -1,6 +1,5 @@
 package org.mirent.skills.service;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mirent.skills.dto.module.ModuleLayoutDto;
 import org.mirent.skills.exeptions.AgentRunnerConfigurationException;
@@ -16,17 +15,32 @@ import static org.mirent.skills.util.SkillsFileUtils.copyDirectory;
 import static org.mirent.skills.util.SkillsFileUtils.resolveClassesLocation;
 
 @Slf4j
-@RequiredArgsConstructor
 public class AgentWorkspacePreparer {
 
     private static final String AGENT_SETS_DIR = "src/test/resources/agent-sets";
     private static final String QWEN_DIR = ".qwen";
-    private static final String SKILLS_DIR = "skills";
     private static final String WORKSPACE_DIR_NAME = "agent-runner";
 
     private final String agentSetName;
+    private final String caseName;
+
+    public AgentWorkspacePreparer(String agentSetName) {
+        this(agentSetName, null);
+    }
+
+    public AgentWorkspacePreparer(String agentSetName, String caseName) {
+        this.agentSetName = agentSetName;
+        this.caseName = caseName;
+    }
 
     public Path prepare() {
+        Path agentSet = resolveAgentSet();
+        Path source = (caseName == null) ? agentSet : resolveCase(agentSet);
+        String label = (caseName == null) ? agentSetName : agentSetName + "/" + caseName;
+        return copyToWorkspace(source, label);
+    }
+
+    private Path resolveAgentSet() {
         if (agentSetName == null || agentSetName.isBlank()) {
             throw new MissingAgentSetNameException();
         }
@@ -46,14 +60,31 @@ public class AgentWorkspacePreparer {
                     "Не найден набор агента '" + agentSetName + "' по пути " + agentSet
             );
         }
+        return agentSet;
+    }
 
+    private Path resolveCase(Path agentSet) {
+        if (caseName.isBlank()) {
+            throw new AgentRunnerConfigurationException("Не передано имя кейса caseName");
+        }
+        Path caseDir = agentSet.resolve(caseName);
+        if (!Files.isDirectory(caseDir)) {
+            throw new AgentSetNotFoundException(
+                    "Не найден кейс '" + caseName + "' в наборе '" + agentSetName + "' по пути " + caseDir
+            );
+        }
+        return caseDir;
+    }
+
+    private Path copyToWorkspace(Path source, String sourceLabel) {
+        ModuleLayoutDto layout = resolveModuleLayout();
         Path workspace = layout.getBasedir().resolve(layout.getBuildDir()).resolve(WORKSPACE_DIR_NAME);
-        Path skillsTarget = workspace.resolve(QWEN_DIR).resolve(SKILLS_DIR);
+        Path qwenTarget = workspace.resolve(QWEN_DIR);
 
         cleanDirectory(workspace);
-        copyDirectory(agentSet, skillsTarget);
+        copyDirectory(source, qwenTarget);
 
-        log.info("Agent workspace подготовлен из набора '{}': {} -> {}", agentSetName, agentSet, workspace);
+        log.info("Agent workspace подготовлен из '{}': {} -> {}", sourceLabel, source, workspace);
         return workspace;
     }
 
