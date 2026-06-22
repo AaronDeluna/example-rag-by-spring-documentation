@@ -1,6 +1,7 @@
 package org.mirent.skills.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.mirent.skills.dto.module.ModuleLayoutDto;
 import org.mirent.skills.exeptions.AgentRunnerConfigurationException;
 import org.mirent.skills.service.AgentWorkspacePreparer;
 
@@ -18,6 +19,28 @@ import java.util.stream.Stream;
 
 @Slf4j
 public class SkillsFileUtils {
+
+    /**
+     * Определяет basedir текущего модуля и его build-каталог (target для Maven, build для Gradle).
+     * Поднимается вверх от папки с классами и ищет маркер модуля (pom.xml / build.gradle / build.gradle.kts).
+     */
+    public static ModuleLayoutDto resolveModuleLayout() {
+        Path classesDir = resolveClassesLocation();
+        Path current = classesDir;
+        while (current != null) {
+            if (Files.isRegularFile(current.resolve("pom.xml"))) {
+                return new ModuleLayoutDto(current, "target");
+            }
+            if (Files.isRegularFile(current.resolve("build.gradle"))
+                    || Files.isRegularFile(current.resolve("build.gradle.kts"))) {
+                return new ModuleLayoutDto(current, "build");
+            }
+            current = current.getParent();
+        }
+        throw new AgentRunnerConfigurationException(
+                "Не удалось найти basedir модуля (нет pom.xml/build.gradle) начиная с " + classesDir
+        );
+    }
 
     public static Path resolveClassesLocation() {
         try {
