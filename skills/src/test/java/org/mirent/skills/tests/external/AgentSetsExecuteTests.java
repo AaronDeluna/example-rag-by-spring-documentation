@@ -5,14 +5,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mirent.skills.dto.agent.AgentResultDto;
+import org.mirent.skills.dto.evaluate.EvaluateDto;
+import org.mirent.skills.dto.evaluate.EvaluateResultDto;
 import org.mirent.skills.runner.AgentRunner;
+import org.mirent.skills.service.AgentEvaluatorService;
 import org.mirent.skills.service.AgentRunnerService;
-import org.mirent.skills.service.AgentWorkspacePreparer;
-
-import java.io.File;
 
 import static org.mirent.skills.matcher.AgentMatcher.assertSingleSkillCall;
 import static org.mirent.skills.matcher.AgentMatcher.assertSuccessful;
+import static org.mirent.skills.matcher.AgentMatcher.evaluate;
 
 class AgentSetsExecuteTests {
 
@@ -40,6 +41,24 @@ class AgentSetsExecuteTests {
 
         assertSuccessful(result);
         assertSingleSkillCall(result, "word-count");
+    }
+
+    @Test
+    @DisplayName("Ответ агента из набора default оценивается судьёй на score не ниже 0.7")
+    void defaultSetAnswerIsEvaluatedAsCorrect() throws Exception {
+        String query = "сколько будет 2 + 2 используй skills arithmetic";
+
+        AgentRunner agent = new AgentRunnerService("default");
+        AgentResultDto agentResult = agent.executeUserPrompt(query);
+        assertSuccessful(agentResult);
+
+        AgentEvaluatorService evaluator = new AgentEvaluatorService("default");
+        EvaluateResultDto evaluation = evaluator.evaluate(new EvaluateDto(
+                query,
+                agentResult.getEventsJson()
+        ));
+
+        evaluate(evaluation, 0.7);
     }
 
     @ParameterizedTest

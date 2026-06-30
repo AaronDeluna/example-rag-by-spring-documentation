@@ -1,6 +1,7 @@
 package org.mirent.skills.matcher;
 
 import org.mirent.skills.dto.agent.AgentResultDto;
+import org.mirent.skills.dto.evaluate.EvaluateResultDto;
 import org.mirent.skills.util.AgentSkillCallExtractorUtils;
 
 import java.util.List;
@@ -8,6 +9,25 @@ import java.util.List;
 public final class AgentMatcher {
 
     private AgentMatcher() {
+    }
+
+    /**
+     * Проверяет, что score результата оценки не ниже порога.
+     * При провале сообщение содержит фактический score и problemMessage от судьи.
+     *
+     * @param result    результат оценки
+     * @param threshold минимальный допустимый score в [0.0, 1.0]
+     */
+    public static void evaluate(EvaluateResultDto result, double threshold) {
+        if (result == null) {
+            throw new AssertionError("Результат оценки не должен быть null");
+        }
+        if (result.getScore() < threshold) {
+            throw new AssertionError(
+                    "Score " + result.getScore() + " ниже порога " + threshold
+                            + ". Проблемы: " + result.getProblemMessage()
+            );
+        }
     }
 
     /**

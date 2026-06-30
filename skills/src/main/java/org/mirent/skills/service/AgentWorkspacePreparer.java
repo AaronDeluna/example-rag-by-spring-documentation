@@ -12,7 +12,7 @@ import java.nio.file.Path;
 
 import static org.mirent.skills.util.SkillsFileUtils.cleanDirectory;
 import static org.mirent.skills.util.SkillsFileUtils.copyDirectory;
-import static org.mirent.skills.util.SkillsFileUtils.resolveClassesLocation;
+import static org.mirent.skills.util.SkillsFileUtils.resolveModuleLayout;
 
 @Slf4j
 public class AgentWorkspacePreparer {
@@ -88,21 +88,4 @@ public class AgentWorkspacePreparer {
         return workspace;
     }
 
-    private static ModuleLayoutDto resolveModuleLayout() {
-        Path classesDir = resolveClassesLocation();
-        Path current = classesDir;
-        while (current != null) {
-            if (Files.isRegularFile(current.resolve("pom.xml"))) {
-                return new ModuleLayoutDto(current, "target");
-            }
-            if (Files.isRegularFile(current.resolve("build.gradle"))
-                    || Files.isRegularFile(current.resolve("build.gradle.kts"))) {
-                return new ModuleLayoutDto(current, "build");
-            }
-            current = current.getParent();
-        }
-        throw new AgentRunnerConfigurationException(
-                "Не удалось найти basedir модуля (нет pom.xml/build.gradle) начиная с " + classesDir
-        );
-    }
 }
