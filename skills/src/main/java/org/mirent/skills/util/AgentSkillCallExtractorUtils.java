@@ -14,11 +14,17 @@ public class AgentSkillCallExtractorUtils {
 
         List<String> skillCalls = new ArrayList<>();
         for (JsonNode event : result.getEvents()) {
+            // Плоская структура: сам event — это tool_use (формат qwen CLI)
+            if (isSkillToolUse(event)) {
+                skillCalls.add(event.path("input").path("skill").asText());
+                continue;
+            }
+
+            // Вложенная структура: event.message.content[].tool_use
             JsonNode contentItems = event.path("message").path("content");
             if (!contentItems.isArray()) {
                 continue;
             }
-
             for (JsonNode contentItem : contentItems) {
                 if (isSkillToolUse(contentItem)) {
                     skillCalls.add(contentItem.path("input").path("skill").asText());

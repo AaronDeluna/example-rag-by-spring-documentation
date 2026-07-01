@@ -109,7 +109,7 @@ public class QwenSettingsUpdater {
                 ((ObjectNode) root.get("model")).put("name", newModelName);
 
                 String updatedJson = OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(root);
-                log.info("Обновленная конфигурация:\n{}", updatedJson);
+                log.info("Обновленная конфигурация 'settings.json' для выполнения тестов:\n{}", updatedJson);
 
                 OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(settingsFile, root);
                 log.info("Имя модели успешно обновлено с '{}' на '{}'", currentName, newModelName);
