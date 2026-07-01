@@ -1,25 +1,20 @@
-package org.mirent.skills.tests.inner;
+package org.mirent.skills.tests.inner.unit;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mirent.skills.exeptions.MissingAgentCliException;
 import org.mirent.skills.exeptions.UnsupportedAgentCliException;
 import org.mirent.skills.service.AgentCli;
 import org.mirent.skills.service.AgentRunnerProperties;
-import org.mirent.skills.service.AgentRunnerService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class AgentRunnerServiceTests {
-
-    @Test
-    @DisplayName("Создается из default properties и набора default")
-    void createsFromDefaultProperties() {
-        assertDoesNotThrow(() -> new AgentRunnerService("default"));
-    }
+@Tag("inner")
+@Tag("unit")
+class AgentCliTest {
 
     @Test
     @DisplayName("Выбрасывает ошибку, если CLI не указана")

@@ -1,6 +1,7 @@
-package org.mirent.skills.tests.inner;
+package org.mirent.skills.tests.inner.unit;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mirent.skills.dto.evaluate.EvaluateDto;
 import org.mirent.skills.dto.evaluate.EvaluateResultDto;
@@ -12,7 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class AgentEvaluatorServiceTests {
+@Tag("inner")
+@Tag("unit")
+class AgentEvaluatorServiceTest {
 
     private static final EvaluateDto ANY = new EvaluateDto("query", "[]");
 

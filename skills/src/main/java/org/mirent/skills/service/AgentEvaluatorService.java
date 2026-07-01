@@ -3,6 +3,8 @@ package org.mirent.skills.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.mirent.skills.dto.evaluate.EvaluateDto;
+
+import java.nio.file.Path;
 import org.mirent.skills.dto.evaluate.EvaluateResultDto;
 import org.mirent.skills.exeptions.EvaluatorResponseParseException;
 import org.mirent.skills.runner.JudgeRunner;
@@ -78,12 +80,12 @@ public class AgentEvaluatorService {
     private final ObjectMapper objectMapper;
 
     /**
-     * Создаёт evaluator, который запускает CLI-судью в workspace переданного набора.
+     * Создаёт evaluator, который запускает CLI-судью в указанной рабочей области.
      *
-     * @param agentSetName имя папки набора в {@code src/test/resources/agent-sets/}
+     * @param workspace путь к рабочей области
      */
-    public AgentEvaluatorService(String agentSetName) {
-        this(new QwenJudgeRunner(new AgentWorkspacePreparer(agentSetName).prepare()));
+    public AgentEvaluatorService(Path workspace) {
+        this(new QwenJudgeRunner(workspace));
     }
 
     /**

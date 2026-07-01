@@ -1,7 +1,8 @@
-package org.mirent.skills.tests.inner;
+package org.mirent.skills.tests.inner.unit;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mirent.skills.CommandExecutor;
 import org.mirent.skills.dto.command.CommandRequestDto;
@@ -15,6 +16,9 @@ import java.util.List;
 
 import static org.mirent.skills.runner.qwen.QwenAgentRunner.resolveDefaultWorkingDirectory;
 
+
+@Tag("inner")
+@Tag("unit")
 @Slf4j
 public class QwenAvailabilityTest {
 
@@ -44,7 +48,7 @@ public class QwenAvailabilityTest {
         Assertions.assertFalse(actualCommandResultDto.getStdout().isEmpty());
 
         String actualVersion = actualCommandResultDto.getStdout().trim();
-        Assertions.assertEquals("0.15.10", actualVersion);
+        Assertions.assertEquals("0.19.3", actualVersion);
     }
 
     private static Path findQwenPathByOs() throws FileNotFoundException {

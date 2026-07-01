@@ -3,7 +3,6 @@ package org.mirent.skills.util;
 import lombok.extern.slf4j.Slf4j;
 import org.mirent.skills.dto.module.ModuleLayoutDto;
 import org.mirent.skills.exeptions.AgentRunnerConfigurationException;
-import org.mirent.skills.service.AgentWorkspacePreparer;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -44,7 +43,7 @@ public class SkillsFileUtils {
 
     public static Path resolveClassesLocation() {
         try {
-            URL location = AgentWorkspacePreparer.class
+            URL location = SkillsFileUtils.class
                     .getProtectionDomain()
                     .getCodeSource()
                     .getLocation();
