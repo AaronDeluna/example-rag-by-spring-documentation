@@ -30,6 +30,7 @@ public class QwenAgentRunner implements AgentRunner {
     private final RunnerLogWriter runnerLogWriter;
     private final Path workingDirectory;
     private final Duration timeout;
+    private AgentRunContext agentRunContext;
 
     public QwenAgentRunner(
             CommandExecutor commandExecutor,
@@ -51,6 +52,7 @@ public class QwenAgentRunner implements AgentRunner {
         this.agentStreamJsonParser = agentStreamJsonParser;
         this.runnerLogWriter = runnerLogWriter;
         this.workingDirectory = workingDirectory;
+        this.agentRunContext = new AgentRunContext(workingDirectory);
         this.timeout = timeout;
     }
 
@@ -68,10 +70,9 @@ public class QwenAgentRunner implements AgentRunner {
 
     private AgentResultDto execute(String skillName, String prompt) throws Exception {
         log.info("[USER_QUERY]: {}", prompt);
-        AgentRunContext context = new AgentRunContext(workingDirectory);
-        Files.createDirectories(context.getRunDir());
+        Files.createDirectories(agentRunContext.getRunDir());
 
-        List<String> command = QwenCommandFactory.buildCommand(prompt, context.getRunDir());
+        List<String> command = QwenCommandFactory.buildCommand(prompt, agentRunContext.getRunDir());
 
         Instant startedAt = Instant.now();
         CommandResultDto result = commandExecutor.execute(new CommandRequestDto(
@@ -94,25 +95,20 @@ public class QwenAgentRunner implements AgentRunner {
         );
 
         AgentRunLogDto logEntry = AgentRunLogDto.builder()
-                .runId(context.getRunId())
+                .runId(agentRunContext.getRunId())
                 .startedAt(startedAt.toString())
                 .finishedAt(finishedAt.toString())
                 .skillName(skillName)
                 .finalResult(agentResult.getFinalResult())
                 .events(agentResult.getEvents())
                 .build();
-        runnerLogWriter.write(context, logEntry);
+        runnerLogWriter.write(agentRunContext, logEntry);
 
         return agentResult;
     }
 
-    public static Path resolveDefaultWorkingDirectory() {
-        Path currentDirectory = Path.of("").toAbsolutePath();
-        Path skillsDirectory = currentDirectory.resolve("skills");
-        if (Files.isDirectory(skillsDirectory)) {
-            return skillsDirectory;
-        }
-        return currentDirectory;
+    public AgentRunContext getAgentRunContext() {
+        return agentRunContext;
     }
 
     private static void validateSkillName(String skillName) {
