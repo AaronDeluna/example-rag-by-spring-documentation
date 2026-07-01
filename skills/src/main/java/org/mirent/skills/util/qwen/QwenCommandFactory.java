@@ -3,6 +3,8 @@ package org.mirent.skills.util.qwen;
 import org.mirent.skills.exeptions.QwenCommandFactoryException;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public final class QwenCommandFactory {
@@ -18,20 +20,62 @@ public final class QwenCommandFactory {
      * @return список аргументов для {@link ProcessBuilder}-подобного запуска
      */
     public static List<String> buildCommand(String prompt) {
+        return buildCommand(prompt, null);
+    }
+
+    /**
+     * Собирает командную строку для запуска qwen one-shot в stream-json формате.
+     * Подбирает путь к CLI под текущую ОС.
+     * При наличии {@code openaiLogDir} добавляет --openai-logging и --openai-logging-dir.
+     *
+     * @param prompt       пользовательский prompt
+     * @param openaiLogDir директория для OpenAI-логов (может быть {@code null})
+     * @return список аргументов для {@link ProcessBuilder}-подобного запуска
+     */
+    public static List<String> buildCommand(String prompt, Path openaiLogDir) {
         String osName = System.getProperty("os.name").toLowerCase();
+        List<String> command = new ArrayList<>();
+
         if (osName.contains("mac")) {
-            return List.of("qwen", prompt, "--output-format", "stream-json", "--approval-mode", "yolo");
-        }
-        if (osName.contains("linux")) {
-            // На Linux qwen-cli ставится через npm-global,
-            // запускаем напрямую js-файл (у него есть shebang).
+            command.add("qwen");
+            command.add(prompt);
+            command.add("--output-format");
+            command.add("stream-json");
+            command.add("--approval-mode");
+            command.add("yolo");
+        } else if (osName.contains("linux")) {
             String userHome = System.getProperty("user.home");
             Path cli = Path.of(userHome, ".npm-global", "lib", "node_modules", "@qwen-code", "qwen-code", "cli.js");
-            return List.of(cli.toString(), "--output-format", "stream-json", "--approval-mode", "yolo", prompt);
+            command.add(cli.toString());
+            command.add("--output-format");
+            command.add("stream-json");
+            command.add("--approval-mode");
+            command.add("yolo");
+        } else if (osName.contains("win")) {
+            command.add("cmd.exe");
+            command.add("/c");
+            command.add("qwen");
+            command.add(prompt);
+            command.add("--output-format");
+            command.add("stream-json");
+            command.add("--approval-mode");
+            command.add("yolo");
+        } else {
+            throw new QwenCommandFactoryException("Неизвестная операционная система: " + osName);
         }
-        if (osName.contains("win")) {
-            return List.of("cmd.exe", "/c", "qwen", prompt, "--output-format", "stream-json", "--approval-mode", "yolo");
+
+        if (openaiLogDir != null) {
+            command.add("--openai-logging");
+            command.add("true");
+            command.add("--openai-logging-dir");
+            command.add(openaiLogDir.toAbsolutePath().toString());
         }
-        throw new QwenCommandFactoryException("Неизвестная операционная система: " + osName);
+
+        // На Linux prompt — последний аргумент (после всех флагов)
+        if (osName.contains("linux")) {
+            command.add(prompt);
+        }
+
+        return Collections.unmodifiableList(command);
     }
 }

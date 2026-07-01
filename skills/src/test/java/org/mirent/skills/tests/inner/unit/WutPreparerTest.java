@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.mirent.skills.exeptions.WutPreparerException;
 import org.mirent.skills.util.WutPreparer;
 
 import java.io.File;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,7 +37,7 @@ class WutPreparerTest {
     private Path wutSourcePath;
 
     @BeforeEach
-    void setUp() throws IOException {
+    void setUp() throws WutPreparerException, IOException {
         buildDir = Path.of("target/wut-tests").toAbsolutePath();
         Files.createDirectories(buildDir);
         tempDir = Files.createTempDirectory("wut-test-");
@@ -44,7 +46,7 @@ class WutPreparerTest {
     }
 
     @AfterEach
-    void tearDown() throws IOException {
+    void tearDown() throws WutPreparerException {
         deleteDirectory(buildDir);
         deleteDirectory(tempDir);
     }
@@ -57,7 +59,7 @@ class WutPreparerTest {
 
     @Test
     @DisplayName("Копирует содержимое из wutSourcePath/wutSourceName в buildDir/wutTargetPath/wutSourceName")
-    void givenSourceExistsWhenPrepareThenCopiesContents() throws IOException {
+    void givenSourceExistsWhenPrepareThenCopiesContents() throws WutPreparerException, IOException {
         createWutSource(DEFAULT_WUT_NAME, "hello.txt", "sub/file.txt");
 
         Path workspace = defaultBuilder()
@@ -75,7 +77,7 @@ class WutPreparerTest {
 
     @Test
     @DisplayName("Не удаляет старые файлы, если overwriteTarget = false и целевая папка существует")
-    void givenExistingTargetWhenOverwriteFalseThenPreservesOldContent() throws IOException {
+    void givenExistingTargetWhenOverwriteFalseThenPreservesOldContent() throws WutPreparerException, IOException {
         String wutName = "merge-wut";
         createWutSource(wutName, "new-file.txt");
 
@@ -96,7 +98,7 @@ class WutPreparerTest {
 
     @Test
     @DisplayName("Удаляет старые файлы, если overwriteTarget = true и целевая папка существует")
-    void givenExistingTargetWhenOverwriteTrueThenReplaces() throws IOException {
+    void givenExistingTargetWhenOverwriteTrueThenReplaces() throws WutPreparerException, IOException {
         String wutName = "replace-wut";
         createWutSource(wutName, "new-file.txt");
 
@@ -117,7 +119,7 @@ class WutPreparerTest {
 
     @Test
     @DisplayName("Создаёт новую целевую папку, если её ещё нет")
-    void givenNoTargetWhenPrepareThenCreatesTargetDirectory() throws IOException {
+    void givenNoTargetWhenPrepareThenCreatesTargetDirectory() throws WutPreparerException, IOException {
         String wutName = "fresh-wut";
         createWutSource(wutName, "data.txt");
 
@@ -132,19 +134,19 @@ class WutPreparerTest {
     }
 
     @Test
-    @DisplayName("Бросает IOException, если исходная директория не существует")
+    @DisplayName("Бросает WutPreparerException, если исходная директория не существует")
     void givenNonExistentSourceWhenPrepareThenThrows() {
         WutPreparer preparer = defaultBuilder()
                 .wutSourceName("no-such-wut")
                 .build();
 
-        IOException exception = assertThrows(IOException.class, preparer::prepare);
+        WutPreparerException exception = assertThrows(WutPreparerException.class, preparer::prepare);
         assertTrue(exception.getMessage().contains("no-such-wut"), "Сообщение должно содержать имя отсутствующей WUT");
     }
 
     @Test
-    @DisplayName("Бросает IOException, если источник — файл, а не директория")
-    void givenFileSourceWhenPrepareThenThrows() throws IOException {
+    @DisplayName("Бросает WutPreparerException, если источник — файл, а не директория")
+    void givenFileSourceWhenPrepareThenThrows() throws WutPreparerException, IOException {
         Path fileWut = wutSourcePath.resolve("not-a-dir.txt");
         Files.writeString(fileWut, "это файл, а не папка");
 
@@ -152,7 +154,7 @@ class WutPreparerTest {
                 .wutSourceName("not-a-dir.txt")
                 .build();
 
-        IOException exception = assertThrows(IOException.class, preparer::prepare);
+        WutPreparerException exception = assertThrows(WutPreparerException.class, preparer::prepare);
         assertTrue(exception.getMessage().contains("файл") || exception.getMessage().contains("file"),
                 "Сообщение должно указывать, что источник — не директория");
     }
@@ -160,7 +162,7 @@ class WutPreparerTest {
     @Test
     @DisplayName("Бросает IllegalStateException, если wutSourceName не задан")
     void givenNoSourceNameWhenBuildThenThrows() {
-        IllegalStateException exception = assertThrows(IllegalStateException.class,
+        WutPreparerException exception = assertThrows(WutPreparerException.class,
                 () -> defaultBuilder().build());
 
         assertTrue(exception.getMessage().contains("wutSourceName"), "Сообщение должно содержать 'wutSourceName'");
@@ -168,7 +170,7 @@ class WutPreparerTest {
 
     @Test
     @DisplayName("Использует явно заданные buildDirectory и wutTargetPath")
-    void givenExplicitBuildDirAndTargetPathWhenPrepareThenUsesThem() throws IOException {
+    void givenExplicitBuildDirAndTargetPathWhenPrepareThenUsesThem() throws WutPreparerException, IOException {
         String wutName = "explicit-wut";
         createWutSource(wutName, "config.yaml");
 
@@ -185,7 +187,7 @@ class WutPreparerTest {
 
     @Test
     @DisplayName("Сохраняет вложенную структуру директорий при копировании")
-    void givenSourceWithDeepNestingWhenPrepareThenPreservesStructure() throws IOException {
+    void givenSourceWithDeepNestingWhenPrepareThenPreservesStructure() throws WutPreparerException, IOException {
         String wutName = "deep-wut";
         Path deepDir = wutSourcePath.resolve(wutName);
         Files.createDirectories(deepDir.resolve("a/b/c/d"));
@@ -202,7 +204,7 @@ class WutPreparerTest {
         assertTrue(Files.isDirectory(workspace.resolve("a/b/c/d")), "Вложенная папка a/b/c/d должна существовать");
     }
 
-    private Path createWutSource(String name, String... files) throws IOException {
+    private Path createWutSource(String name, String... files) throws WutPreparerException, IOException {
         Path source = wutSourcePath.resolve(name);
         for (String file : files) {
             Path filePath = source.resolve(file);
@@ -212,14 +214,16 @@ class WutPreparerTest {
         return source;
     }
 
-    private static void deleteDirectory(Path dir) throws IOException {
+    private static void deleteDirectory(Path dir) throws WutPreparerException {
         if (Files.notExists(dir)) {
             return;
         }
-        try (var files = Files.walk(dir)) {
+        try (Stream<Path> files = Files.walk(dir)) {
             files.sorted(Comparator.reverseOrder())
                     .map(Path::toFile)
                     .forEach(File::delete);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
