@@ -1,9 +1,10 @@
-package org.mirent.skills.tests.inner;
+package org.mirent.skills.tests.inner.unit;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mirent.skills.util.WutPreparer;
 
@@ -21,6 +22,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * Исходные директории для тестовых данных создаются во временной директории системы.
  * buildDirectory указывается явно на {@code target/wut-tests} (не через автоопределение).
  */
+@Tag("inner")
+@Tag("unit")
 @Slf4j
 class WutPreparerTest {
 

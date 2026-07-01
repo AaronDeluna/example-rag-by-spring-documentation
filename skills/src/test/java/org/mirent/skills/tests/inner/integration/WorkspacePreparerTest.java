@@ -1,6 +1,7 @@
-package org.mirent.skills.tests.inner;
+package org.mirent.skills.tests.inner.integration;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mirent.skills.util.WutPreparer;
 
@@ -12,6 +13,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Tag("inner")
+@Tag("integration")
 class WorkspacePreparerTest {
 
     private static final Path WUT_SOURCE = Path.of("src/test/resources/wut-templates");

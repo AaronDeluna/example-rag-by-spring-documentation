@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 import static org.mirent.skills.matcher.AgentMatcher.assertSingleSkillCall;
 import static org.mirent.skills.matcher.AgentMatcher.assertSuccessful;
 
-@Tag("integration")
+@Tag("external")
 @Disabled
 @Slf4j
 class MultipleModelsQwenTest {

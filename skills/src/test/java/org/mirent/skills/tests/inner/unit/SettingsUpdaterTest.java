@@ -1,13 +1,16 @@
-package org.mirent.skills.tests.inner;
+package org.mirent.skills.tests.inner.unit;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mirent.skills.util.qwen.QwenSettingsUpdater;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Tag("inner")
+@Tag("unit")
 @Disabled
 class SettingsUpdaterTest {
 
