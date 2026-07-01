@@ -30,16 +30,14 @@ public class QwenAgentRunner implements AgentRunner {
     private final RunnerLogWriter runnerLogWriter;
     private final Path workingDirectory;
     private final Duration timeout;
-    private final String agentSetName;
 
     public QwenAgentRunner(
             CommandExecutor commandExecutor,
             AgentStreamJsonParser agentStreamJsonParser,
             Path workingDirectory,
-            Duration timeout,
-            String agentSetName
+            Duration timeout
     ) {
-        this(commandExecutor, agentStreamJsonParser, new RunnerLogWriter(), workingDirectory, timeout, agentSetName);
+        this(commandExecutor, agentStreamJsonParser, new RunnerLogWriter(), workingDirectory, timeout);
     }
 
     public QwenAgentRunner(
@@ -47,15 +45,13 @@ public class QwenAgentRunner implements AgentRunner {
             AgentStreamJsonParser agentStreamJsonParser,
             RunnerLogWriter runnerLogWriter,
             Path workingDirectory,
-            Duration timeout,
-            String agentSetName
+            Duration timeout
     ) {
         this.commandExecutor = commandExecutor;
         this.agentStreamJsonParser = agentStreamJsonParser;
         this.runnerLogWriter = runnerLogWriter;
         this.workingDirectory = workingDirectory;
         this.timeout = timeout;
-        this.agentSetName = agentSetName;
     }
 
     @Override
@@ -96,7 +92,6 @@ public class QwenAgentRunner implements AgentRunner {
 
         AgentRunLogDto logEntry = AgentRunLogDto.builder()
                 .runId(UUID.randomUUID().toString())
-                .agentSet(agentSetName)
                 .startedAt(startedAt.toString())
                 .finishedAt(finishedAt.toString())
                 .skillName(skillName)

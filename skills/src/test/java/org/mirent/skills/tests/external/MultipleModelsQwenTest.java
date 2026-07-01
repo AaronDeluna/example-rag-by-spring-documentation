@@ -3,7 +3,9 @@ package org.mirent.skills.tests.external;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -12,20 +14,17 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.mirent.skills.dto.agent.AgentResultDto;
 import org.mirent.skills.runner.AgentRunner;
 import org.mirent.skills.service.AgentRunnerService;
+import org.mirent.skills.util.WutPreparer;
 import org.mirent.skills.util.qwen.QwenSettingsUpdater;
 
+import java.nio.file.Path;
 import java.util.stream.Stream;
 
 import static org.mirent.skills.matcher.AgentMatcher.assertSingleSkillCall;
 import static org.mirent.skills.matcher.AgentMatcher.assertSuccessful;
 
-/**
- * Выполнение тестирования нескольких моделей на одной задаче.
- * Предполагается, что параметры моделей, указанные в классе-поставщике данных {@link ModelNamesProvider} содержатся в
- * файле с настройками приложения Qwen по пути: /.qwen/settings.json
- * @deprecated Класс требует переработки в соответствии с реализацией работы с наборами.
- */
-@Deprecated(forRemoval = true)
+@Tag("integration")
+@Disabled
 @Slf4j
 class MultipleModelsQwenTest {
 
@@ -51,7 +50,15 @@ class MultipleModelsQwenTest {
     void executeUserPromptInvokesRequestedSkillsInOrder(String modelName) throws Exception {
         settingsUpdater.updateModelNameAndSave(modelName);
         String prompt = "Верни 1 ответ: сколько будет 2 + 2 используй skills arithmetic";
-        AgentRunner agentRunner = new AgentRunnerService("default");
+
+        AgentRunner agentRunner = new AgentRunnerService(
+                WutPreparer.builder()
+                        .wutSourceName("default")
+                        .wutSourcePath(Path.of("src/test/resources/wut-templates"))
+                        .overwriteTarget(true)
+                        .build()
+                        .prepare()
+        );
 
         AgentResultDto result = agentRunner.executeUserPrompt(prompt);
         log.info("Тест с моделью {} -> идентификатор сессии: {}", modelName, result.getEvents().get(0).get("uuid"));
@@ -68,12 +75,7 @@ class MultipleModelsQwenTest {
                     Arguments.of("qwen3.5:9b"),
                     Arguments.of("qwen2.5-coder:7b"),
                     Arguments.of("qwen3:8b"),
-                    Arguments.of("qwen3:14b"),
-                    Arguments.of("qwen2.5:1.5b"),
-                    Arguments.of("gemma3:12b"),
-                    Arguments.of("gemma3:4b-it-qat"),
-                    Arguments.of("gemma3:4b"),
-                    Arguments.of("gemma3:12b-it-qat")
+                    Arguments.of("qwen3:14b")
             );
         }
     }

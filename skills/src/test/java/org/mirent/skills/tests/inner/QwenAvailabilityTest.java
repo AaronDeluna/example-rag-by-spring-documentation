@@ -44,7 +44,7 @@ public class QwenAvailabilityTest {
         Assertions.assertFalse(actualCommandResultDto.getStdout().isEmpty());
 
         String actualVersion = actualCommandResultDto.getStdout().trim();
-        Assertions.assertEquals("0.15.10", actualVersion);
+        Assertions.assertEquals("0.19.3", actualVersion);
     }
 
     private static Path findQwenPathByOs() throws FileNotFoundException {
