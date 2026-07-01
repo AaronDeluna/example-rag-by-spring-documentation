@@ -8,27 +8,38 @@ import org.mirent.skills.CommandExecutor;
 import org.mirent.skills.dto.command.CommandRequestDto;
 import org.mirent.skills.dto.command.CommandResultDto;
 
+import org.mirent.skills.util.WutPreparer;
+
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.util.List;
-
-import static org.mirent.skills.runner.qwen.QwenAgentRunner.resolveDefaultWorkingDirectory;
-
 
 @Tag("inner")
 @Tag("unit")
 @Slf4j
 public class QwenAvailabilityTest {
 
+    private static final Path WUT_SOURCE = Path.of("src/test/resources/wut-templates");
+
     private final CommandExecutor executor = new CommandExecutor();
+
+    private static Path prepareWut() throws IOException {
+        return WutPreparer.builder()
+                .wutSourceName("default")
+                .wutSourcePath(WUT_SOURCE)
+                .overwriteTarget(true)
+                .build()
+                .prepare();
+    }
 
     @Test
     void qwenIsAvailableTest() throws Exception {
         CommandRequestDto commandRequestDto = new CommandRequestDto(
                 List.of("which", findQwenPathByOs().toString()),
-                resolveDefaultWorkingDirectory(), Duration.ofMinutes(3));
+                prepareWut(), Duration.ofMinutes(3));
 
         CommandResultDto whichResult = executor.execute(commandRequestDto);
         Assertions.assertEquals(0, whichResult.getExitCode());
@@ -41,7 +52,7 @@ public class QwenAvailabilityTest {
     void qwenLinuxAndMacOSVersionTest() throws Exception {
         CommandRequestDto commandRequestDto = new CommandRequestDto(
                 List.of(findQwenPathByOs().toString(), "--version"),
-                resolveDefaultWorkingDirectory(), Duration.ofMinutes(3));
+                prepareWut(), Duration.ofMinutes(3));
 
         CommandResultDto actualCommandResultDto = executor.execute(commandRequestDto);
         Assertions.assertEquals(0, actualCommandResultDto.getExitCode());

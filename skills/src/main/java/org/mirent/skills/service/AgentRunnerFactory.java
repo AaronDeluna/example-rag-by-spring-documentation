@@ -11,14 +11,14 @@ import java.time.Duration;
 import java.util.Properties;
 
 @Slf4j
-class AgentRunnerFactory {
+public class AgentRunnerFactory {
 
     private final CommandExecutor commandExecutor;
     private final AgentStreamJsonParser agentStreamJsonParser;
     private final Path workingDirectory;
     private final Duration timeout;
 
-    static AgentRunnerFactory defaultFactory(Path workspace) {
+    public static AgentRunnerFactory defaultFactory(Path workspace) {
         return new AgentRunnerFactory(
                 new CommandExecutor(),
                 new AgentStreamJsonParser(),
@@ -39,7 +39,7 @@ class AgentRunnerFactory {
         this.timeout = timeout;
     }
 
-    AgentRunner create(Properties properties) {
+    public QwenAgentRunner create(Properties properties) {
         AgentCli cli = AgentCli.fromProperty(properties.getProperty(AgentRunnerProperties.CLI_PROPERTY));
         log.info("Запуск через CLI: {}", cli);
 

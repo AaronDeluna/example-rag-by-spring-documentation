@@ -4,18 +4,86 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.slf4j.Slf4j;
 import org.mirent.skills.exeptions.NotFoundSaveModelNameException;
+import org.mirent.skills.runner.AgentRunContext;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
-
-import static org.mirent.skills.runner.qwen.QwenAgentRunner.resolveDefaultWorkingDirectory;
 
 @Slf4j
 public class QwenSettingsUpdater {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private static final String DEFAULT_MODEL_NAME = "default-model";
+
+    private final boolean createSettingsIfMissing;
     private String previousModelName = null;
+    private AgentRunContext agentRunContext;
+
+    public QwenSettingsUpdater(AgentRunContext agentRunContext) {
+        this.agentRunContext = agentRunContext;
+        this.createSettingsIfMissing = false;
+    }
+
+    private QwenSettingsUpdater(Builder builder) {
+        this.agentRunContext = builder.agentRunContext;
+        this.createSettingsIfMissing = builder.createSettingsIfMissing;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private AgentRunContext agentRunContext;
+        private boolean createSettingsIfMissing = false;
+
+        public Builder agentRunContext(AgentRunContext agentRunContext) {
+            this.agentRunContext = agentRunContext;
+            return this;
+        }
+
+        public Builder createSettingsIfMissing(boolean createSettingsIfMissing) {
+            this.createSettingsIfMissing = createSettingsIfMissing;
+            return this;
+        }
+
+        public QwenSettingsUpdater build() {
+            if (agentRunContext == null) {
+                throw new IllegalArgumentException("agentRunContext must not be null");
+            }
+            return new QwenSettingsUpdater(this);
+        }
+    }
+
+    /**
+     * Проверяет наличие settings.json. Если файла нет и {@code createSettingsIfMissing} = true,
+     * создаёт директорию .qwen и записывает минимальный валидный JSON.
+     *
+     * @param settingsPath путь к settings.json
+     * @return файл settings.json
+     * @throws IOException если файл не найден, а createSettingsIfMissing = false
+     */
+    private File ensureSettingsFile(Path settingsPath) throws IOException {
+        File settingsFile = settingsPath.toFile();
+        if (settingsFile.exists()) {
+            return settingsFile;
+        }
+        if (!createSettingsIfMissing) {
+            log.error("Файл settings.json не найден по пути: {}", settingsPath);
+            throw new FileNotFoundException("Файл settings.json не найден по пути: " + settingsPath);
+        }
+        log.info("Файл settings.json не найден, создаём минимальный: {}", settingsPath);
+        Files.createDirectories(settingsPath.getParent());
+        ObjectNode root = OBJECT_MAPPER.createObjectNode();
+        ObjectNode modelNode = root.putObject("model");
+        modelNode.put("name", DEFAULT_MODEL_NAME);
+        OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(settingsFile, root);
+        log.info("Создан минимальный settings.json с моделью '{}'", DEFAULT_MODEL_NAME);
+        return settingsFile;
+    }
 
     /**
      * Обновляет имя модели в settings.json и сохраняет файл.
@@ -25,13 +93,9 @@ public class QwenSettingsUpdater {
      */
     public void updateModelNameAndSave(String newModelName) throws Exception {
         log.debug("Начало обновления имени модели на: {}", newModelName);
-        Path workDir = resolveDefaultWorkingDirectory();
+        Path workDir = agentRunContext.getWorkspace();
         Path settingsPath = workDir.resolve(".qwen").resolve("settings.json");
-        File settingsFile = settingsPath.toFile();
-        if (!settingsFile.exists()) {
-            log.error("Файл settings.json не найден по пути: {}", settingsPath);
-            throw new FileNotFoundException("Файл settings.json не найден по пути: " + settingsPath);
-        }
+        File settingsFile = ensureSettingsFile(settingsPath);
 
         try {
             ObjectNode root = (ObjectNode) OBJECT_MAPPER.readTree(settingsFile);
@@ -69,13 +133,9 @@ public class QwenSettingsUpdater {
             throw new NotFoundSaveModelNameException();
         }
 
-        Path workDir = resolveDefaultWorkingDirectory();
+        Path workDir = agentRunContext.getWorkspace();
         Path settingsPath = workDir.resolve(".qwen").resolve("settings.json");
-        File settingsFile = settingsPath.toFile();
-        if (!settingsFile.exists()) {
-            log.error("Файл settings.json не найден по пути: {}", settingsPath);
-            throw new FileNotFoundException("Файл settings.json не найден по пути: " + settingsPath);
-        }
+        File settingsFile = ensureSettingsFile(settingsPath);
 
         try {
             ObjectNode root = (ObjectNode) OBJECT_MAPPER.readTree(settingsFile);
@@ -93,10 +153,11 @@ public class QwenSettingsUpdater {
      */
     public String getCurrentModelName() throws Exception {
         log.debug("Получение текущего имени модели");
-        Path workDir = resolveDefaultWorkingDirectory();
+        Path workDir = agentRunContext.getWorkspace();
         Path settingsPath = workDir.resolve(".qwen").resolve("settings.json");
         try {
-            ObjectNode root = (ObjectNode) OBJECT_MAPPER.readTree(settingsPath.toFile());
+            File settingsFile = ensureSettingsFile(settingsPath);
+            ObjectNode root = (ObjectNode) OBJECT_MAPPER.readTree(settingsFile);
             String modelName = root.get("model").get("name").asText();
             log.debug("Текущее имя модели: {}", modelName);
             return modelName;
