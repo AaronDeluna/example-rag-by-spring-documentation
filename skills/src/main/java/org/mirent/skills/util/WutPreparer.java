@@ -1,6 +1,7 @@
 package org.mirent.skills.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.mirent.skills.exeptions.WutPreparerException;
 
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
@@ -77,24 +78,24 @@ public class WutPreparer {
 
     private Path resolveSource() {
         if (wutSourceName == null) {
-            throw new IllegalStateException("Имя WUT (wutSourceName) не задано");
+            throw new WutPreparerException("Имя WUT (wutSourceName) не задано");
         }
         return wutSourcePath.resolve(wutSourceName);
     }
 
     private void validateSource(Path source) throws IOException {
         if (!Files.exists(source)) {
-            throw new IOException("Исходная директория WUT не существует: " + source);
+            throw new WutPreparerException("Исходная директория WUT не существует: " + source);
         }
         if (!Files.isDirectory(source)) {
-            throw new IOException("Источник WUT не является директорией: " + source
+            throw new WutPreparerException("Источник WUT не является директорией: " + source
                     + " (это " + (Files.isRegularFile(source) ? "файл" : "специальный объект") + ")");
         }
     }
 
     private Path resolveTarget() {
         if (wutSourceName == null) {
-            throw new IllegalStateException("Имя WUT (wutSourceName) не задано");
+            throw new WutPreparerException("Имя WUT (wutSourceName) не задано");
         }
         return buildDirectory.resolve(wutTargetPath).resolve(wutSourceName);
     }
@@ -141,7 +142,7 @@ public class WutPreparer {
                         try {
                             Files.delete(path);
                         } catch (IOException e) {
-                            throw new RuntimeException("Не удалось удалить " + path, e);
+                            throw new WutPreparerException("Не удалось удалить " + path, e);
                         }
                     });
         }
@@ -168,7 +169,7 @@ public class WutPreparer {
             } else if (Files.exists(build) && Files.isDirectory(build)) {
                 return Path.of("build");
             } else {
-                throw new RuntimeException("Не определена директория сборки проекта");
+                throw new WutPreparerException("Не определена директория сборки проекта");
             }
         }
     }
@@ -260,7 +261,7 @@ public class WutPreparer {
          */
         public WutPreparer build() {
             if (wutSourceName == null) {
-                throw new IllegalStateException("Необходимо указать wutSourceName");
+                throw new WutPreparerException("Необходимо указать wutSourceName");
             }
             return new WutPreparer(this);
         }

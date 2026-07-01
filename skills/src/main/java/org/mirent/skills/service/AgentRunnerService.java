@@ -11,7 +11,7 @@ public class AgentRunnerService implements AgentRunner {
 
     /**
      * Запускает агента в указанной рабочей области (workspace).
-     * Внутри workspace должна находиться директория {@code .qwen/} со скилами.
+     * Внутри workspace может находиться директория {@code .qwen/} со скилами.
      *
      * @param workspace путь к рабочей области
      */

@@ -1,5 +1,7 @@
 package org.mirent.skills.util.qwen;
 
+import org.mirent.skills.exeptions.QwenCommandFactoryException;
+
 import java.nio.file.Path;
 import java.util.List;
 
@@ -30,6 +32,6 @@ public final class QwenCommandFactory {
         if (osName.contains("win")) {
             return List.of("cmd.exe", "/c", "qwen", prompt, "--output-format", "stream-json", "--approval-mode", "yolo");
         }
-        throw new IllegalStateException("Неизвестная операционная система: " + osName);
+        throw new QwenCommandFactoryException("Неизвестная операционная система: " + osName);
     }
 }
