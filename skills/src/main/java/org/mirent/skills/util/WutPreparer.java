@@ -83,7 +83,7 @@ public class WutPreparer {
         return wutSourcePath.resolve(wutSourceName);
     }
 
-    private void validateSource(Path source) throws IOException {
+    private void validateSource(Path source) {
         if (!Files.exists(source)) {
             throw new WutPreparerException("Исходная директория WUT не существует: " + source);
         }

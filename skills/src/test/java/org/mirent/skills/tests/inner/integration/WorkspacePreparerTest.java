@@ -3,6 +3,7 @@ package org.mirent.skills.tests.inner.integration;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.mirent.skills.exeptions.WutPreparerException;
 import org.mirent.skills.util.WutPreparer;
 
 import java.io.IOException;
@@ -76,8 +77,8 @@ class WorkspacePreparerTest {
     @Test
     @DisplayName("Бросает IOException, если шаблон не найден")
     void throwsWhenTemplateMissing() {
-        IOException exception = assertThrows(
-                IOException.class,
+        WutPreparerException exception = assertThrows(
+                WutPreparerException.class,
                 () -> WutPreparer.builder()
                         .wutSourceName("no-such-template")
                         .wutSourcePath(WUT_SOURCE)

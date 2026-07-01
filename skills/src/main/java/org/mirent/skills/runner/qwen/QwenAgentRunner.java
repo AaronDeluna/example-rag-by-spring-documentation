@@ -9,6 +9,7 @@ import org.mirent.skills.dto.command.CommandResultDto;
 import org.mirent.skills.dto.log.AgentRunLogDto;
 import org.mirent.skills.exeptions.InvalidSkillNameException;
 import org.mirent.skills.parser.AgentStreamJsonParser;
+import org.mirent.skills.runner.AgentRunContext;
 import org.mirent.skills.runner.AgentRunner;
 import org.mirent.skills.runner.RunnerLogWriter;
 import org.mirent.skills.util.qwen.QwenCommandFactory;
@@ -18,7 +19,6 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 public class QwenAgentRunner implements AgentRunner {
@@ -68,7 +68,10 @@ public class QwenAgentRunner implements AgentRunner {
 
     private AgentResultDto execute(String skillName, String prompt) throws Exception {
         log.info("[USER_QUERY]: {}", prompt);
-        List<String> command = QwenCommandFactory.buildCommand(prompt);
+        AgentRunContext context = new AgentRunContext(workingDirectory);
+        Files.createDirectories(context.getRunDir());
+
+        List<String> command = QwenCommandFactory.buildCommand(prompt, context.getRunDir());
 
         Instant startedAt = Instant.now();
         CommandResultDto result = commandExecutor.execute(new CommandRequestDto(
@@ -91,14 +94,14 @@ public class QwenAgentRunner implements AgentRunner {
         );
 
         AgentRunLogDto logEntry = AgentRunLogDto.builder()
-                .runId(UUID.randomUUID().toString())
+                .runId(context.getRunId())
                 .startedAt(startedAt.toString())
                 .finishedAt(finishedAt.toString())
                 .skillName(skillName)
                 .finalResult(agentResult.getFinalResult())
                 .events(agentResult.getEvents())
                 .build();
-        runnerLogWriter.write(workingDirectory, logEntry);
+        runnerLogWriter.write(context, logEntry);
 
         return agentResult;
     }
