@@ -3,12 +3,15 @@ package org.mirent.skills.tests.examples;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.victools.jsonschema.generator.*;
 import com.github.victools.jsonschema.module.jackson.JacksonModule;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mirent.skills.spec.SkillSpec;
 
 /**
- * Пример теста с выводом схемы из класса {@link SkillSpec}
+ * Тест с выводом схемы из класса {@link SkillSpec}. Необходима для генерации схемы, на основе которой строится запрос
+ * к модели для генерации скилла. Отключен, т.к. нет необходимости часто перегенерировать схему.
  */
+@Disabled
 public class JsonWorkerTest {
 
     @Test
