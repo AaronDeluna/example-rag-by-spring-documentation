@@ -3,5 +3,6 @@
     "allow": [
       "Read(//home/vadim/IdeaProjects/java/my-projects/ai/example-rag-by-spring-documentation/**)"
     ]
-  }
+  },
+  "$version": 4
 }

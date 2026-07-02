@@ -12,7 +12,7 @@ import org.mirent.skills.spec.SkillSpec;
  * к модели для генерации скилла. Отключен, т.к. нет необходимости часто перегенерировать схему.
  */
 @Disabled
-public class JsonWorkerTest {
+public class JsonSchemaGeneratorTest {
 
     @Test
     public void generateTest() {
