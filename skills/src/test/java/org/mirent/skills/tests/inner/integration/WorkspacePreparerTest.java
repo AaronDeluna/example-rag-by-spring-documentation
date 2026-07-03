@@ -26,7 +26,6 @@ class WorkspacePreparerTest {
         Path workspace = WutPreparer.builder()
                 .wutSourceName("default")
                 .wutSourcePath(WUT_SOURCE)
-                .overwriteTarget(true)
                 .build()
                 .prepare();
 
@@ -41,7 +40,6 @@ class WorkspacePreparerTest {
         Path workspace = WutPreparer.builder()
                 .wutSourceName("text-utils")
                 .wutSourcePath(WUT_SOURCE)
-                .overwriteTarget(true)
                 .build()
                 .prepare();
 
@@ -57,14 +55,12 @@ class WorkspacePreparerTest {
         WutPreparer.builder()
                 .wutSourceName("default")
                 .wutSourcePath(WUT_SOURCE)
-                .overwriteTarget(true)
                 .build()
                 .prepare();
 
         Path workspace = WutPreparer.builder()
                 .wutSourceName("text-utils")
                 .wutSourcePath(WUT_SOURCE)
-                .overwriteTarget(true)
                 .build()
                 .prepare();
 
@@ -82,7 +78,6 @@ class WorkspacePreparerTest {
                 () -> WutPreparer.builder()
                         .wutSourceName("no-such-template")
                         .wutSourcePath(WUT_SOURCE)
-                        .overwriteTarget(true)
                         .build()
                         .prepare()
         );
