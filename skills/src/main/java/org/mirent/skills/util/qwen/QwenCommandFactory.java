@@ -78,18 +78,4 @@ public final class QwenCommandFactory {
 
         return Collections.unmodifiableList(command);
     }
-
-    private List<String> linuxCompileCommends() {
-        List<String> command = new ArrayList<>();
-
-        String userHome = System.getProperty("user.home");
-        Path cli = Path.of(userHome, ".npm-global", "lib", "node_modules", "@qwen-code", "qwen-code", "cli.js");
-        command.add(cli.toString());
-        command.add("--output-format");
-        command.add("stream-json");
-        command.add("--approval-mode");
-        command.add("yolo");
-
-        return command;
-    }
 }
