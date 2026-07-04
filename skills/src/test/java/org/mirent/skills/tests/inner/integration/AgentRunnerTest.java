@@ -29,7 +29,6 @@ class AgentRunnerTest {
         return WutPreparer.builder()
                 .wutSourceName(name)
                 .wutSourcePath(WUT_SOURCE)
-                .overwriteTarget(true)
                 .build()
                 .prepare();
     }

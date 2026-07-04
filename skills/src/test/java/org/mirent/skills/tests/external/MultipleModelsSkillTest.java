@@ -35,7 +35,6 @@ class MultipleModelsSkillTest {
         Path wut = WutPreparer.builder()
                 .wutSourceName("skill-test-checkstyle")
                 .wutSourcePath(Path.of("src/test/resources/wut-templates"))
-                .overwriteTarget(true)
                 .build()
                 .prepare();
 

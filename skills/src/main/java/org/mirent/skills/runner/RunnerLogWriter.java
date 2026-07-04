@@ -12,7 +12,7 @@ import java.nio.file.Path;
 @Slf4j
 public class RunnerLogWriter {
 
-    private static final String LOG_FILE = "runner-log.json";
+    private static final String LOG_FILE = "log.json";
 
     private final ObjectMapper objectMapper = new ObjectMapper()
             .enable(SerializationFeature.INDENT_OUTPUT);

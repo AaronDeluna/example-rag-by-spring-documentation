@@ -10,15 +10,19 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Comparator;
-import java.util.stream.Stream;
+import java.util.UUID;
 
 /**
  * Подготавливает рабочую область под тестом (WUT – Workspace Under Test).
  * <p>
- * Копирует содержимое шаблона из {@code wutSourcePath / wutSourceName}
- * в директорию {@code buildDirectory / wutTargetPath / wutSourceName}.
- * Все пути настраиваются через билдер, статических констант нет.
+ * Под каждый вызов {@link #prepare()} создаётся отдельная папка запуска с UUID
+ * и копирует шаблон {@code wutSourcePath / wutSourceName} прямо в её {@code sorce}:
+ * <pre>
+ * buildDirectory / wutTargetPath / wutSourceName / &lt;uuid&gt; / sorce   ← копия шаблона (.qwen со скилами и т.п.)
+ * buildDirectory / wutTargetPath / wutSourceName / &lt;uuid&gt; / logs    ← сюда пишутся логи запуска
+ * </pre>
+ * Возвращается путь к {@code sorce}. В корне {@code .../wutSourceName/} лежат только
+ * папки запусков (с UUID) — они не очищаются и накапливаются.
  * </p>
  * <p>
  * По умолчанию:
@@ -26,37 +30,36 @@ import java.util.stream.Stream;
  *     <li>{@code wutSourcePath} = {@code "wut-source"} (папка с шаблонами)</li>
  *     <li>{@code wutTargetPath} = {@code "wut-target"} (подпапка внутри сборки)</li>
  *     <li>{@code buildDirectory} определяется автоматически: приоритет {@code target}, затем {@code build}, иначе {@code target}</li>
- *     <li>{@code overwriteTarget} = {@code false} (без перезаписи)</li>
  * </ul>
  * </p>
  */
 @Slf4j
 public class WutPreparer {
 
+    private static final String SOURCE_DIR = "sorce";
+    private static final String LOGS_DIR = "logs";
+
     private final String wutSourceName;
     private final Path wutSourcePath;
     private final Path buildDirectory;
     private final Path wutTargetPath;
-    private final boolean overwriteTarget;
 
     private WutPreparer(Builder builder) {
         this.wutSourceName = builder.wutSourceName;
         this.wutSourcePath = builder.wutSourcePath;
         this.buildDirectory = builder.buildDirectory;
         this.wutTargetPath = builder.wutTargetPath;
-        this.overwriteTarget = builder.overwriteTarget;
     }
 
     /**
-     * Выполняет подготовку WUT.
+     * Выполняет подготовку WUT для одного запуска.
      * <p>
-     * Если целевая папка уже существует и {@code overwriteTarget} = {@code true},
-     * она будет полностью удалена и создана заново.
-     * Если {@code overwriteTarget} = {@code false}, существующая папка остаётся нетронутой
-     * (полезно для параметризованных тестов, использующих одну область).
+     * Создаёт свежую папку запуска {@code .../wutSourceName/<uuid>/} с подпапками
+     * {@code sorce} и {@code logs}, копирует шаблон в {@code sorce} и возвращает путь к нему.
+     * Папки прошлых запусков не трогаются и накапливаются рядом.
      * </p>
      *
-     * @return путь к подготовленной рабочей папке
+     * @return путь к {@code sorce} этого запуска (рабочая область агента)
      * @throws IOException если источник не существует, не является директорией,
      *                     или произошла другая ошибка ввода-вывода
      */
@@ -67,13 +70,16 @@ public class WutPreparer {
         validateSource(source);
         log.info("Исходная директория валидна: {}", source);
 
-        Path target = resolveTarget();
-        ensureTargetDirectory(target);
+        Path runRoot = resolveTarget().resolve(UUID.randomUUID().toString());
+        Path sourceDir = runRoot.resolve(SOURCE_DIR);
+        Path logsDir = runRoot.resolve(LOGS_DIR);
+        Files.createDirectories(sourceDir);
+        Files.createDirectories(logsDir);
 
-        copyContents(source, target);
-        log.info("Копирование содержимого из {} в {} завершено", source, target);
-        log.info("WUT подготовлена: {}", target);
-        return target;
+        copyContents(source, sourceDir);
+        log.info("Шаблон {} скопирован в {}", source, sourceDir);
+        log.info("WUT подготовлена: {}", runRoot);
+        return sourceDir;
     }
 
     private Path resolveSource() {
@@ -100,21 +106,6 @@ public class WutPreparer {
         return buildDirectory.resolve(wutTargetPath).resolve(wutSourceName);
     }
 
-    private void ensureTargetDirectory(Path target) throws IOException {
-        if (Files.exists(target)) {
-            if (overwriteTarget) {
-                log.info("Перезапись целевой директории (удаление всего содержимого): {}", target);
-                cleanDirectory(target);
-                Files.createDirectories(target);
-            } else {
-                log.info("Целевая папка уже существует и не будет перезаписана: {}", target);
-            }
-        } else {
-            log.info("Создаём целевую директорию: {}", target);
-            Files.createDirectories(target);
-        }
-    }
-
     private void copyContents(Path source, Path target) throws IOException {
         Files.walkFileTree(source, new SimpleFileVisitor<>() {
             @Override
@@ -133,19 +124,6 @@ public class WutPreparer {
                 return FileVisitResult.CONTINUE;
             }
         });
-    }
-
-    private static void cleanDirectory(Path dir) throws IOException {
-        try (Stream<Path> paths = Files.walk(dir)) {
-            paths.sorted(Comparator.reverseOrder())
-                    .forEach(path -> {
-                        try {
-                            Files.delete(path);
-                        } catch (IOException e) {
-                            throw new WutPreparerException("Не удалось удалить " + path, e);
-                        }
-                    });
-        }
     }
 
     /**
@@ -183,7 +161,6 @@ public class WutPreparer {
         private Path wutSourcePath = Path.of("wut-source");
         private Path buildDirectory = detectBuildDirectory();
         private Path wutTargetPath = Path.of("wut-target");
-        private boolean overwriteTarget = false;
 
         private Builder() {
         }
@@ -232,24 +209,6 @@ public class WutPreparer {
          */
         public Builder wutTargetPath(Path wutTargetPath) {
             this.wutTargetPath = wutTargetPath;
-            return this;
-        }
-
-        /**
-         * Задаёт флаг перезаписи существующей целевой папки.
-         * <p>
-         * Если {@code true} и целевая папка уже существует, она будет полностью удалена
-         * (все файлы и подпапки) и создана заново перед копированием.
-         * Если {@code false} и папка существует, она остаётся нетронутой (без ошибок),
-         * что удобно для запуска нескольких параметризованных тестов в одной области.
-         * </p>
-         *
-         * @param overwriteTarget {@code true} — удалять существующую целевую папку и создавать заново;
-         *                         {@code false} — оставлять существующую папку (по умолчанию)
-         * @return этот билдер
-         */
-        public Builder overwriteTarget(boolean overwriteTarget) {
-            this.overwriteTarget = overwriteTarget;
             return this;
         }
 
