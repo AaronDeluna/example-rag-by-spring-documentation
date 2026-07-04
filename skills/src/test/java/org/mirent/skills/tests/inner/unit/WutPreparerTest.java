@@ -30,7 +30,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class WutPreparerTest {
 
     private static final String DEFAULT_WUT_NAME = "my-wut";
-    private static final String DEFAULT_TARGET_PATH = "wut-target";
 
     private Path buildDir;
     private Path tempDir;
@@ -58,79 +57,58 @@ class WutPreparerTest {
     }
 
     @Test
-    @DisplayName("Копирует содержимое из wutSourcePath/wutSourceName в buildDir/wutTargetPath/wutSourceName")
+    @DisplayName("Копирует шаблон в <wutSourceName>/<uuid>/sorce и возвращает путь к sorce")
     void givenSourceExistsWhenPrepareThenCopiesContents() throws WutPreparerException, IOException {
         createWutSource(DEFAULT_WUT_NAME, "hello.txt", "sub/file.txt");
 
-        Path workspace = defaultBuilder()
+        Path sorce = defaultBuilder()
                 .wutSourceName(DEFAULT_WUT_NAME)
                 .wutTargetPath(Path.of("wuts"))
                 .build()
                 .prepare();
 
-        assertTrue(workspace.endsWith(DEFAULT_WUT_NAME), "Должна вернуться целевая папка");
-        assertTrue(Files.isDirectory(workspace), "Рабочая папка должна существовать");
-        assertTrue(Files.isRegularFile(workspace.resolve("hello.txt")), "hello.txt должен быть скопирован");
-        assertTrue(Files.isRegularFile(workspace.resolve("sub/file.txt")), "Вложенный файл sub/file.txt должен быть скопирован");
-        assertTrue(Files.isDirectory(workspace.resolve("sub")), "Вложенная папка sub должна существовать");
+        // sorce = .../wuts/my-wut/<uuid>/sorce
+        assertTrue(sorce.endsWith("sorce"), "Должен вернуться путь к sorce");
+        Path runRoot = sorce.getParent();
+        assertTrue(runRoot.getParent().endsWith(DEFAULT_WUT_NAME), "Папка запуска лежит внутри <wutSourceName>");
+        assertTrue(Files.isDirectory(runRoot.resolve("logs")), "Рядом с sorce должна быть папка logs");
+
+        assertTrue(Files.isRegularFile(sorce.resolve("hello.txt")), "hello.txt должен быть скопирован в sorce");
+        assertTrue(Files.isRegularFile(sorce.resolve("sub/file.txt")), "Вложенный файл sub/file.txt должен быть скопирован");
+        assertTrue(Files.isDirectory(sorce.resolve("sub")), "Вложенная папка sub должна существовать");
     }
 
     @Test
-    @DisplayName("Не удаляет старые файлы, если overwriteTarget = false и целевая папка существует")
-    void givenExistingTargetWhenOverwriteFalseThenPreservesOldContent() throws WutPreparerException, IOException {
-        String wutName = "merge-wut";
-        createWutSource(wutName, "new-file.txt");
+    @DisplayName("Каждый вызов prepare создаёт отдельную папку запуска, прошлые не трогает")
+    void eachPrepareCreatesSeparateRunDir() throws WutPreparerException, IOException {
+        String wutName = "accumulate-wut";
+        createWutSource(wutName, "file.txt");
 
-        Path oldFile = buildDir.resolve(DEFAULT_TARGET_PATH)
-                .resolve(wutName)
-                .resolve("old-file.txt");
-        Files.createDirectories(oldFile.getParent());
-        Files.writeString(oldFile, "старый файл");
+        Path firstSorce = defaultBuilder().wutSourceName(wutName).build().prepare();
+        Path secondSorce = defaultBuilder().wutSourceName(wutName).build().prepare();
 
-        Path workspace = defaultBuilder()
-                .wutSourceName(wutName)
-                .build()
-                .prepare();
+        assertNotEquals(firstSorce, secondSorce, "Каждый запуск — своя папка");
+        assertTrue(Files.isRegularFile(firstSorce.resolve("file.txt")), "Первый запуск должен сохраниться");
+        assertTrue(Files.isRegularFile(secondSorce.resolve("file.txt")), "Второй запуск должен быть создан");
 
-        assertTrue(Files.isRegularFile(workspace.resolve("new-file.txt")), "Новый файл должен быть скопирован");
-        assertTrue(Files.isRegularFile(workspace.resolve("old-file.txt")), "Старый файл должен сохраниться (overwriteTarget = false)");
+        // обе папки запуска лежат в одном <wutName>
+        assertEquals(firstSorce.getParent().getParent(), secondSorce.getParent().getParent());
     }
 
     @Test
-    @DisplayName("Удаляет старые файлы, если overwriteTarget = true и целевая папка существует")
-    void givenExistingTargetWhenOverwriteTrueThenReplaces() throws WutPreparerException, IOException {
-        String wutName = "replace-wut";
-        createWutSource(wutName, "new-file.txt");
-
-        Path oldDir = buildDir.resolve(DEFAULT_TARGET_PATH)
-                .resolve(wutName)
-                .resolve("old-content");
-        Files.createDirectories(oldDir);
-
-        Path workspace = defaultBuilder()
-                .wutSourceName(wutName)
-                .overwriteTarget(true)
-                .build()
-                .prepare();
-
-        assertTrue(Files.isRegularFile(workspace.resolve("new-file.txt")), "Новый файл должен присутствовать");
-        assertFalse(Files.exists(workspace.resolve("old-content")), "Старое содержимое должно быть удалено");
-    }
-
-    @Test
-    @DisplayName("Создаёт новую целевую папку, если её ещё нет")
-    void givenNoTargetWhenPrepareThenCreatesTargetDirectory() throws WutPreparerException, IOException {
+    @DisplayName("Создаёт структуру запуска, если целевой папки ещё нет")
+    void givenNoTargetWhenPrepareThenCreatesRunLayout() throws WutPreparerException, IOException {
         String wutName = "fresh-wut";
         createWutSource(wutName, "data.txt");
 
-        Path workspace = defaultBuilder()
+        Path sorce = defaultBuilder()
                 .wutSourceName(wutName)
                 .wutTargetPath(Path.of("wuts"))
                 .build()
                 .prepare();
 
-        assertTrue(Files.isDirectory(workspace), "Рабочая папка должна быть создана");
-        assertTrue(Files.isRegularFile(workspace.resolve("data.txt")), "Файл должен быть скопирован");
+        assertTrue(Files.isDirectory(sorce), "sorce должна быть создана");
+        assertTrue(Files.isRegularFile(sorce.resolve("data.txt")), "Файл должен быть скопирован");
     }
 
     @Test
@@ -181,7 +159,8 @@ class WutPreparerTest {
                 .prepare();
 
         assertTrue(workspace.startsWith(buildDir), "Путь должен начинаться с buildDirectory");
-        assertTrue(workspace.endsWith(wutName), "Путь должен заканчиваться wutSourceName");
+        assertTrue(workspace.endsWith("sorce"), "Путь должен заканчиваться sorce");
+        assertTrue(workspace.getParent().getParent().endsWith(wutName), "Папка запуска внутри wutSourceName");
         assertTrue(Files.isRegularFile(workspace.resolve("config.yaml")), "Файл должен быть скопирован");
     }
 

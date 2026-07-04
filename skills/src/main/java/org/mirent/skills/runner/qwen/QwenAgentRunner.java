@@ -1,5 +1,6 @@
 package org.mirent.skills.runner.qwen;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.mirent.skills.CommandExecutor;
 import org.mirent.skills.dto.agent.AgentLogDto;
@@ -28,9 +29,9 @@ public class QwenAgentRunner implements AgentRunner {
     private final CommandExecutor commandExecutor;
     private final AgentStreamJsonParser agentStreamJsonParser;
     private final RunnerLogWriter runnerLogWriter;
-    private final Path workingDirectory;
     private final Duration timeout;
-    private AgentRunContext agentRunContext;
+    @Getter
+    private final AgentRunContext agentRunContext;
 
     public QwenAgentRunner(
             CommandExecutor commandExecutor,
@@ -51,7 +52,6 @@ public class QwenAgentRunner implements AgentRunner {
         this.commandExecutor = commandExecutor;
         this.agentStreamJsonParser = agentStreamJsonParser;
         this.runnerLogWriter = runnerLogWriter;
-        this.workingDirectory = workingDirectory;
         this.agentRunContext = new AgentRunContext(workingDirectory);
         this.timeout = timeout;
     }
@@ -77,7 +77,7 @@ public class QwenAgentRunner implements AgentRunner {
         Instant startedAt = Instant.now();
         CommandResultDto result = commandExecutor.execute(new CommandRequestDto(
                 command,
-                workingDirectory,
+                agentRunContext.getWorkspace(),
                 timeout
         ));
         Instant finishedAt = Instant.now();
@@ -105,10 +105,6 @@ public class QwenAgentRunner implements AgentRunner {
         runnerLogWriter.write(agentRunContext, logEntry);
 
         return agentResult;
-    }
-
-    public AgentRunContext getAgentRunContext() {
-        return agentRunContext;
     }
 
     private static void validateSkillName(String skillName) {

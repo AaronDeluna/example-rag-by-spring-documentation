@@ -34,7 +34,6 @@ class MultipleModelsQwenTest {
         Path wut = WutPreparer.builder()
                 .wutSourceName("default")
                 .wutSourcePath(Path.of("src/test/resources/wut-templates"))
-                .overwriteTarget(true)
                 .build()
                 .prepare();
 

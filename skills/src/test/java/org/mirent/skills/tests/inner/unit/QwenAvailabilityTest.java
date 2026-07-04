@@ -30,7 +30,6 @@ public class QwenAvailabilityTest {
         return WutPreparer.builder()
                 .wutSourceName("default")
                 .wutSourcePath(WUT_SOURCE)
-                .overwriteTarget(true)
                 .build()
                 .prepare();
     }
