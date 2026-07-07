@@ -63,9 +63,9 @@ class MultipleModelsQwenTest {
 //                    Arguments.of("qwen2.5-coder:7b"),
 //                    Arguments.of("qwen3:8b"),
 //                    Arguments.of("qwen3:14b"),
-                    Arguments.of("openai/gpt-oss-120b")
+                    Arguments.of("openai/gpt-oss-120b"),
 //                    Arguments.of("Qwen/Qwen3-Coder-Next"),
-//                    Arguments.of("deepseek-v4-flash")
+                    Arguments.of("deepseek-v4-flash")
             );
         }
     }
