@@ -57,14 +57,14 @@ class MultipleModelsQwenTest {
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
             return Stream.of(
-//                    Arguments.of("qwen3.5:4b"),
-//                    Arguments.of("omnicoder-9b:q4_k_m"),
-//                    Arguments.of("qwen3.5:9b"),
-//                    Arguments.of("qwen2.5-coder:7b"),
-//                    Arguments.of("qwen3:8b"),
-//                    Arguments.of("qwen3:14b"),
+                    Arguments.of("qwen3.5:4b"),
+                    Arguments.of("omnicoder-9b:q4_k_m"),
+                    Arguments.of("qwen3.5:9b"),
+                    Arguments.of("qwen2.5-coder:7b"),
+                    Arguments.of("qwen3:8b"),
+                    Arguments.of("qwen3:14b"),
                     Arguments.of("openai/gpt-oss-120b"),
-//                    Arguments.of("Qwen/Qwen3-Coder-Next"),
+                    Arguments.of("Qwen/Qwen3-Coder-Next"),
                     Arguments.of("deepseek-v4-flash")
             );
         }
