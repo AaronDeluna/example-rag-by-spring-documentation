@@ -6,7 +6,7 @@
 
 | ID  | Модуль   | Название                                                                   | Статус | Дата создания | Дата завершения | Файл |
 |-----|----------|----------------------------------------------------------------------------|--------|---------------|-----------------|------|
-| 001 | skills   | Создать пакет util.cli (OsType, CommandResolver, CommandFactory)           | 🔧     | 2026-07-07    |                 | [TASK-001_skills_create_cli_package.md](./to_work/TASK-001_skills_create_cli_package.md) |
+| 001 | skills   | Создать пакет util.cli (OsType, CommandResolver, CommandFactory)           | ✅     | 2026-07-07    | 2026-07-07      | [TASK-001_skills_create_cli_package.md](./archive/TASK-001_skills_create_cli_package.md) |
 | 002 | skills   | Расширить agent-runner.properties и AgentRunnerProperties                  | 📋     | 2026-07-07    |                 | [TASK-002_skills_config_properties.md](./to_work/TASK-002_skills_config_properties.md) |
 | 003 | skills   | Переработать AgentRunnerFactory — RunnerLogWriter + CommandFactory         | 📋     | 2026-07-07    |                 | [TASK-003_skills_adapt_factory.md](./to_work/TASK-003_skills_adapt_factory.md) |
 | 004 | skills   | Переработать QwenAgentRunner/QwenJudgeRunner — только CommandFactory       | 📋     | 2026-07-07    |                 | [TASK-004_skills_modify_runners.md](./to_work/TASK-004_skills_modify_runners.md) |
