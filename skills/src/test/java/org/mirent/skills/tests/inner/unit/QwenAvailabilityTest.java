@@ -7,14 +7,20 @@ import org.junit.jupiter.api.Test;
 import org.mirent.skills.CommandExecutor;
 import org.mirent.skills.dto.command.CommandRequestDto;
 import org.mirent.skills.dto.command.CommandResultDto;
+import org.mirent.skills.exeptions.CommandNotFoundException;
+import org.mirent.skills.service.AgentRunnerProperties;
 import org.mirent.skills.util.WutPreparer;
+import org.mirent.skills.util.cli.CommandFactory;
+import org.mirent.skills.util.cli.OsAwareCommandResolver;
+import org.mirent.skills.util.cli.OsType;
+import org.mirent.skills.util.cli.QwenCommandFactoryImpl;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 @Tag("inner")
 @Tag("unit")
@@ -34,12 +40,15 @@ public class QwenAvailabilityTest {
 
     @Test
     void qwenIsAvailableAndVersionTest() throws Exception {
-        // Получаем путь к qwen (если файла нет – тест упадёт с FileNotFoundException)
-        Path qwenPath = findQwenPathByOs();
+        // Строим CommandFactory из конфигурации
+        CommandFactory factory = createCommandFactoryFromProperties();
 
-        // Запускаем qwen --version и проверяем результат
+        // Собираем команду для --version
+        List<String> command = factory.buildCommand("--version", null);
+
+        // Запускаем и проверяем результат
         CommandRequestDto versionRequest = new CommandRequestDto(
-                List.of(qwenPath.toString(), "--version"),
+                command,
                 prepareWut(),
                 Duration.ofMinutes(3)
         );
@@ -52,26 +61,39 @@ public class QwenAvailabilityTest {
                 "Версия qwen не соответствует ожидаемой");
     }
 
-    private static Path findQwenPathByOs() throws FileNotFoundException {
-        Path qwenPath;
-        String osName = System.getProperty("os.name").toLowerCase();
-        String userHome = System.getProperty("user.home");
+    /**
+     * Создаёт CommandFactory на основе agent-runner.properties (через classpath),
+     * с fallback-путями для текущей ОС. Если properties не загружены,
+     * использует fallback-пути по умолчанию.
+     */
+    private static CommandFactory createCommandFactoryFromProperties() {
+        Properties props = AgentRunnerProperties.loadDefault();
+        Map<OsType, List<Path>> fallbacks = buildFallbackMap(props);
 
-        if (osName.contains("win")) {
-            qwenPath = Path.of(userHome, ".qwen", "bin", "qwen");
-        } else {
-            // Не работает, т.к. в файле cli.js нет шебанга (раньше он был, но с обновлением убрали)
-//            qwenPath = Path.of(userHome, ".npm-global", "lib", "node_modules", "@qwen-code", "qwen-code", "cli.js");
-            // Ниже оба рабочих варианта
-//            qwenPath = Path.of(userHome, ".npm-global", "lib", "node_modules", "@qwen-code", "qwen-code", "cli-entry.js");
-            qwenPath = Path.of(userHome, ".npm-global", "bin", "qwen");
+        OsAwareCommandResolver resolver = new OsAwareCommandResolver(fallbacks);
+
+        List<String> baseArgs = AgentRunnerProperties.getBaseArgs(props);
+        List<String> prefix = AgentRunnerProperties.getPrefix(props, OsType.detect());
+
+        return new QwenCommandFactoryImpl(resolver, baseArgs, prefix);
+    }
+
+    private static Map<OsType, List<Path>> buildFallbackMap(Properties props) {
+        Map<OsType, List<Path>> fallbacks = new java.util.HashMap<>();
+        for (OsType os : OsType.values()) {
+            List<Path> paths = AgentRunnerProperties.getFallbackPaths(props, os);
+            if (!paths.isEmpty()) {
+                fallbacks.put(os, paths);
+            }
         }
-
-        if (!Files.exists(qwenPath) || !Files.isRegularFile(qwenPath)) {
-            throw new FileNotFoundException(qwenPath.toAbsolutePath().toString());
+        // Если properties не загрузились — добавляем fallback-пути по умолчанию для Linux
+        if (fallbacks.isEmpty()) {
+            String userHome = System.getProperty("user.home");
+            fallbacks.put(OsType.LINUX, List.of(
+                    Path.of(userHome, ".npm-global", "bin", "qwen"),
+                    Path.of(userHome, ".npm-global", "lib", "node_modules", "@qwen-code", "qwen-code", "cli-entry.js")
+            ));
         }
-
-        log.info("Исполняемый файл приложения Qwen найден по пути: {}", qwenPath);
-        return qwenPath;
+        return fallbacks;
     }
 }
