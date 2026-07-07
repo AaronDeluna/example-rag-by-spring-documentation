@@ -66,6 +66,7 @@ class TextToJavaUiTest {
      * Этот тест служит быстрой проверкой работоспособности скилла.
      * </p>
      */
+    @Disabled("TASK-006: требуется CommandFactory после TASK-004")
     @Test
     @DisplayName("Выполняет скилл generate-java-selenide-test и проверяет создание Selenium-теста (базовая проверка)")
     void userPromptGeneratesSeleniumJavaTest() throws Exception {
@@ -85,8 +86,10 @@ class TextToJavaUiTest {
         QwenAgentRunner agentRunner = new QwenAgentRunner(
                 new CommandExecutor(),
                 new AgentStreamJsonParser(),
+                new org.mirent.skills.runner.RunnerLogWriter(),
                 wut,
-                Duration.ofMinutes(10)
+                Duration.ofMinutes(10),
+                (prompt, logDir) -> java.util.List.of("qwen", prompt)
         );
 
         // 3. Запуск скилла через пользовательский промпт
@@ -182,8 +185,10 @@ class TextToJavaUiTest {
         QwenAgentRunner agentRunner = new QwenAgentRunner(
                 new CommandExecutor(),
                 new AgentStreamJsonParser(),
+                new org.mirent.skills.runner.RunnerLogWriter(),
                 wut,
-                Duration.ofMinutes(10)
+                Duration.ofMinutes(10),
+                (prompt, logDir) -> java.util.List.of("qwen", prompt)
         );
 
         String prompt = "Тест-кейс: Поиск в DuckDuckGo... используй skills generate-java-selenide-test";

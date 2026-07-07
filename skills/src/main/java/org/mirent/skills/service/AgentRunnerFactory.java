@@ -70,7 +70,7 @@ public class AgentRunnerFactory {
         };
     }
 
-    private static CommandFactory createCommandFactory(AgentCli cli, Properties props) {
+    static CommandFactory createCommandFactory(AgentCli cli, Properties props) {
         return switch (cli) {
             case QWEN -> {
                 // Строим fallback-карту для всех ОС
