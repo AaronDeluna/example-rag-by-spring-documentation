@@ -1,0 +1,1 @@
+- [Project rules location](reference/project_rules_location.md) — правила проекта в .qwen/workplace/PROJECT_RULES.md

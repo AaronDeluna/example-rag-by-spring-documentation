@@ -13,7 +13,7 @@ import org.mirent.skills.parser.AgentStreamJsonParser;
 import org.mirent.skills.runner.AgentRunContext;
 import org.mirent.skills.runner.AgentRunner;
 import org.mirent.skills.runner.RunnerLogWriter;
-import org.mirent.skills.util.qwen.QwenCommandFactory;
+import org.mirent.skills.util.cli.CommandFactory;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,30 +30,24 @@ public class QwenAgentRunner implements AgentRunner {
     private final AgentStreamJsonParser agentStreamJsonParser;
     private final RunnerLogWriter runnerLogWriter;
     private final Duration timeout;
+    private final CommandFactory commandFactory;
     @Getter
     private final AgentRunContext agentRunContext;
 
     public QwenAgentRunner(
             CommandExecutor commandExecutor,
             AgentStreamJsonParser agentStreamJsonParser,
-            Path workingDirectory,
-            Duration timeout
-    ) {
-        this(commandExecutor, agentStreamJsonParser, new RunnerLogWriter(), workingDirectory, timeout);
-    }
-
-    public QwenAgentRunner(
-            CommandExecutor commandExecutor,
-            AgentStreamJsonParser agentStreamJsonParser,
             RunnerLogWriter runnerLogWriter,
             Path workingDirectory,
-            Duration timeout
+            Duration timeout,
+            CommandFactory commandFactory
     ) {
         this.commandExecutor = commandExecutor;
         this.agentStreamJsonParser = agentStreamJsonParser;
         this.runnerLogWriter = runnerLogWriter;
         this.agentRunContext = new AgentRunContext(workingDirectory);
         this.timeout = timeout;
+        this.commandFactory = commandFactory;
     }
 
     @Override
@@ -72,7 +66,7 @@ public class QwenAgentRunner implements AgentRunner {
         log.info("[USER_QUERY]: {}", prompt);
         Files.createDirectories(agentRunContext.getRunDir());
 
-        List<String> command = QwenCommandFactory.buildCommand(prompt, agentRunContext.getRunDir());
+        List<String> command = commandFactory.buildCommand(prompt, agentRunContext.getRunDir());
 
         Instant startedAt = Instant.now();
         CommandResultDto result = commandExecutor.execute(new CommandRequestDto(

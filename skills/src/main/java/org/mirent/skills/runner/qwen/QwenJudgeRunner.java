@@ -7,7 +7,7 @@ import org.mirent.skills.dto.command.CommandRequestDto;
 import org.mirent.skills.dto.command.CommandResultDto;
 import org.mirent.skills.parser.AgentStreamJsonParser;
 import org.mirent.skills.runner.JudgeRunner;
-import org.mirent.skills.util.qwen.QwenCommandFactory;
+import org.mirent.skills.util.cli.CommandFactory;
 
 import java.nio.file.Path;
 import java.time.Duration;
@@ -22,26 +22,25 @@ public class QwenJudgeRunner implements JudgeRunner {
     private final AgentStreamJsonParser agentStreamJsonParser;
     private final Path workingDirectory;
     private final Duration timeout;
-
-    public QwenJudgeRunner(Path workingDirectory) {
-        this(new CommandExecutor(), new AgentStreamJsonParser(), workingDirectory, DEFAULT_TIMEOUT);
-    }
+    private final CommandFactory commandFactory;
 
     public QwenJudgeRunner(
             CommandExecutor commandExecutor,
             AgentStreamJsonParser agentStreamJsonParser,
             Path workingDirectory,
-            Duration timeout
+            Duration timeout,
+            CommandFactory commandFactory
     ) {
         this.commandExecutor = commandExecutor;
         this.agentStreamJsonParser = agentStreamJsonParser;
         this.workingDirectory = workingDirectory;
         this.timeout = timeout;
+        this.commandFactory = commandFactory;
     }
 
     @Override
     public String runPrompt(String prompt) throws Exception {
-        List<String> command = QwenCommandFactory.buildCommand(prompt);
+        List<String> command = commandFactory.buildCommand(prompt, null);
 
         CommandResultDto result = commandExecutor.execute(new CommandRequestDto(
                 command,

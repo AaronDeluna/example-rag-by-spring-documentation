@@ -2,13 +2,18 @@ package org.mirent.skills.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.mirent.skills.CommandExecutor;
 import org.mirent.skills.dto.evaluate.EvaluateDto;
+import org.mirent.skills.parser.AgentStreamJsonParser;
+import org.mirent.skills.runner.qwen.QwenJudgeRunner;
+import org.mirent.skills.util.cli.CommandFactory;
 
 import java.nio.file.Path;
+import java.util.Properties;
 import org.mirent.skills.dto.evaluate.EvaluateResultDto;
 import org.mirent.skills.exeptions.EvaluatorResponseParseException;
 import org.mirent.skills.runner.JudgeRunner;
-import org.mirent.skills.runner.qwen.QwenJudgeRunner;
+import static org.mirent.skills.service.AgentRunnerProperties.CLI_PROPERTY;
 
 @Slf4j
 public class AgentEvaluatorService {
@@ -85,7 +90,20 @@ public class AgentEvaluatorService {
      * @param workspace путь к рабочей области
      */
     public AgentEvaluatorService(Path workspace) {
-        this(new QwenJudgeRunner(workspace));
+        this(createDefaultJudgeRunner(workspace));
+    }
+
+    private static QwenJudgeRunner createDefaultJudgeRunner(Path workspace) {
+        Properties props = AgentRunnerProperties.loadDefault();
+        AgentCli cli = AgentCli.fromProperty(props.getProperty(CLI_PROPERTY));
+        CommandFactory commandFactory = AgentRunnerFactory.createCommandFactory(cli, props);
+        return new QwenJudgeRunner(
+                new CommandExecutor(),
+                new AgentStreamJsonParser(),
+                workspace,
+                QwenJudgeRunner.DEFAULT_TIMEOUT,
+                commandFactory
+        );
     }
 
     /**
