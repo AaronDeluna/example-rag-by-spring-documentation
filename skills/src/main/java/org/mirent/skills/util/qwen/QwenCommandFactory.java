@@ -7,6 +7,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Устаревший класс для сборки командной строки Qwen CLI.
+ * <p>
+ * Заменён на {@link org.mirent.skills.util.cli.CommandFactory}
+ * и {@link org.mirent.skills.util.cli.QwenCommandFactoryImpl} в пакете {@code util.cli}.
+ * <p>
+ * Используйте {@link org.mirent.skills.service.AgentRunnerFactory#createCommandFactory}
+ * для создания экземпляра фабрики из конфигурации {@code agent-runner.properties}.
+ *
+ * @deprecated Будет удалён в следующем мажорном релизе.
+ * Вместо него используйте {@link org.mirent.skills.util.cli.CommandFactory}
+ * и {@link org.mirent.skills.util.cli.QwenCommandFactoryImpl}.
+ */
+@Deprecated(forRemoval = true)
 public final class QwenCommandFactory {
 
     private QwenCommandFactory() {
