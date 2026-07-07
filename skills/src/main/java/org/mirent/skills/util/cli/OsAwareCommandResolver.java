@@ -1,7 +1,6 @@
 package org.mirent.skills.util.cli;
 
 import org.mirent.skills.exeptions.CommandNotFoundException;
-
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,14 +20,23 @@ public class OsAwareCommandResolver implements CommandResolver {
 
     @Override
     public String resolveExecutable(String commandName) {
-        // 1. Проверка в PATH
+        // 1. Проверяем переменную окружения QWEN_PATH (или обобщённо <COMMAND>_PATH)
+        String envPath = System.getenv(commandName.toUpperCase() + "_PATH");
+        if (envPath != null && !envPath.isBlank()) {
+            Path path = Paths.get(envPath);
+            if (Files.isRegularFile(path) && Files.isExecutable(path)) {
+                return path.toString();
+            }
+        }
+
+        // 2. Поиск в PATH (с учётом расширений на Windows)
         String inPath = findInPath(commandName);
         if (inPath != null) return inPath;
 
-        // 2. Fallback-пути для текущей ОС
+        // 3. Fallback-пути из конфигурации (уже с подставленными переменными)
         List<Path> paths = fallbackPaths.getOrDefault(os, List.of());
         for (Path p : paths) {
-            // Если p — файл (например, cli-entry.js), проверяем его напрямую
+            // Если p — файл, проверяем напрямую
             if (Files.isRegularFile(p) && Files.isExecutable(p)) {
                 return p.toString();
             }
@@ -36,6 +44,15 @@ public class OsAwareCommandResolver implements CommandResolver {
             Path candidate = p.resolve(commandName);
             if (Files.isRegularFile(candidate) && Files.isExecutable(candidate)) {
                 return candidate.toString();
+            }
+            // На Windows также пробуем с расширениями (если директория)
+            if (os == OsType.WINDOWS) {
+                for (String ext : getExecutableExtensions()) {
+                    Path withExt = p.resolve(commandName + ext);
+                    if (Files.isRegularFile(withExt) && Files.isExecutable(withExt)) {
+                        return withExt.toString();
+                    }
+                }
             }
         }
 
@@ -45,7 +62,7 @@ public class OsAwareCommandResolver implements CommandResolver {
         );
     }
 
-    private static String findInPath(String command) {
+    private String findInPath(String command) {
         String pathEnv = System.getenv("PATH");
         if (pathEnv == null) return null;
         String[] dirs = pathEnv.split(File.pathSeparator);
@@ -54,7 +71,25 @@ public class OsAwareCommandResolver implements CommandResolver {
             if (Files.isRegularFile(file) && Files.isExecutable(file)) {
                 return file.toString();
             }
+            // На Windows проверяем с расширениями
+            if (os == OsType.WINDOWS) {
+                for (String ext : getExecutableExtensions()) {
+                    Path withExt = Paths.get(dir).resolve(command + ext);
+                    if (Files.isRegularFile(withExt) && Files.isExecutable(withExt)) {
+                        return withExt.toString();
+                    }
+                }
+            }
         }
         return null;
+    }
+
+    private static String[] getExecutableExtensions() {
+        // Получаем PATHEXT из окружения или используем стандартный набор
+        String pathext = System.getenv("PATHEXT");
+        if (pathext == null || pathext.isBlank()) {
+            return new String[] { ".exe", ".cmd", ".bat", ".com" };
+        }
+        return pathext.split(";");
     }
 }

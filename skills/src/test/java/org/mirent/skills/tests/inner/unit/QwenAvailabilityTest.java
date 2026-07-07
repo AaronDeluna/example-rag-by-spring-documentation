@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.mirent.skills.CommandExecutor;
 import org.mirent.skills.dto.command.CommandRequestDto;
 import org.mirent.skills.dto.command.CommandResultDto;
-import org.mirent.skills.exeptions.CommandNotFoundException;
 import org.mirent.skills.service.AgentRunnerProperties;
 import org.mirent.skills.util.WutPreparer;
 import org.mirent.skills.util.cli.CommandFactory;

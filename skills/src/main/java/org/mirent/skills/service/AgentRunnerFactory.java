@@ -12,12 +12,10 @@ import org.mirent.skills.util.cli.QwenCommandFactoryImpl;
 
 import java.nio.file.Path;
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.stream.Collectors;
 
 @Slf4j
 public class AgentRunnerFactory {
@@ -38,7 +36,7 @@ public class AgentRunnerFactory {
         );
     }
 
-    AgentRunnerFactory(
+    public AgentRunnerFactory(
             CommandExecutor commandExecutor,
             AgentStreamJsonParser agentStreamJsonParser,
             Path workingDirectory,

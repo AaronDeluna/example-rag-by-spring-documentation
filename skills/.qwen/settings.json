@@ -1,8 +1,16 @@
 {
+  "projectRulesFile": ".qwen/workplace/PROJECT_RULES.md",
   "permissions": {
     "allow": [
       "Read(//home/vadim/IdeaProjects/java/my-projects/ai/example-rag-by-spring-documentation/**)"
     ]
+  },
+  "workplace": {
+    "taskIndexFile": ".qwen/workplace/TASK_INDEX.md",
+    "taskTemplateFile": ".qwen/workplace/task_template.md",
+    "taskDir": ".qwen/workplace/to_work",
+    "archiveDir": ".qwen/workplace/archive",
+    "activeDir": ".qwen/workplace/to_work"
   },
   "$version": 4
 }

@@ -19,6 +19,7 @@ import java.nio.file.Path;
 
 import static org.mirent.skills.matcher.AgentMatcher.*;
 
+@Tag("inner")
 @Tag("integration")
 @DisplayName("Интеграционные тесты AgentRunner")
 class AgentRunnerTest {
