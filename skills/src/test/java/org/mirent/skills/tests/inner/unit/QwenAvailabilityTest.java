@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.mirent.skills.CommandExecutor;
 import org.mirent.skills.dto.command.CommandRequestDto;
 import org.mirent.skills.dto.command.CommandResultDto;
-
 import org.mirent.skills.util.WutPreparer;
 
 import java.io.FileNotFoundException;
@@ -23,7 +22,6 @@ import java.util.List;
 public class QwenAvailabilityTest {
 
     private static final Path WUT_SOURCE = Path.of("src/test/resources/wut-templates");
-
     private final CommandExecutor executor = new CommandExecutor();
 
     private static Path prepareWut() throws IOException {
@@ -35,30 +33,23 @@ public class QwenAvailabilityTest {
     }
 
     @Test
-    void qwenIsAvailableTest() throws Exception {
-        CommandRequestDto commandRequestDto = new CommandRequestDto(
-                List.of("which", findQwenPathByOs().toString()),
-                prepareWut(), Duration.ofMinutes(3));
+    void qwenIsAvailableAndVersionTest() throws Exception {
+        // Получаем путь к qwen (если файла нет – тест упадёт с FileNotFoundException)
+        Path qwenPath = findQwenPathByOs();
 
-        CommandResultDto whichResult = executor.execute(commandRequestDto);
-        Assertions.assertEquals(0, whichResult.getExitCode());
+        // Запускаем qwen --version и проверяем результат
+        CommandRequestDto versionRequest = new CommandRequestDto(
+                List.of(qwenPath.toString(), "--version"),
+                prepareWut(),
+                Duration.ofMinutes(3)
+        );
+        CommandResultDto result = executor.execute(versionRequest);
+        Assertions.assertEquals(0, result.getExitCode(), "Команда --version завершилась с ошибкой");
+        Assertions.assertFalse(result.getStdout().isEmpty(), "Вывод --version пуст");
 
-        String qwenPath = whichResult.getStdout().trim();
-        Assertions.assertFalse(qwenPath.isEmpty());
-    }
-
-    @Test
-    void qwenLinuxAndMacOSVersionTest() throws Exception {
-        CommandRequestDto commandRequestDto = new CommandRequestDto(
-                List.of(findQwenPathByOs().toString(), "--version"),
-                prepareWut(), Duration.ofMinutes(3));
-
-        CommandResultDto actualCommandResultDto = executor.execute(commandRequestDto);
-        Assertions.assertEquals(0, actualCommandResultDto.getExitCode());
-        Assertions.assertFalse(actualCommandResultDto.getStdout().isEmpty());
-
-        String actualVersion = actualCommandResultDto.getStdout().trim();
-        Assertions.assertEquals("0.19.3", actualVersion);
+        String actualVersion = result.getStdout().trim();
+        Assertions.assertEquals("0.19.6", actualVersion,
+                "Версия qwen не соответствует ожидаемой");
     }
 
     private static Path findQwenPathByOs() throws FileNotFoundException {
@@ -69,7 +60,11 @@ public class QwenAvailabilityTest {
         if (osName.contains("win")) {
             qwenPath = Path.of(userHome, ".qwen", "bin", "qwen");
         } else {
-            qwenPath = Path.of(userHome, ".npm-global", "lib", "node_modules", "@qwen-code", "qwen-code", "cli.js");
+            // Не работает, т.к. в файле cli.js нет шебанга (раньше он был, но с обновлением убрали)
+//            qwenPath = Path.of(userHome, ".npm-global", "lib", "node_modules", "@qwen-code", "qwen-code", "cli.js");
+            // Ниже оба рабочих варианта
+//            qwenPath = Path.of(userHome, ".npm-global", "lib", "node_modules", "@qwen-code", "qwen-code", "cli-entry.js");
+            qwenPath = Path.of(userHome, ".npm-global", "bin", "qwen");
         }
 
         if (!Files.exists(qwenPath) || !Files.isRegularFile(qwenPath)) {
@@ -77,7 +72,6 @@ public class QwenAvailabilityTest {
         }
 
         log.info("Исполняемый файл приложения Qwen найден по пути: {}", qwenPath);
-
         return qwenPath;
     }
 }

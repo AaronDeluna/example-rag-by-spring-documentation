@@ -45,7 +45,8 @@ public final class QwenCommandFactory {
             command.add("yolo");
         } else if (osName.contains("linux")) {
             String userHome = System.getProperty("user.home");
-            Path cli = Path.of(userHome, ".npm-global", "lib", "node_modules", "@qwen-code", "qwen-code", "cli.js");
+//            qwenPath = Path.of(userHome, ".npm-global", "lib", "node_modules", "@qwen-code", "qwen-code", "cli-entry.js");
+            Path cli = Path.of(userHome, ".npm-global", "bin", "qwen");
             command.add(cli.toString());
             command.add("--output-format");
             command.add("stream-json");

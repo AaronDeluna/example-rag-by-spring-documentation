@@ -67,7 +67,6 @@ src/main/java/org/mirent/skills/
 Path workspace = WutPreparer.builder()
     .wutSourceName("default")                     // имя папки-шаблона
     .wutSourcePath(Path.of("src/test/resources/wut-templates"))
-    .overwriteTarget(true)                        // перезаписывать существующую
     .build()
     .prepare();
 ```
@@ -148,7 +147,6 @@ void executeUserPromptInvokesRequestedSkillsInOrder(String modelName) throws Exc
     Path wut = WutPreparer.builder()
         .wutSourceName("default")
         .wutSourcePath(WUT_SOURCE)
-        .overwriteTarget(true)
         .build()
         .prepare();
 

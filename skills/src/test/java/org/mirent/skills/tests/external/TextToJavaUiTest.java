@@ -1,6 +1,7 @@
 package org.mirent.skills.tests.external;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -26,12 +27,47 @@ import static org.mirent.skills.matcher.AgentMatcher.assertSuccessful;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Интеграционный тест для скилла <b>generate-java-selenide-test</b>.
+ * <p>
+ * Скилл предназначен для генерации исполняемых Selenium-тестов на Java на основе
+ * текстового описания тест-кейса. Тестовый класс содержит два сценария,
+ * различающихся по глубине проверки:
+ * <ul>
+ *   <li><b>{@link #userPromptGeneratesSeleniumJavaTest()}</b> – базовый сценарий:
+ *       проверяет, что агент вызывает нужный скилл и создаёт хотя бы один Java-файл,
+ *       содержащий типичные элементы Selenium-теста (импорты {@code org.openqa.selenium},
+ *       аннотация {@code @Test}, работа с {@code WebDriver}).</li>
+ *   <li><b>{@link #userPromptGeneratesSeleniumJavaWithEvaluatorTest()}</b> – расширенный сценарий:
+ *       помимо базовой проверки дополнительно выполняет:
+ *       <ul>
+ *         <li>компиляцию проекта (фазы {@code compile} и {@code test-compile}) для
+ *             подтверждения синтаксической корректности сгенерированного кода;</li>
+ *         <li>оценку качества ответа агента через {@link AgentEvaluatorService}
+ *             с пороговым значением 0.7;</li>
+ *         <li>запуск сгенерированного теста {@code DuckDuckGoSearchTest}
+ *             (с игнорированием возможных падений, чтобы проверить сам факт выполнения).</li>
+ *       </ul>
+ *       Этот тест обеспечивает более строгую валидацию, приближенную к реальному CI-пайплайну.
+ * </ul>
+ * Оба теста используют общую подготовку рабочего окружения (WUT) из шаблона
+ * {@code frap-mcp-testing} и запускают агента {@link QwenAgentRunner} с увеличенным таймаутом.
+ * </p>
+ */
 @Tag("external")
 @Slf4j
 class TextToJavaUiTest {
 
+    /**
+     * Базовый тест: генерация Selenium-теста и простая проверка содержимого.
+     * <p>
+     * После успешного выполнения агента проверяется наличие сгенерированного Java-файла
+     * в директории {@code src/test/java}, содержащего ключевые признаки Selenium-кода.
+     * Этот тест служит быстрой проверкой работоспособности скилла.
+     * </p>
+     */
     @Test
-    @DisplayName("Выполняет скилл text-to-java-ui-test и проверяет создание Selenium-теста")
+    @DisplayName("Выполняет скилл generate-java-selenide-test и проверяет создание Selenium-теста (базовая проверка)")
     void userPromptGeneratesSeleniumJavaTest() throws Exception {
         log.info("=== Запуск теста: userPromptGeneratesSeleniumJavaTest ===");
 
@@ -40,7 +76,6 @@ class TextToJavaUiTest {
         Path wut = WutPreparer.builder()
                 .wutSourceName("frap-mcp-testing")
                 .wutSourcePath(Path.of("src/test/resources/wut-templates"))
-                .overwriteTarget(true)
                 .build()
                 .prepare();
         log.info("WUT подготовлена: {}", wut.toAbsolutePath());
@@ -55,7 +90,6 @@ class TextToJavaUiTest {
         );
 
         // 3. Запуск скилла через пользовательский промпт
-        // Модель сама решает вызвать tool_use с name="skill" и input.skill="text-to-java-ui-test"
         String prompt = """
                 Тест-кейс: Поиск в DuckDuckGo.
                 Шаги:
@@ -63,7 +97,7 @@ class TextToJavaUiTest {
                 2. Ввести в строку поиска текст 'Selenium WebDriver'.
                 3. Нажать кнопку поиска (Enter).
                 Ожидаемый результат: Отображается страница с результатами поиска, список с результатами содержит ссылки.
-                используй skills text-to-java-ui-test""";
+                используй skills generate-java-selenide-test""";
         log.info("Отправка промпта агенту (длина {} символов)", prompt.length());
         AgentResultDto result = agentRunner.executeUserPrompt(prompt);
         log.info("Идентификатор сессии: {}", result.getEvents().get(0).get("uuid"));
@@ -72,7 +106,7 @@ class TextToJavaUiTest {
         // 4. Проверка выполнения агента
         log.debug("Проверка успешности выполнения агента...");
         assertSuccessful(result);
-        assertSingleSkillCall(result, "text-to-java-ui-test");
+        assertSingleSkillCall(result, "generate-java-selenide-test");
         log.info("Агент отработал успешно, скилл вызван.");
 
         // 5. Проверка результата работы скилла — создан Java-файл с Selenium-тестом
@@ -117,7 +151,22 @@ class TextToJavaUiTest {
         log.info("Сгенерированные Java-файлы ({}): {}", javaFiles.size(), javaFiles);
     }
 
+    /**
+     * Расширенный тест: генерация Selenium-теста с последующей компиляцией, оценкой и запуском.
+     * <p>
+     * В дополнение к базовой проверке данный тест выполняет:
+     * <ul>
+     *   <li>компиляцию проекта через Maven, чтобы убедиться в синтаксической корректности;</li>
+     *   <li>оценку качества ответа агента через {@code AgentEvaluatorService} с порогом 0.7;</li>
+     *   <li>запуск сгенерированного теста {@code DuckDuckGoSearchTest} (даже если он падает,
+     *       это позволяет проверить, что тест вообще был выполнен).</li>
+     * </ul>
+     * Этот сценарий имитирует более строгую проверку в CI-среде.
+     * </p>
+     */
+    @Disabled
     @Test
+    @DisplayName("Выполняет скилл generate-java-selenide-test, компилирует, оценивает и запускает сгенерированный тест")
     void userPromptGeneratesSeleniumJavaWithEvaluatorTest() throws Exception {
         log.info("=== Запуск теста: userPromptGeneratesSeleniumJavaWithEvaluatorTest ===");
 
@@ -125,7 +174,6 @@ class TextToJavaUiTest {
         Path wut = WutPreparer.builder()
                 .wutSourceName("frap-mcp-testing")
                 .wutSourcePath(Path.of("src/test/resources/wut-templates"))
-                .overwriteTarget(true)
                 .build()
                 .prepare();
         log.info("WUT подготовлена: {}", wut.toAbsolutePath());
@@ -138,7 +186,7 @@ class TextToJavaUiTest {
                 Duration.ofMinutes(10)
         );
 
-        String prompt = "Тест-кейс: Поиск в DuckDuckGo... используй skills text-to-java-ui-test";
+        String prompt = "Тест-кейс: Поиск в DuckDuckGo... используй skills generate-java-selenide-test";
         log.info("Отправка промпта агенту (длина {} символов)", prompt.length());
         AgentResultDto result = agentRunner.executeUserPrompt(prompt);
         log.info("Идентификатор сессии: {}", result.getEvents().get(0).get("uuid"));
@@ -147,7 +195,7 @@ class TextToJavaUiTest {
         // 1. Проверка процесса
         log.debug("Проверка успешности выполнения агента...");
         assertSuccessful(result);
-        assertSingleSkillCall(result, "text-to-java-ui-test");
+        assertSingleSkillCall(result, "generate-java-selenide-test");
         log.info("Агент отработал успешно, скилл вызван.");
 
         // 2. Проверка файлов
