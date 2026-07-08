@@ -3,8 +3,8 @@ package org.mirent.skills.util.qwen;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.slf4j.Slf4j;
+import io.github.ivanmilovanov.agentic.cli.runner.context.AgentRunContext;
 import org.mirent.skills.exeptions.NotFoundSaveModelNameException;
-import org.mirent.skills.runner.AgentRunContext;
 
 import java.io.File;
 import java.io.FileNotFoundException;

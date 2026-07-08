@@ -1,13 +1,13 @@
 package org.mirent.skills.runner.qwen;
 
+import io.github.ivanmilovanov.agentic.cli.runner.cli.CommandFactory;
+import io.github.ivanmilovanov.agentic.cli.runner.executor.CommandExecutor;
+import io.github.ivanmilovanov.agentic.cli.runner.model.AgentLogDto;
+import io.github.ivanmilovanov.agentic.cli.runner.model.CommandRequestDto;
+import io.github.ivanmilovanov.agentic.cli.runner.model.CommandResultDto;
+import io.github.ivanmilovanov.agentic.cli.runner.parser.AgentStreamJsonParser;
 import lombok.extern.slf4j.Slf4j;
-import org.mirent.skills.CommandExecutor;
-import org.mirent.skills.dto.agent.AgentLogDto;
-import org.mirent.skills.dto.command.CommandRequestDto;
-import org.mirent.skills.dto.command.CommandResultDto;
-import org.mirent.skills.parser.AgentStreamJsonParser;
 import org.mirent.skills.runner.JudgeRunner;
-import org.mirent.skills.util.cli.CommandFactory;
 
 import java.nio.file.Path;
 import java.time.Duration;

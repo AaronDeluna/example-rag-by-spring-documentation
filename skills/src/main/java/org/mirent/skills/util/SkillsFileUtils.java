@@ -1,8 +1,8 @@
 package org.mirent.skills.util;
 
+import io.github.ivanmilovanov.agentic.cli.runner.exception.AgentRunnerConfigurationException;
 import lombok.extern.slf4j.Slf4j;
 import org.mirent.skills.dto.module.ModuleLayoutDto;
-import org.mirent.skills.exeptions.AgentRunnerConfigurationException;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

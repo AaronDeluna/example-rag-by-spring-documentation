@@ -4,17 +4,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.mirent.skills.CommandExecutor;
-import org.mirent.skills.dto.agent.AgentResultDto;
+import io.github.ivanmilovanov.agentic.cli.runner.executor.ApacheCommandExecutor;
+import io.github.ivanmilovanov.agentic.cli.runner.model.AgentResultDto;
 import org.mirent.skills.dto.evaluate.EvaluateDto;
 import org.mirent.skills.dto.evaluate.EvaluateResultDto;
 import org.mirent.skills.matcher.AgentMatcher;
-import org.mirent.skills.parser.AgentStreamJsonParser;
-import org.mirent.skills.runner.RunnerLogWriter;
-import org.mirent.skills.runner.qwen.QwenAgentRunner;
+import io.github.ivanmilovanov.agentic.cli.runner.parser.AgentStreamJsonParser;
+import io.github.ivanmilovanov.agentic.cli.runner.log.RunnerLogWriter;
+import io.github.ivanmilovanov.agentic.cli.runner.runner.AgentRunnerImpl;
 import org.mirent.skills.service.AgentEvaluatorService;
-import org.mirent.skills.service.AgentRunnerFactory;
-import org.mirent.skills.service.AgentRunnerProperties;
+import io.github.ivanmilovanov.agentic.cli.runner.service.AgentRunnerFactory;
+import io.github.ivanmilovanov.agentic.cli.runner.config.AgentRunnerProperties;
 import org.mirent.skills.util.WutPreparer;
 
 import java.nio.file.Files;
@@ -53,13 +53,13 @@ class TextToJavaUiTest {
 
         // 2. Создание агента через фабрику с кастомным таймаутом
         AgentRunnerFactory factory = new AgentRunnerFactory(
-                new CommandExecutor(),
+                new ApacheCommandExecutor(),
                 new AgentStreamJsonParser(),
                 wut,
                 AGENT_TIMEOUT,  // увеличенный таймаут для qwen
                 new RunnerLogWriter()
         );
-        QwenAgentRunner agentRunner = factory.create(AgentRunnerProperties.loadDefault());
+        AgentRunnerImpl agentRunner = (AgentRunnerImpl) factory.create(AgentRunnerProperties.loadDefault());
         log.info("Таймаут выполнения qwen: {} минут", AGENT_TIMEOUT.toMinutes());
 
         // 3. Запуск скилла через пользовательский промпт
@@ -72,7 +72,7 @@ class TextToJavaUiTest {
             Ожидаемый результат: Отображается страница с результатами поиска, список с результатами содержит ссылки.
             используй skills generate-java-selenide-test""";
         log.info("Отправка промпта агенту (длина {} символов)", prompt.length());
-        AgentResultDto result = agentRunner.executeUserPrompt(prompt);
+        AgentResultDto result = agentRunner.execute(prompt);
         log.info("Идентификатор сессии: {}", result.getEvents().get(0).get("uuid"));
 
         // 4. Проверка выполнения агента
@@ -123,19 +123,19 @@ class TextToJavaUiTest {
 
         // 2. Создание агента через фабрику с кастомным таймаутом
         AgentRunnerFactory factory = new AgentRunnerFactory(
-                new CommandExecutor(),
+                new ApacheCommandExecutor(),
                 new AgentStreamJsonParser(),
                 wut,
                 AGENT_TIMEOUT,  // увеличенный таймаут для qwen
                 new RunnerLogWriter()
         );
-        QwenAgentRunner agentRunner = factory.create(AgentRunnerProperties.loadDefault());
+        AgentRunnerImpl agentRunner = (AgentRunnerImpl) factory.create(AgentRunnerProperties.loadDefault());
         log.info("Таймаут выполнения qwen: {} минут", AGENT_TIMEOUT.toMinutes());
 
         // 3. Запуск скилла
         String prompt = "Тест-кейс: Поиск в DuckDuckGo... используй skills generate-java-selenide-test";
         log.info("Отправка промпта агенту (длина {} символов)", prompt.length());
-        AgentResultDto result = agentRunner.executeUserPrompt(prompt);
+        AgentResultDto result = agentRunner.execute(prompt);
         log.info("Идентификатор сессии: {}", result.getEvents().get(0).get("uuid"));
 
         // 4. Проверка выполнения агента

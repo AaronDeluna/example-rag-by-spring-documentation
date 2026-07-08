@@ -8,10 +8,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
-import org.mirent.skills.dto.agent.AgentResultDto;
-import org.mirent.skills.runner.qwen.QwenAgentRunner;
-import org.mirent.skills.service.AgentRunnerFactory;
-import org.mirent.skills.service.AgentRunnerProperties;
+import io.github.ivanmilovanov.agentic.cli.runner.model.AgentResultDto;
+import io.github.ivanmilovanov.agentic.cli.runner.runner.AgentRunnerImpl;
+import io.github.ivanmilovanov.agentic.cli.runner.service.AgentRunnerFactory;
+import io.github.ivanmilovanov.agentic.cli.runner.config.AgentRunnerProperties;
 import org.mirent.skills.util.WutPreparer;
 import org.mirent.skills.util.qwen.QwenSettingsUpdater;
 
@@ -40,7 +40,7 @@ class MultipleModelsSkillTest {
 
         // 2. Настройка агента
         AgentRunnerFactory agentRunnerFactory = AgentRunnerFactory.defaultFactory(wut);
-        QwenAgentRunner agentRunner = agentRunnerFactory.create(AgentRunnerProperties.loadDefault());
+        AgentRunnerImpl agentRunner = (AgentRunnerImpl) agentRunnerFactory.create(AgentRunnerProperties.loadDefault());
 
         QwenSettingsUpdater settingsUpdater = QwenSettingsUpdater.builder()
                 .agentRunContext(agentRunner.getAgentRunContext())
@@ -51,7 +51,7 @@ class MultipleModelsSkillTest {
         // 3. Запуск скилла через пользовательский промпт
         // Модель сама решает вызвать tool_use с name="skill" и input.skill="maven-checkstyle-setup"
         String prompt = "Настрой Checkstyle в Maven-проекте используй skills maven-checkstyle-setup";
-        AgentResultDto result = agentRunner.executeUserPrompt(prompt);
+        AgentResultDto result = agentRunner.execute(prompt);
         log.info("Тест с моделью {} -> идентификатор сессии: {}", modelName, result.getEvents().get(0).get("uuid"));
 
         // 4. Проверка выполнения агента

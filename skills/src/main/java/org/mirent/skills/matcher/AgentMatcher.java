@@ -1,6 +1,6 @@
 package org.mirent.skills.matcher;
 
-import org.mirent.skills.dto.agent.AgentResultDto;
+import io.github.ivanmilovanov.agentic.cli.runner.model.AgentResultDto;
 import org.mirent.skills.dto.evaluate.EvaluateResultDto;
 import org.mirent.skills.util.AgentSkillCallExtractorUtils;
 

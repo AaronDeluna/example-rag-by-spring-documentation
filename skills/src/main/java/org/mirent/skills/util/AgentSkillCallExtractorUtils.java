@@ -1,7 +1,7 @@
 package org.mirent.skills.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.mirent.skills.dto.agent.AgentResultDto;
+import io.github.ivanmilovanov.agentic.cli.runner.model.AgentResultDto;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,11 +1,19 @@
 package org.mirent.skills.service;
 
-import org.mirent.skills.dto.agent.AgentResultDto;
-import org.mirent.skills.runner.AgentRunner;
+import io.github.ivanmilovanov.agentic.cli.runner.api.AgentRunner;
+import io.github.ivanmilovanov.agentic.cli.runner.config.AgentRunnerProperties;
+import io.github.ivanmilovanov.agentic.cli.runner.model.AgentResultDto;
+import io.github.ivanmilovanov.agentic.cli.runner.service.AgentRunnerFactory;
 
 import java.nio.file.Path;
 
-public class AgentRunnerService implements AgentRunner {
+/**
+ * Фасад над раннером агента из SDK {@code agentic-cli-runner}.
+ * Сохраняет привычные для модуля {@code skills} имена методов
+ * ({@code executeUserPrompt}/{@code executeSkillPrompt}), делегируя в SDK
+ * ({@code execute}/{@code executeSkill}).
+ */
+public class AgentRunnerService {
 
     private final AgentRunner agentRunner;
 
@@ -23,13 +31,11 @@ public class AgentRunnerService implements AgentRunner {
         this.agentRunner = delegate;
     }
 
-    @Override
     public AgentResultDto executeUserPrompt(String prompt) throws Exception {
-        return agentRunner.executeUserPrompt(prompt);
+        return agentRunner.execute(prompt);
     }
 
-    @Override
     public AgentResultDto executeSkillPrompt(String skillName, String prompt) throws Exception {
-        return agentRunner.executeSkillPrompt(skillName, prompt);
+        return agentRunner.executeSkill(skillName, prompt);
     }
 }
