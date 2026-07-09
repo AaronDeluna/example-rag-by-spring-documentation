@@ -40,7 +40,7 @@ public class QwenJudgeRunner implements JudgeRunner {
 
     @Override
     public String runPrompt(String prompt) throws Exception {
-        List<String> command = commandFactory.buildCommand(prompt, null);
+        List<String> command = commandFactory.buildCommand(prompt);
 
         CommandResultDto result = commandExecutor.execute(new CommandRequestDto(
                 command,
