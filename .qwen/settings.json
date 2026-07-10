@@ -9,7 +9,7 @@
       "cwd": "${workspaceFolder}/mcp-server-jar-unpacker"
     }
   },
-  "$version": 3,
+  "$version": 4,
   "mcp": {
     "allowed": [
       "jar-unpacker"
