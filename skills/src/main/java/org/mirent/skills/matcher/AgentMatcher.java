@@ -113,4 +113,20 @@ public final class AgentMatcher {
             throw new AssertionError("Ожидались скилы: %s, фактически: %s".formatted(expected, actual));
         }
     }
+
+    /**
+     * Проверяет, что журнал событий содержит хотя бы один вызов {@code skill}
+     * с указанным именем.
+     *
+     * @param result результат выполнения агента с нормализованным списком событий
+     * @param expectedSkillName ожидаемое значение поля {@code input.skill}
+     */
+    public static void assertAtLeastOneSkillCall(AgentResultDto result, String expectedSkillName) {
+        List<String> actual = AgentSkillCallExtractorUtils.extractSkillCalls(result);
+        if (!actual.contains(expectedSkillName)) {
+            throw new AssertionError(
+                    "Ожидался хотя бы один вызов скила: %s, фактически: %s".formatted(expectedSkillName, actual)
+            );
+        }
+    }
 }

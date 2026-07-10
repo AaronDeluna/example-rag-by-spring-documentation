@@ -15,25 +15,38 @@ cd "$TEMP_DIR"
 
 echo "Скачивание $FILENAME из $URL ..."
 
-# Выбираем подходящий инструмент для загрузки
+# Функция для проверки успешности загрузки (размер > 0)
+check_download() {
+    if [ ! -f "$FILENAME" ]; then
+        echo "Ошибка: файл не был скачан."
+        exit 1
+    fi
+    if [ ! -s "$FILENAME" ]; then
+        echo "Ошибка: скачанный файл пуст."
+        exit 1
+    fi
+    echo "Файл успешно скачан (размер: $(stat -c %s "$FILENAME" 2>/dev/null || stat -f %z "$FILENAME" 2>/dev/null) байт)."
+}
+
+# Выбираем подходящий инструмент для загрузки с расширенными опциями
 if command -v wget >/dev/null 2>&1; then
-    wget -O "$FILENAME" "$URL"
+    echo "Используется wget..."
+    wget --max-redirect=30 \
+         --user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" \
+         --timeout=300 \
+         --tries=3 \
+         -O "$FILENAME" "$URL"
+    check_download
 elif command -v curl >/dev/null 2>&1; then
-    curl -L -o "$FILENAME" "$URL"
+    echo "Используется curl..."
+    curl -L --max-redirs 30 \
+         --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" \
+         --connect-timeout 300 \
+         --retry 3 \
+         -o "$FILENAME" "$URL"
+    check_download
 else
     echo "Ошибка: не найден wget или curl. Установите один из них."
-    exit 1
-fi
-
-# Проверяем, что файл действительно скачан
-if [ ! -f "$FILENAME" ]; then
-    echo "Ошибка: файл не был скачан."
-    exit 1
-fi
-
-# Проверяем, что файл не пустой
-if [ ! -s "$FILENAME" ]; then
-    echo "Ошибка: скачанный файл пуст."
     exit 1
 fi
 

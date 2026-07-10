@@ -1,0 +1,167 @@
+{
+  "name": "generate-java-selenide-test",
+  "description": "Преобразует описание UI тест-кейса на русском языке в автоматизированный Java-тест с Selenide. Проверяет наличие зависимости Selenide 7.16.2 и подключает при необходимости. Использует Frap для анализа DOM и генерации Page Object, chrome-devtools-mcp для управления браузером. Создаёт два файла: PageObject в src/main/java/io/example и тестовый класс в src/test/java/io/example. Временные артефакты сохраняются в .frap-work/ в корне проекта. Для каждой веб-страницы, участвующей в тесте, вызывается Frap. Используйте, когда нужно создать UI-тест по шагам, описанным на естественном языке.",
+  "compatibility": "Требуется Java проект с Maven или Gradle, зависимость Selenide 7.16.2, доступ к MCP-серверам Frap и chrome-devtools-mcp. Создаёт временные файлы в директории .frap-work/.",
+  "license": "MIT",
+  "allowed-tools": "Bash(cat:*, grep:*, find:*, echo:*, cp:*, mv:*) Write",
+  "metadata": {
+    "author": "user",
+    "version": "1.1",
+    "category": "test-automation",
+    "tags": "java, selenide, ui-testing, frap, chrome-devtools, page-object"
+  },
+  "targetAgents": [
+    "qwen"
+  ],
+  "priority": 10,
+  "paths": [
+    "src/test/java/**/*.java"
+  ],
+  "user-invocable": true,
+  "disable-model-invocation": false,
+  "steps": [
+    {
+      "id": "check-selenide",
+      "type": "text_processing",
+      "operation": "check_and_add_dependency",
+      "input": "{{project_dir}}/pom.xml или build.gradle",
+      "output": "selenide_dependency_status",
+      "description": "Проверяет, подключена ли зависимость Selenide версии 7.16.2, и при отсутствии добавляет её в файл сборки (Maven или Gradle)."
+    },
+    {
+      "id": "check-servers",
+      "type": "api_call",
+      "operation": "check_availability",
+      "input": "вызовы frap_help и list_pages",
+      "output": "servers_available",
+      "description": "Проверяет доступность MCP-серверов: frap_help (Frap) и list_pages (chrome-devtools-mcp). При недоступности любого — ошибка и остановка."
+    },
+    {
+      "id": "extract-test-data",
+      "type": "text_processing",
+      "operation": "extract",
+      "input": "описание тест-кейса от пользователя",
+      "output": "{className, pageUrl, steps_text, pageClassName}",
+      "description": "Извлекает имя тестового класса, URL страницы, шаги из описания на русском языке и определяет имя PageObject-класса (pageClassName) как {{className}}Page."
+    },
+    {
+      "id": "open-page",
+      "type": "api_call",
+      "operation": "open_and_navigate",
+      "input": "{{pageUrl}}",
+      "output": "page_ready",
+      "description": "Открывает новую страницу в браузере через chrome-devtools-mcp и переходит по целевому URL."
+    },
+    {
+      "id": "get-snapshot-script",
+      "type": "api_call",
+      "operation": "frap_snapshot_script",
+      "input": "",
+      "output": "snapshot_script",
+      "description": "Получает JavaScript-код для захвата DOM-снимка страницы от Frap (инструмент frap_snapshot_script)."
+    },
+    {
+      "id": "wrap-sync-iife",
+      "type": "text_processing",
+      "operation": "wrap_iife",
+      "input": "{{snapshot_script}}",
+      "output": "sync_script",
+      "description": "Если скрипт содержит async/await, оборачивает его в синхронную самовызывающуюся функцию (IIFE) без async/await для совместимости с chrome-devtools-mcp (evaluate_script)."
+    },
+    {
+      "id": "evaluate-script",
+      "type": "api_call",
+      "operation": "evaluate_script",
+      "input": "{{sync_script}}",
+      "output": "dom_snapshot",
+      "description": "Выполняет синхронный скрипт в браузере через chrome-devtools-mcp (evaluate_script) и получает DOM-снимок страницы."
+    },
+    {
+      "id": "save-snapshot",
+      "type": "file_operation",
+      "operation": "write_file",
+      "input": "{{dom_snapshot}} в файл .frap-work/snapshot/{{test-name-N}}.json",
+      "output": "snapshot_path",
+      "description": "Сохраняет полученный DOM-снимок во временную папку .frap-work/snapshot в корне проекта для использования в режиме file."
+    },
+    {
+      "id": "build-element-map",
+      "type": "api_call",
+      "operation": "frap_build_element_map",
+      "input": "{domSnapshotPath: {{snapshot_path}}}",
+      "output": "element_map_path",
+      "description": "Строит карту элементов (ElementMap) из DOM-снимка с помощью Frap."
+    },
+    {
+      "id": "generate-page-object",
+      "type": "api_call",
+      "operation": "frap_generate_page_object",
+      "input": "{elementMapPath: {{element_map_path}}, language: 'java_selenide', className: {{pageClassName}}, packageName: 'io.example'}",
+      "output": "page_object_files",
+      "description": "Генерирует код Page Object на Java с аннотациями Selenide для пакета io.example. Возвращает список путей к файлам (режим file)."
+    },
+    {
+      "id": "copy-to-temp",
+      "type": "file_operation",
+      "operation": "copy_file",
+      "input": "{{page_object_files}} -> .frap-work/pages/",
+      "output": "temp_page_object_paths",
+      "description": "Копирует сгенерированные Page Object файлы во временную папку .frap-work/pages/ для отладки и последующего использования."
+    },
+    {
+      "id": "copy-to-project",
+      "type": "file_operation",
+      "operation": "copy_file",
+      "input": "{{temp_page_object_paths}} -> src/main/java/io/example/",
+      "output": "project_page_object_paths",
+      "description": "Копирует Page Object файлы в стандартную директорию основного проекта src/main/java/io/example/."
+    },
+    {
+      "id": "generate-test-class",
+      "type": "text_processing",
+      "operation": "template",
+      "input": "{{temp_page_object_paths}} и {{steps_text}}",
+      "output": "test_class_code",
+      "description": "Генерирует код тестового класса на основе временных Page Object и описания шагов. Использует русские комментарии, аннотации TestNG/JUnit, методы Selenide и пакет io.example."
+    },
+    {
+      "id": "save-test-class",
+      "type": "file_operation",
+      "operation": "write_file",
+      "input": "{{test_class_code}} в src/test/java/io/example/{{className}}Test.java",
+      "output": "test_file_path",
+      "description": "Сохраняет сгенерированный тестовый класс в src/test/java/io/example/."
+    },
+    {
+      "id": "close-browser",
+      "type": "api_call",
+      "operation": "close_page",
+      "input": "",
+      "output": "browser_closed",
+      "description": "Закрывает браузер через chrome-devtools-mcp, освобождая ресурсы."
+    }
+  ],
+  "resources": {
+    "examples": [
+      {
+        "input": "Тест-кейс: авторизация пользователя. Открыть https://example.com/login, ввести логин 'admin', пароль '123', нажать кнопку 'Войти'. Проверить, что отображается приветствие 'Добро пожаловать'.",
+        "output": "Создан файл src/test/java/io/example/LoginTest.java с методом testAuthorization(). Page Object LoginPage.java сохранён в .frap-work/pages/ и src/main/java/io/example/."
+      },
+      {
+        "input": "Тест-кейс: поиск товара. Перейти на https://shop.com, ввести в поиск 'ноутбук', нажать Enter. Проверить, что в результатах есть хотя бы один товар.",
+        "output": "Создан файл src/test/java/io/example/SearchTest.java с методом testProductSearch(). Page Object MainPage.java сохранён в .frap-work/pages/ и src/main/java/io/example/."
+      }
+    ],
+    "references": [
+      {
+        "url": "https://github.com/kotler-dev/frap/tree/develop/java-v1.1.1",
+        "title": "Frap MCP Server Documentation",
+        "description": "Документация по использованию Frap MCP-сервера для генерации Page Object."
+      }
+    ]
+  },
+  "responseTemplate": {
+    "content": "✅ Тестовый класс {{testClassName}} успешно создан: {{testFilePath}}. Page Object сохранён во временной папке .frap-work/pages/ и в проекте в {{projectPageObjectPaths}}.",
+    "format": "text"
+  }
+}

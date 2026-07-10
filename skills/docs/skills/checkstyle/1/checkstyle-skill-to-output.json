@@ -1,0 +1,50 @@
+{
+  "name": "checkstyle-simple-checks",
+  "description": "Запускает проверку Checkstyle с кастомными простыми правилами (без написания Java-кода) через bash-скрипт, автоматически загружая Checkstyle JAR из Maven Central во временную папку. Не требует добавления Checkstyle как зависимости проекта. Используйте для статического анализа Java-кода с собственными запретами через регулярные выражения.",
+  "compatibility": "Requires Java 11+, bash, and curl or wget for downloading Checkstyle JAR.",
+  "license": "MIT",
+  "targetAgents": [
+    "qwen"
+  ],
+  "user-invocable": true,
+  "paths": [
+    "src/main/java/**/*.java",
+    "**/*.java"
+  ],
+  "allowed-tools": "Bash Read Write",
+  "metadata": {
+    "author": "user",
+    "category": "code-quality",
+    "tags": "checkstyle, java, static-analysis, custom-checks"
+  },
+  "resources": {
+    "scripts": [
+      {
+        "path": "run-checkstyle-simple-custom.sh",
+        "language": "bash",
+        "code": "#!/usr/bin/env bash\n# Скрипт: run-checkstyle-simple-custom.sh\n# Загружает Checkstyle JAR из Maven Central во временную директорию и запускает проверку.\n\nCHECKSTYLE_VERSION=\"10.18.1\"\nCHECKSTYLE_JAR_NAME=\"checkstyle-${CHECKSTYLE_VERSION}-all.jar\"\nMAVEN_URL=\"https://repo1.maven.org/maven2/com/puppycrawl/tools/checkstyle/${CHECKSTYLE_VERSION}/${CHECKSTYLE_JAR_NAME}\"\n\n# Создаём временную директорию\nTEMP_DIR=$(mktemp -d)\nCHECKSTYLE_JAR=\"${TEMP_DIR}/${CHECKSTYLE_JAR_NAME}\"\n\n# Функция очистки временной директории\ncleanup() {\n    rm -rf \"$TEMP_DIR\"\n}\ntrap cleanup EXIT\n\nCONFIG=\"$SKILL_EMBEDDED_DIR/config/my_simple_checks.xml\"\nSOURCE_PATH=\"./src/main/java\"\n\nif [ ! -f \"$CONFIG\" ]; then\n    echo \"Ошибка: файл конфигурации $CONFIG не найден!\"\n    exit 1\nfi\n\n# Загрузка JAR\necho \"Загрузка Checkstyle ${CHECKSTYLE_VERSION} из Maven Central...\"\nif command -v curl >/dev/null 2>&1; then\n    curl -fSL -o \"$CHECKSTYLE_JAR\" \"$MAVEN_URL\"\nelif command -v wget >/dev/null 2>&1; then\n    wget -O \"$CHECKSTYLE_JAR\" \"$MAVEN_URL\"\nelse\n    echo \"Ошибка: необходима утилита curl или wget для загрузки JAR.\"\n    exit 1\nfi\n\nif [ ! -f \"$CHECKSTYLE_JAR\" ]; then\n    echo \"Ошибка: не удалось загрузить Checkstyle JAR.\"\n    exit 1\nfi\n\necho \"Запуск Checkstyle с простыми кастомными проверками...\"\njava -jar \"$CHECKSTYLE_JAR\" -c \"$CONFIG\" \"$SOURCE_PATH\"",
+        "description": "Загружает Checkstyle JAR из Maven Central во временную папку и запускает проверку с конфигурацией простых проверок."
+      }
+    ],
+    "embeddedFiles": [
+      {
+        "path": "my_simple_checks.xml",
+        "mimeType": "text/xml",
+        "description": "Конфигурация Checkstyle с кастомными простыми проверками (запрет звездчатого импорта, System.out.println, printStackTrace; требование Javadoc для публичных методов).",
+        "purpose": "configuration",
+        "content": "<?xml version=\"1.0\"?>\n<!DOCTYPE module PUBLIC\n          \"-//Checkstyle//DTD Checkstyle Configuration 1.3//EN\"\n          \"https://checkstyle.org/dtds/configuration_1_3.dtd\">\n<module name=\"Checker\">\n    <module name=\"TreeWalker\">\n        <!-- Запрещаем звездчатый импорт -->\n        <module name=\"AvoidStarImport\"/>\n        \n        <!-- Запрещаем использование System.out.println() -->\n        <module name=\"RegexpSingleline\">\n            <property name=\"format\" value=\"System\\.out\\.println\"/>\n            <property name=\"message\" value=\"Использование System.out.println() запрещено.\"/>\n        </module>\n        \n        <!-- Запрещаем printStackTrace() -->\n        <module name=\"RegexpSingleline\">\n            <property name=\"format\" value=\"\\.printStackTrace\\(\\)\"/>\n            <property name=\"message\" value=\"Использование printStackTrace() запрещено.\"/>\n        </module>\n        \n        <!-- Проверяем, что все публичные методы имеют JavaDoc -->\n        <module name=\"JavadocMethod\"/>\n    </module>\n</module>"
+      }
+    ],
+    "references": [
+      {
+        "url": "https://checkstyle.org/",
+        "title": "Checkstyle Documentation",
+        "description": "Официальная документация Checkstyle"
+      }
+    ]
+  },
+  "responseTemplate": {
+    "content": "Результат проверки:\n{{output}}",
+    "format": "text"
+  }
+}

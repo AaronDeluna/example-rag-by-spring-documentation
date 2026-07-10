@@ -1,0 +1,114 @@
+{
+  "name": "checkstyle-custom-checks",
+  "description": "Запускает проверки Checkstyle с кастомным XML-конфигом, используя автономный JAR без интеграции в проект (не требует pom.xml). Используйте только по явной команде пользователя. Не запрашивайте подтверждение перед запуском — сразу выполняйте анализ. Для статического анализа Java-кода с собственными правилами, такими как запрет System.out.println или printStackTrace.",
+  "compatibility": "Требуется Java 8+, Bash, curl (или wget) для загрузки JAR. Проверки выполняются локально, без подключения плагина к проекту.",
+  "license": "MIT",
+  "targetAgents": [
+    "qwen"
+  ],
+  "user-invocable": true,
+  "disable-model-invocation": true,
+  "paths": [
+    "**/*.java"
+  ],
+  "priority": 50,
+  "constraints": {
+    "timeoutSeconds": 180,
+    "maxInputLength": 5000000
+  },
+  "allowed-tools": "Bash Read Write",
+  "metadata": {
+    "author": "user",
+    "version": "1.1.0",
+    "category": "code-quality",
+    "tags": [
+      "checkstyle",
+      "java",
+      "linting",
+      "static-analysis"
+    ]
+  },
+  "steps": [
+    {
+      "id": "validate-invocation",
+      "type": "conditional",
+      "operation": "check",
+      "input": "{{user_command}}",
+      "output": "is_explicit_call",
+      "description": "Проверяет, что скилл вызван явной командой пользователя (например, /checkstyle-custom-checks), и пропускает запрос подтверждения."
+    },
+    {
+      "id": "check-jar",
+      "type": "conditional",
+      "operation": "exists",
+      "input": "{{jar_path}}",
+      "output": "jar_exists",
+      "description": "Проверяет, существует ли Checkstyle JAR по пути ~/.cache/checkstyle/checkstyle-10.18.0-all.jar."
+    },
+    {
+      "id": "download-jar",
+      "type": "api_call",
+      "operation": "download",
+      "input": "https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.18.0/checkstyle-10.18.0-all.jar",
+      "output": "jar_path",
+      "description": "Загружает JAR Checkstyle версии 10.18.0, если он отсутствует в кэше."
+    },
+    {
+      "id": "run-checkstyle",
+      "type": "api_call",
+      "operation": "run",
+      "input": "java -jar {{jar_path}} -c {{config_path}} {{source_directory}}",
+      "output": "raw_report",
+      "description": "Запускает Checkstyle с кастомной конфигурацией на указанной директории исходников."
+    },
+    {
+      "id": "format-report",
+      "type": "text_processing",
+      "operation": "parse",
+      "input": "{{raw_report}}",
+      "output": "issues",
+      "description": "Преобразует вывод Checkstyle в структурированный список проблем для отображения пользователю."
+    }
+  ],
+  "resources": {
+    "scripts": [
+      {
+        "path": "run_checkstyle.sh",
+        "language": "bash",
+        "description": "Основной скрипт, проверяющий наличие JAR, скачивающий его при необходимости и запускающий проверку Checkstyle.",
+        "code": "#!/usr/bin/env bash\nset -euo pipefail\n\nSCRIPT_DIR=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")\" && pwd)\"\nCONFIG=\"$SCRIPT_DIR/../embedded/my_simple_checks.xml\"\nCHECKSTYLE_CACHE=\"$HOME/.cache/checkstyle\"\nJAR=\"$CHECKSTYLE_CACHE/checkstyle-10.18.0-all.jar\"\nURL=\"https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.18.0/checkstyle-10.18.0-all.jar\"\n\nif [ $# -lt 1 ]; then\n    echo \"Использование: $0 <путь к исходникам>\"\n    exit 1\nfi\n\nTARGET=\"$1\"\n\nif ! command -v java &> /dev/null; then\n    echo \"Ошибка: Java не установлена.\"\n    exit 1\nfi\n\nif [ ! -f \"$JAR\" ]; then\n    echo \"JAR не найден. Скачиваю Checkstyle...\"\n    mkdir -p \"$CHECKSTYLE_CACHE\"\n    if command -v curl &> /dev/null; then\n        curl -L -o \"$JAR\" \"$URL\"\n    elif command -v wget &> /dev/null; then\n        wget -O \"$JAR\" \"$URL\"\n    else\n        echo \"Ошибка: требуется curl или wget для загрузки JAR.\"\n        exit 1\n    fi\nfi\n\njava -jar \"$JAR\" -c \"$CONFIG\" \"$TARGET\"\n"
+      }
+    ],
+    "embeddedFiles": [
+      {
+        "path": "my_simple_checks.xml",
+        "mimeType": "text/xml",
+        "description": "Конфигурация Checkstyle с простыми правилами: AvoidStarImport, JavadocMethod, запрет System.out.println и printStackTrace.",
+        "purpose": "configuration",
+        "content": "<?xml version=\"1.0\"?>\n<!DOCTYPE module PUBLIC\n          \"-//Checkstyle//DTD Checkstyle Configuration 1.3//EN\"\n          \"https://checkstyle.org/dtds/configuration_1_3.dtd\">\n<module name=\"Checker\">\n    <module name=\"TreeWalker\">\n        <module name=\"AvoidStarImport\"/>\n        <module name=\"JavadocMethod\"/>\n    </module>\n\n    <module name=\"RegexpSingleline\">\n        <property name=\"format\" value=\"System\\.out\\.println\"/>\n        <property name=\"message\" value=\"Использование System.out.println() запрещено.\"/>\n    </module>\n\n    <module name=\"RegexpSingleline\">\n        <property name=\"format\" value=\"\\.printStackTrace\\(\\)\"/>\n        <property name=\"message\" value=\"Использование printStackTrace() запрещено.\"/>\n    </module>\n</module>"
+      }
+    ],
+    "examples": [
+      {
+        "input": "src/main/java",
+        "output": "[ERROR] Main.java:5: Использование System.out.println() запрещено.\n[ERROR] Util.java:12: Использование printStackTrace() запрещено."
+      }
+    ],
+    "references": [
+      {
+        "url": "https://checkstyle.org/",
+        "title": "Checkstyle Documentation",
+        "description": "Официальная документация Checkstyle."
+      },
+      {
+        "url": "https://checkstyle.org/config.html",
+        "title": "Checkstyle Configuration",
+        "description": "Описание синтаксиса конфигураций Checkstyle."
+      }
+    ]
+  },
+  "responseTemplate": {
+    "content": "Проверка Checkstyle завершена.\n{{issues}}",
+    "format": "text"
+  }
+}

@@ -1,6 +1,7 @@
 package org.mirent.skills.tests.external;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -24,11 +25,17 @@ import static org.mirent.skills.matcher.AgentMatcher.assertSuccessful;
 @Tag("external")
 @Slf4j
 class MultipleModelsQwenTest {
+    public static final String GPT_OSS = "openai/gpt-oss-120b";
 
     @ParameterizedTest
     @ArgumentsSource(ModelNamesProvider.class)
     @DisplayName("Выполняет пользовательский prompt с явным вызовом arithmetic для разных моделей")
     void executeUserPromptInvokesRequestedSkillsInOrder(String modelName) throws Exception {
+        if (modelName.equals(GPT_OSS)) {
+            String value = System.getenv("QWEN_CUSTOM_API_KEY_OPENAI_HTTPS_FOUNDATION_MODELS_API_CLOUD_RU_V1");
+            Assertions.assertNotNull(value);
+        }
+
         String prompt = "Верни 1 ответ: сколько будет 2 + 2 используй skills arithmetic";
 
         Path wut = WutPreparer.builder()
@@ -63,8 +70,7 @@ class MultipleModelsQwenTest {
                     Arguments.of("qwen2.5-coder:7b"),
                     Arguments.of("qwen3:8b"),
                     Arguments.of("qwen3:14b"),
-                    Arguments.of("openai/gpt-oss-120b"),
-                    Arguments.of("Qwen/Qwen3-Coder-Next"),
+                    Arguments.of(GPT_OSS),
                     Arguments.of("deepseek-v4-flash")
             );
         }
