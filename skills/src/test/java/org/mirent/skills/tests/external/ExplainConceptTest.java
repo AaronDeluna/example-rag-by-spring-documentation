@@ -5,8 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 import org.mirent.skills.service.AgentRunnerService;
+import org.mirent.skills.util.WutPreparer;
 
 import java.nio.file.Path;
 
@@ -27,14 +27,21 @@ class ExplainConceptTest {
 
     @Test
     @DisplayName("Агент объясняет концепцию полиморфизма и возвращает непустой текстовый ответ")
-    void userPromptAsksAgentToExplainConcept(@TempDir Path workspace) throws Exception {
+    void userPromptAsksAgentToExplainConcept() throws Exception {
         log.info("=== Запуск теста: userPromptAsksAgentToExplainConcept ===");
+
+        // 1. Подготовка рабочей директории (wut)
+        Path workspace = WutPreparer.builder()
+                .wutSourceName("frap-mcp-testing")
+                .wutSourcePath(Path.of("src/test/resources/wut-templates"))
+                .build()
+                .prepare();
         log.info("Рабочая область (workspace): {}", workspace.toAbsolutePath());
 
-        // 1. Создание раннера агента через фасад SDK
+        // 2. Создание раннера агента через фасад SDK
         AgentRunnerService agentRunner = new AgentRunnerService(workspace);
 
-        // 2. Запуск пользовательского промпта с просьбой объяснить концепцию (без генерации кода)
+        // 3. Запуск пользовательского промпта с просьбой объяснить концепцию (без генерации кода)
         String prompt = """
             Объясни простыми словами, что такое полиморфизм в объектно-ориентированном программировании.
             Ответь текстом на русском языке, код писать не нужно.""";
@@ -42,10 +49,10 @@ class ExplainConceptTest {
         AgentResultDto result = agentRunner.executeUserPrompt(prompt);
         log.info("Идентификатор сессии: {}", result.getEvents().get(0).get("uuid"));
 
-        // 3. Проверка успешного завершения агента
+        // 4. Проверка успешного завершения агента
         assertSuccessful(result);
 
-        // 4. Проверка того, что агент действительно что-то ответил
+        // 5. Проверка того, что агент действительно что-то ответил
         String answer = result.getFinalResult();
         log.info("Ответ агента:\n{}", answer);
         assertNotNull(answer, "Финальный ответ агента не должен быть null");
