@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import io.github.ivanmilovanov.agentic.cli.runner.executor.ApacheCommandExecutor;
 import io.github.ivanmilovanov.agentic.cli.runner.model.AgentResultDto;
-import org.mirent.skills.dto.evaluate.EvaluateDto;
-import org.mirent.skills.dto.evaluate.EvaluateResultDto;
+import org.mirent.skills.dto.evaluate.AgentEvaluateRequestDto;
+import org.mirent.skills.dto.evaluate.AgentEvaluateResultDto;
 import org.mirent.skills.matcher.AgentMatcher;
 import io.github.ivanmilovanov.agentic.cli.runner.parser.AgentStreamJsonParser;
 import io.github.ivanmilovanov.agentic.cli.runner.log.RunnerLogWriter;
@@ -184,8 +184,8 @@ class TextToJavaUiTest {
         // 7. Оценка судьи
         log.debug("Запуск оценки агента через AgentEvaluatorService...");
         AgentEvaluatorService evaluator = new AgentEvaluatorService(wut);
-        EvaluateResultDto evaluation = evaluator.evaluate(
-                new EvaluateDto(prompt, result.getEventsJson())
+        AgentEvaluateResultDto evaluation = evaluator.evaluate(
+                new AgentEvaluateRequestDto(prompt, result.getEventsJson())
         );
         log.info("Результат оценки: score={}", evaluation.getScore());
         AgentMatcher.evaluate(evaluation, 0.7);

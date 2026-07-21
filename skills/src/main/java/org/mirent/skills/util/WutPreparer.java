@@ -60,10 +60,10 @@ public class WutPreparer {
      * </p>
      *
      * @return путь к {@code sorce} этого запуска (рабочая область агента)
-     * @throws IOException если источник не существует, не является директорией,
-     *                     или произошла другая ошибка ввода-вывода
+     * @throws WutPreparerException если источник не существует, не является директорией,
+     *                     или произошла ошибка ввода-вывода при создании папок/копировании шаблона
      */
-    public Path prepare() throws IOException {
+    public Path prepare() {
         log.info("Начинаем подготовку WUT с именем '{}'", wutSourceName);
 
         Path source = resolveSource();
@@ -73,10 +73,13 @@ public class WutPreparer {
         Path runRoot = resolveTarget().resolve(UUID.randomUUID().toString());
         Path sourceDir = runRoot.resolve(SOURCE_DIR);
         Path logsDir = runRoot.resolve(LOGS_DIR);
-        Files.createDirectories(sourceDir);
-        Files.createDirectories(logsDir);
-
-        copyContents(source, sourceDir);
+        try {
+            Files.createDirectories(sourceDir);
+            Files.createDirectories(logsDir);
+            copyContents(source, sourceDir);
+        } catch (IOException e) {
+            throw new WutPreparerException("Не удалось подготовить рабочую область WUT в " + runRoot, e);
+        }
         log.info("Шаблон {} скопирован в {}", source, sourceDir);
         log.info("WUT подготовлена: {}", runRoot);
         return sourceDir;

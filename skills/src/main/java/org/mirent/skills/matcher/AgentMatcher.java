@@ -1,7 +1,7 @@
 package org.mirent.skills.matcher;
 
 import io.github.ivanmilovanov.agentic.cli.runner.model.AgentResultDto;
-import org.mirent.skills.dto.evaluate.EvaluateResultDto;
+import org.mirent.skills.dto.evaluate.AgentEvaluateResultDto;
 import org.mirent.skills.util.AgentSkillCallExtractorUtils;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public final class AgentMatcher {
      * @param result    результат оценки
      * @param threshold минимальный допустимый score в [0.0, 1.0]
      */
-    public static void evaluate(EvaluateResultDto result, double threshold) {
+    public static void evaluate(AgentEvaluateResultDto result, double threshold) {
         if (result == null) {
             throw new AssertionError("Результат оценки не должен быть null");
         }

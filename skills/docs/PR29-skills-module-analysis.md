@@ -222,7 +222,7 @@ AgentEvaluatorService(JudgeRunner judgeRunner)  // для тестов — по�
 ```
 **Публичный API:**
 ```java
-EvaluateResultDto evaluate(EvaluateDto evaluateDto) throws Exception
+EvaluateResultDto evaluate(EvaluateDto agentEvaluateRequestDto) throws Exception
 ```
 
 ---

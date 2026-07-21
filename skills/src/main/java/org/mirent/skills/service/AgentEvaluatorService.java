@@ -7,8 +7,8 @@ import io.github.ivanmilovanov.agentic.cli.runner.executor.ApacheCommandExecutor
 import io.github.ivanmilovanov.agentic.cli.runner.parser.AgentStreamJsonParser;
 import io.github.ivanmilovanov.agentic.cli.runner.service.AgentRunnerFactory;
 import lombok.extern.slf4j.Slf4j;
-import org.mirent.skills.dto.evaluate.EvaluateDto;
-import org.mirent.skills.dto.evaluate.EvaluateResultDto;
+import org.mirent.skills.dto.evaluate.AgentEvaluateRequestDto;
+import org.mirent.skills.dto.evaluate.AgentEvaluateResultDto;
 import org.mirent.skills.exeptions.EvaluatorResponseParseException;
 import org.mirent.skills.runner.JudgeRunner;
 import org.mirent.skills.runner.qwen.QwenJudgeRunner;
@@ -124,19 +124,19 @@ public class AgentEvaluatorService {
     /**
      * Оценивает ответ агента и возвращает score + описание проблем.
      *
-     * @param evaluateDto запрос пользователя и ответ агента
+     * @param agentEvaluateRequestDto запрос пользователя и ответ агента
      * @return результат оценки (score в [0.0, 1.0] и problemMessage)
      */
-    public EvaluateResultDto evaluate(EvaluateDto evaluateDto) throws Exception {
-        String prompt = EVALUATE_PROMPT.formatted(evaluateDto.getQuery(), evaluateDto.getAgentTrace());
-        log.info("[EVALUATE_QUERY]: {}", evaluateDto.getQuery());
+    public AgentEvaluateResultDto evaluate(AgentEvaluateRequestDto agentEvaluateRequestDto) throws Exception {
+        String prompt = EVALUATE_PROMPT.formatted(agentEvaluateRequestDto.getQuery(), agentEvaluateRequestDto.getAgentTrace());
+        log.info("[EVALUATE_QUERY]: {}", agentEvaluateRequestDto.getQuery());
 
         String raw = judgeRunner.runPrompt(prompt);
         log.info("[EVALUATE_RESULT]: \n{}", raw);
         return parseResponse(raw);
     }
 
-    private EvaluateResultDto parseResponse(String raw) {
+    private AgentEvaluateResultDto parseResponse(String raw) {
         if (raw == null || raw.isBlank()) {
             throw new EvaluatorResponseParseException(
                     "Пустой ответ от CLI-судьи, нечего парсить", null
@@ -144,7 +144,7 @@ public class AgentEvaluatorService {
         }
         String json = stripMarkdownFences(raw.trim());
         try {
-            return objectMapper.readValue(json, EvaluateResultDto.class);
+            return objectMapper.readValue(json, AgentEvaluateResultDto.class);
         } catch (Exception e) {
             throw new EvaluatorResponseParseException(
                     "Не удалось распарсить JSON-ответ судьи: " + json, e

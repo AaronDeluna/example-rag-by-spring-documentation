@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class EvaluateDto {
+public class AgentEvaluateRequestDto {
 
     private final String query;
     private final String agentTrace;
