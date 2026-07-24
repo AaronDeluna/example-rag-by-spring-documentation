@@ -10,10 +10,14 @@ public class AgentSkillCallExtractorUtils {
 
     public static List<String> extractSkillCalls(AgentResultDto result) {
         requireNotNull(result, "Результат агента не должен быть null");
-        requireNotNull(result.getEvents(), "События агента не должны быть null");
+        return extractSkillCalls(result.getEvents());
+    }
+
+    public static List<String> extractSkillCalls(List<JsonNode> events) {
+        requireNotNull(events, "События агента не должны быть null");
 
         List<String> skillCalls = new ArrayList<>();
-        for (JsonNode event : result.getEvents()) {
+        for (JsonNode event : events) {
             // Плоская структура: сам event — это tool_use (формат qwen CLI)
             if (isSkillToolUse(event)) {
                 skillCalls.add(event.path("input").path("skill").asText());
