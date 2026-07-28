@@ -16,7 +16,7 @@ public final class ClusterFixtures {
 
     /** Имя профиля-фикстуры, выбранного по URI. */
     public enum Profile {
-        NPE, TIMEOUT, UNKNOWN, JENKINS
+        NPE, TIMEOUT, UNKNOWN, JENKINS, ISE
     }
 
     /** Определяет профиль по подстроке в URI артефакта. */
@@ -31,6 +31,9 @@ public final class ClusterFixtures {
         if (uri.contains("jenkins")) {
             return Profile.JENKINS;
         }
+        if (uri.contains("ise")) {
+            return Profile.ISE;
+        }
         return Profile.NPE;
     }
 
@@ -41,6 +44,7 @@ public final class ClusterFixtures {
             case UNKNOWN -> unknown(artifactUri);
             case NPE -> npe(artifactUri);
             case JENKINS -> jenkins();
+            case ISE -> ise(artifactUri);
         };
     }
 
@@ -107,6 +111,35 @@ public final class ClusterFixtures {
                     }
                   ],
                   "meta": { "source_lines": 3980, "clusters_count": 1, "compressed": true }
+                }""".formatted(artifactUri);
+    }
+
+    /**
+     * Новое событие: IllegalStateException НЕ в PaymentService.
+     *
+     * <p>Такой кластер отсутствует в Хранилище (поисковик вернёт {@code not_found}),
+     * но данных для вывода анализатору достаточно ({@code enough}). Моделирует
+     * сценарий A2 «новое событие, данных хватает».
+     */
+    private static String ise(String artifactUri) {
+        return """
+                {
+                  "artifact_uri": "%s",
+                  "generated_at": "2026-07-28T10:00:00Z",
+                  "clusters": [
+                    {
+                      "cluster_id": "cl-004",
+                      "signature": "java.lang.IllegalStateException at InventoryService.reserve",
+                      "error_type": "IllegalStateException",
+                      "severity": "ERROR",
+                      "occurrences": 21,
+                      "components": ["inventory-service"],
+                      "sample_messages": ["ISE at com.sber.inv.InventoryService.reserve(InventoryService.java:142): stock already reserved"],
+                      "first_seen": "2026-07-28T09:45:10Z",
+                      "last_seen": "2026-07-28T09:59:01Z"
+                    }
+                  ],
+                  "meta": { "source_lines": 4700, "clusters_count": 2, "compressed": true }
                 }""".formatted(artifactUri);
     }
 

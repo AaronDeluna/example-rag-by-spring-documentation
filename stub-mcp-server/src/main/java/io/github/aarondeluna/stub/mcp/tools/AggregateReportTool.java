@@ -12,9 +12,14 @@ import org.springframework.stereotype.Component;
 /**
  * Инструмент {@code aggregate_report}: собирает итоговый отчёт по устранённой ошибке.
  *
- * <p>Заглушка. Классификация: если во входном JSON задано поле
- * {@code classification} — используется оно; иначе определяется по содержимому
- * (NPE/ISE → {@code bugfix}, timeout/unknown → {@code incident}).
+ * <p>Заглушка. Две роли (см. doc/log_analysis_flow.md):
+ * <ul>
+ *   <li>Сценарий A — итоговый отчёт по инциденту. Классификация: если во входном
+ *   JSON задано поле {@code classification} — используется оно; иначе по содержимому
+ *   (NPE/ISE → {@code bugfix}, timeout/unknown → {@code incident}).</li>
+ *   <li>Сценарий B — «инсайт за период»: если во входе есть маркер запроса за период
+ *   ({@code инсайт}/{@code insight}), возвращается HTML-сводка из Хранилища.</li>
+ * </ul>
  */
 @Component
 public class AggregateReportTool {
@@ -23,16 +28,31 @@ public class AggregateReportTool {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Tool(name = "aggregate_report",
-            description = "Собирает итоговый отчёт по ошибке; возвращает JSON с classification, рекомендациями и fix_plan")
+            description = "Собирает итоговый отчёт по ошибке (JSON) либо инсайт за период (HTML), если запрошен инсайт")
     public String aggregateReport(
-            @ToolParam(description = "Строка с JSON: агрегированные данные по ошибке и её решению")
+            @ToolParam(description = "Строка с JSON: данные по ошибке и решению, либо запрос инсайта за период")
             String input_json) {
+
+        if (isPeriodInsightRequest(input_json)) {
+            log.info("[aggregate_report] inputLen={} -> инсайт за период (HTML)",
+                    input_json == null ? 0 : input_json.length());
+            return ReportFixtures.periodInsight();
+        }
 
         String classification = resolveClassification(input_json);
         log.info("[aggregate_report] inputLen={} -> classification {}",
                 input_json == null ? 0 : input_json.length(), classification);
 
         return "incident".equals(classification) ? ReportFixtures.incident() : ReportFixtures.bugfix();
+    }
+
+    /** Запрос «инсайт за период» (Сценарий B) — по маркеру инсайт/insight во входе. */
+    private boolean isPeriodInsightRequest(String inputJson) {
+        if (inputJson == null) {
+            return false;
+        }
+        String lower = inputJson.toLowerCase();
+        return lower.contains("инсайт") || lower.contains("insight");
     }
 
     /** Определяет классификацию: явное поле classification приоритетнее эвристики. */

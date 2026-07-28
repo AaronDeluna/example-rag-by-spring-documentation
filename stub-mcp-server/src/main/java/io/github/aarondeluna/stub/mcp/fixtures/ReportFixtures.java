@@ -37,6 +37,34 @@ public final class ReportFixtures {
                 }""";
     }
 
+    /**
+     * Сценарий B: инсайт за период.
+     *
+     * <p>Без кластеризации и анализа — агрегатор читает уже накопленные в Хранилище
+     * события прошлых прогонов и сводит их в HTML-отчёт «инсайт за период».
+     */
+    public static String periodInsight() {
+        return """
+                <html>
+                  <head><title>Инсайт за период</title></head>
+                  <body>
+                    <h1>Инсайт за период 2026-07-01 — 2026-07-28</h1>
+                    <ul>
+                      <li>Всего инцидентов: 12</li>
+                      <li>bugfix: 7</li>
+                      <li>incident: 4</li>
+                      <li>доработка: 1</li>
+                    </ul>
+                    <h2>Топ ошибок</h2>
+                    <ol>
+                      <li>NullPointerException at OrderService.calcTotal — 37</li>
+                      <li>ReadTimeout on tengri-gw — 14</li>
+                      <li>IllegalStateException at InventoryService.reserve — 21</li>
+                    </ol>
+                  </body>
+                </html>""";
+    }
+
     /** Итоговый отчёт для инцидента без готового решения. */
     public static String incident() {
         return """
