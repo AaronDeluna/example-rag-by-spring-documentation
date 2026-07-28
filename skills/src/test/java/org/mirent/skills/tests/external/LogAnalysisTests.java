@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * </p>
  * <p>
  * Перед запуском {@code @BeforeAll} собирает рабочую область из шаблона
- * {@code log-analysis-agent} и подставляет реальный путь к jar-у в
+ * {@code log-analysis-without-subagent} и подставляет реальный путь к jar-у в
  * {@code .qwen/settings.json}. Тесты помечены {@code @Tag("external")} — им нужен
  * установленный Qwen CLI и собранный {@code stub-mcp-server.jar}.
  *
@@ -60,9 +60,9 @@ class LogAnalysisTests {
 
     @BeforeEach
     void setUp() throws IOException {
-        // 2. Готовим одноразовую рабочую область из шаблона log-analysis-agent.
+        // 2. Готовим одноразовую рабочую область из шаблона log-analysis-without-subagent.
         Path workspace = WutPreparer.builder()
-                .wutSourceName("log-analysis-agent")
+                .wutSourceName("log-analysis-without-subagent")
                 .wutSourcePath(Path.of("src/test/resources/wut-templates"))
                 .build()
                 .prepare();

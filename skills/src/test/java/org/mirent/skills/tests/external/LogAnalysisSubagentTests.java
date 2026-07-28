@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * E2E-тесты полного флоу анализа логов через stub-mcp-server с делегированием субагенту.
  * <p>
  * Полная аналогия {@link LogAnalysisTests}, но рабочая область — шаблон
- * {@code log-analysis-subagent}: главный скилл {@code log-analysis} делегирует
+ * {@code log-analysis-with-subagent}: главный скилл {@code log-analysis} делегирует
  * работу субагенту {@code log-analysis-mcp} (лежит в {@code .qwen/agents/}),
  * который и вызывает MCP-инструменты stub-сервера.
  * </p>
@@ -59,9 +59,9 @@ class LogAnalysisSubagentTests {
 
     @BeforeEach
     void setUp() throws IOException {
-        // 2. Готовим одноразовую рабочую область из шаблона log-analysis-subagent.
+        // 2. Готовим одноразовую рабочую область из шаблона log-analysis-with-subagent.
         Path workspace = WutPreparer.builder()
-                .wutSourceName("log-analysis-subagent")
+                .wutSourceName("log-analysis-with-subagent")
                 .wutSourcePath(Path.of("src/test/resources/wut-templates"))
                 .build()
                 .prepare();
