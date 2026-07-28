@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "stub-log-analysis": {
+      "command": "java",
+      "args": ["-jar", "__STUB_MCP_JAR_PATH__"]
+    }
+  },
+  "$version": 4,
+  "mcp": {
+    "allowed": [
+      "stub-log-analysis"
+    ],
+    "excluded": []
+  }
+}
