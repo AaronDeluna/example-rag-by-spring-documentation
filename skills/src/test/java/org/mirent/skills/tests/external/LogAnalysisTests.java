@@ -30,6 +30,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * {@code log-analysis-agent} и подставляет реальный путь к jar-у в
  * {@code .qwen/settings.json}. Тесты помечены {@code @Tag("external")} — им нужен
  * установленный Qwen CLI и собранный {@code stub-mcp-server.jar}.
+ *
+ * <p>Предварительно собрать jar-приложение:</p>
+ * {@code mvn -pl stub-mcp-server clean install}
  * </p>
  */
 @Tag("external")
