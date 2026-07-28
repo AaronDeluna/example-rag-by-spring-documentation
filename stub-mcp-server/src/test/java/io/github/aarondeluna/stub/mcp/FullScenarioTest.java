@@ -29,6 +29,22 @@ public class FullScenarioTest {
         String additionalLogs = """
                 Дополнительный контекст, полученный от MCP сервера
                 """;
-        // TODO Реализовать последующие шаги
+
+        // Шаг 2: повторный анализ уже с обогащённым контекстом — данных достаточно.
+        // Дозапрос закрыл пробел, поэтому форсируем ветку enough.
+        String enrichedClusters = clustersCallResult + additionalLogs;
+        String secondAnalyzeResult = analyzeClustersTool.analyzeClusters(enrichedClusters, "enough");
+        assertThat(secondAnalyzeResult).contains("\"enough_info\": true");
+        assertThat(secondAnalyzeResult).contains("\"enrichment_needed\": false");
+
+        // Шаг 3: по обогащённым кластерам ищем готовое решение в базе знаний — оно найдено.
+        String searchResult = searchStorageTool.searchStorage(secondAnalyzeResult, "found");
+        assertThat(searchResult).startsWith("FOUND");
+        assertThat(searchResult).contains("solution:");
+
+        // Шаг 4: собираем итоговый отчёт с классификацией и планом исправления.
+        String report = aggregateReportTool.aggregateReport(secondAnalyzeResult);
+        assertThat(report).contains("\"classification\": \"bugfix\"");
+        assertThat(report).contains("\"fix_plan\"");
     }
 }
