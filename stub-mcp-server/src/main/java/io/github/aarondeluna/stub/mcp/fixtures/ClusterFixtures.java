@@ -16,7 +16,7 @@ public final class ClusterFixtures {
 
     /** Имя профиля-фикстуры, выбранного по URI. */
     public enum Profile {
-        NPE, TIMEOUT, UNKNOWN
+        NPE, TIMEOUT, UNKNOWN, JENKINS
     }
 
     /** Определяет профиль по подстроке в URI артефакта. */
@@ -28,7 +28,9 @@ public final class ClusterFixtures {
         if (uri.contains("unknown")) {
             return Profile.UNKNOWN;
         }
-        // NPE — профиль по умолчанию
+        if (uri.contains("jenkins")) {
+            return Profile.JENKINS;
+        }
         return Profile.NPE;
     }
 
@@ -38,6 +40,7 @@ public final class ClusterFixtures {
             case TIMEOUT -> timeout(artifactUri);
             case UNKNOWN -> unknown(artifactUri);
             case NPE -> npe(artifactUri);
+            case JENKINS -> jenkins();
         };
     }
 
@@ -105,5 +108,98 @@ public final class ClusterFixtures {
                   ],
                   "meta": { "source_lines": 3980, "clusters_count": 1, "compressed": true }
                 }""".formatted(artifactUri);
+    }
+
+    private static String jenkins() {
+        return """
+                {
+                  "schema": "gigalens.clustering/v1",
+                  "source": {
+                    "path": "artifacts/jenkins-payments-e2e-1842.log",
+                    "source_type": "jenkins",
+                    "line_count": 9
+                  },
+                  "stats": {
+                    "cluster_count": 6,
+                    "total_events": 9,
+                    "min_cluster_size": 1,
+                    "max_cluster_size": 3,
+                    "avg_cluster_size": 1.5
+                  },
+                  "clusters": [
+                    {
+                      "id": "C1",
+                      "template": "WARN [app] Connection pool exhausted, retrying attempt=<*>",
+                      "event_count": 3,
+                      "event_ids": [2, 3, 4],
+                      "sample_lines": [
+                        "2026-07-28 10:14:12.008 WARN  [app]     Connection pool exhausted, retrying attempt=1"
+                      ],
+                      "parameters": ["attempt"]
+                    },
+                    {
+                      "id": "C2",
+                      "template": "ERROR [testops] AssertionError: expected status 200 but was 503 path=<*>",
+                      "event_count": 2,
+                      "event_ids": [5, 6],
+                      "sample_lines": [
+                        "2026-07-28 10:14:18.331 ERROR [testops] AssertionError: expected status 200 but was 503 path=/api/v1/payments/42"
+                      ],
+                      "parameters": ["path"]
+                    },
+                    {
+                      "id": "C3",
+                      "template": "INFO [jenkins] Starting build #<*> job=payments-e2e",
+                      "event_count": 1,
+                      "event_ids": [0],
+                      "sample_lines": [
+                        "2026-07-28 10:14:01.120 INFO  [jenkins] Starting build #1842 job=payments-e2e"
+                      ],
+                      "parameters": ["build"]
+                    },
+                    {
+                      "id": "C4",
+                      "template": "INFO [agent] Checkout scm revision=<*>",
+                      "event_count": 1,
+                      "event_ids": [1],
+                      "sample_lines": [
+                        "2026-07-28 10:14:03.441 INFO  [agent]   Checkout scm revision=a1b2c3d"
+                      ],
+                      "parameters": ["revision"]
+                    },
+                    {
+                      "id": "C5",
+                      "template": "INFO [jenkins] Archiving artifacts for build #<*>",
+                      "event_count": 1,
+                      "event_ids": [8],
+                      "sample_lines": [
+                        "2026-07-28 10:14:19.015 INFO  [jenkins] Archiving artifacts for build #1842"
+                      ],
+                      "parameters": ["build"]
+                    },
+                    {
+                      "id": "C6",
+                      "template": "ERROR [jenkins] Job failed: payments-e2e #<*>",
+                      "event_count": 1,
+                      "event_ids": [7],
+                      "sample_lines": [
+                        "2026-07-28 10:14:19.002 ERROR [jenkins] Job failed: payments-e2e #1842"
+                      ],
+                      "parameters": ["build"]
+                    }
+                  ],
+                  "assignments": [
+                    { "line": 0, "cluster_id": "C3" },
+                    { "line": 1, "cluster_id": "C4" },
+                    { "line": 2, "cluster_id": "C1" },
+                    { "line": 3, "cluster_id": "C1" },
+                    { "line": 4, "cluster_id": "C1" },
+                    { "line": 5, "cluster_id": "C2" },
+                    { "line": 6, "cluster_id": "C2" },
+                    { "line": 7, "cluster_id": "C6" },
+                    { "line": 8, "cluster_id": "C5" }
+                  ]
+                }
+               """;
     }
 }
