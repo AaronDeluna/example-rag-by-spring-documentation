@@ -4,11 +4,13 @@ import io.github.ivanmilovanov.agentic.cli.runner.model.AgentResultDto;
 import io.github.ivanmilovanov.agentic.cli.runner.service.AgentRunnerService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mirent.skills.util.WutPreparer;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -45,14 +47,19 @@ class LogAnalysisTests {
     /** Единый раннер агента на все тесты класса. */
     private static AgentRunnerService agentRunner;
 
+    private static Path jar;
+
     @BeforeAll
     static void setup() throws Exception {
         // 1. Находим собранный jar stub-mcp-server относительно рабочей директории модуля skills.
-        Path jar = Paths.get(System.getProperty("user.dir"))
+        jar = Paths.get(System.getProperty("user.dir"))
                 .resolve("../stub-mcp-server/target/stub-mcp-server.jar")
                 .toRealPath();
         log.info("Путь к stub-mcp-server.jar: {}", jar);
+    }
 
+    @BeforeEach
+    void setUp() throws IOException {
         // 2. Готовим одноразовую рабочую область из шаблона log-analysis-agent.
         Path workspace = WutPreparer.builder()
                 .wutSourceName("log-analysis-agent")
