@@ -19,6 +19,7 @@
         <module>webflux-async-mcp-client</module>
         <module>mcp-server-jar-unpacker</module>
         <module>skills</module>
+        <module>stub-mcp-server</module>
     </modules>
 
     <properties>
